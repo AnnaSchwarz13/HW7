@@ -20,10 +20,7 @@ public class AuthenticationService {
     }
 
     public static boolean checkRole(Role role , User user) {
-        if(user.getRole().equals(role)) {
-            return true;
-        }
-        return false;
+        return user.getRole().equals(role);
     }
 
     public static User getLoggedUser() {
