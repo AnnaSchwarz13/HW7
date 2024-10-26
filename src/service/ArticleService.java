@@ -2,7 +2,6 @@ package service;
 
 import database.DataBase;
 import entities.*;
-import entities.List;
 import entities.enums.ArticleStatus;
 
 import java.time.Clock;
@@ -42,7 +41,12 @@ public class ArticleService {
             System.out.println("Please enter the title of the article's list \n for see more details: ");
 
             for (int i = 0; i < articles.getIndex(); ++i) {
-                Article tempArticle =(Article) articles.getObjects(i);
+                Article tempArticle = new Article();
+                if (articles.getObjects(i) instanceof Article) {
+                    tempArticle = (Article) articles.getObjects(i);
+                } else if (articles.getObjects(i) instanceof AuthorArticle ) {
+                   tempArticle = ((AuthorArticle) articles.getObjects(i)).getArticle();
+                }
                 System.out.println(tempArticle.getTitle());
             }
 
@@ -69,7 +73,7 @@ public class ArticleService {
             } else {
                 System.out.println("Please Enter one of the following Categories:");
                 for (int i = 0; i < DataBase.categoryList.getIndex(); i++) {
-                    System.out.println(((Category)DataBase.categoryList.getObjects(i)).getTitle());
+                    System.out.println(((Category) DataBase.categoryList.getObjects(i)).getTitle());
                 }
             }
 
@@ -102,7 +106,12 @@ public class ArticleService {
 
     public Article findArticleByTitle(String title, List articles) {
         for (int i = 0; i < articles.getIndex(); ++i) {
-            Article tempArticle =(Article) articles.getObjects(i);
+            Article tempArticle = new Article();
+            if (articles.getObjects(i) instanceof Article) {
+                tempArticle = (Article) articles.getObjects(i);
+            } else if (articles.getObjects(i) instanceof AuthorArticle ) {
+                tempArticle = ((AuthorArticle) articles.getObjects(i)).getArticle();
+            }
             if (tempArticle.getTitle().equals(title)) {
                 return tempArticle;
             }
@@ -113,7 +122,7 @@ public class ArticleService {
 
     public AuthorArticle findAuthorArticleByTitle(String title, List authorArticles) {
         for (int i = 0; i < authorArticles.getIndex(); i++) {
-            AuthorArticle tempArticle =(AuthorArticle) authorArticles.getObjects(i);
+            AuthorArticle tempArticle = (AuthorArticle) authorArticles.getObjects(i);
             if (tempArticle.getArticle().getTitle().equals(title)) {
                 return tempArticle;
             }
@@ -124,7 +133,7 @@ public class ArticleService {
 
     private Category findCategoryByTitle(String title) {
         for (int i = 0; i < DataBase.categoryList.getIndex(); i++) {
-            Category tempCategory =(Category) DataBase.categoryList.getObjects(i);
+            Category tempCategory = (Category) DataBase.categoryList.getObjects(i);
             if (tempCategory.getTitle().equals(title)) {
                 return tempCategory;
             }
@@ -142,7 +151,7 @@ public class ArticleService {
         List tagList = new List();
         System.out.println("Please enter the tags of the article: \n at the end enter -1");
         for (int i = 0; i < DataBase.tagList.getIndex(); i++) {
-            Tag tag =(Tag) DataBase.tagList.getObjects(i);
+            Tag tag = (Tag) DataBase.tagList.getObjects(i);
             System.out.println(tag.getTitle());
         }
         System.out.println("For add a tag enter 1");
@@ -161,7 +170,7 @@ public class ArticleService {
                     DataBase.tagList.add(newTag);
                     System.out.println("New tags are there please choose a tag: \n at the end enter -1");
                     for (int j = 0; j < DataBase.tagList.getIndex(); j++) {
-                        Tag tag =(Tag) DataBase.tagList.getObjects(j);
+                        Tag tag = (Tag) DataBase.tagList.getObjects(j);
                         System.out.println(tag.getTitle());
                     }
                     System.out.println("For add a tag enter 1");
@@ -179,7 +188,7 @@ public class ArticleService {
 
     private Tag findTagByTitle(String title) {
         for (int i = 0; i < DataBase.tagList.getIndex(); ++i) {
-            Tag tempTag =(Tag) DataBase.tagList.getObjects(i);
+            Tag tempTag = (Tag) DataBase.tagList.getObjects(i);
             if (tempTag.getTitle().equals(title)) {
                 return tempTag;
             }
@@ -256,7 +265,7 @@ public class ArticleService {
         } else if (choose == 4) {
             System.out.println("Your articles tag are there");
             for (int i = 0; i < choosenArticle.getBrief().getIndex(); i++) {
-                System.out.println(((Tag)choosenArticle.getBrief().getObjects(i)).getTitle());
+                System.out.println(((Tag) choosenArticle.getBrief().getObjects(i)).getTitle());
             }
             System.out.println("for add more enter 1 \n for remove one enter -1");
             int choose2 = sc.nextInt();
@@ -286,7 +295,7 @@ public class ArticleService {
 
     public AuthorArticle getAuthorOfArticle(Article article, List authorArticleList) {
         for (int i = 0; i < authorArticleList.getIndex(); i++) {
-            if (((AuthorArticle)authorArticleList.getObjects(i)).getArticle().equals(article)) {
+            if (((AuthorArticle) authorArticleList.getObjects(i)).getArticle().equals(article)) {
                 return (AuthorArticle) authorArticleList.getObjects(i);
             }
         }

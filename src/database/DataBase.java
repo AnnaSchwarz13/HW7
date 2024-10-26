@@ -2,7 +2,6 @@ package database;
 
 import entities.Author;
 import entities.List;
-import entities.Lists.*;
 import entities.Moderator;
 
 public class DataBase {
