@@ -2,6 +2,8 @@ package entities;
 
 import entities.enums.Role;
 
+import java.util.ArrayList;
+
 public class Author extends User{
     private String firstName;
     private String lastName;
@@ -16,6 +18,7 @@ public class Author extends User{
         this.lastName = lastName;
         this.nationalCode = nationalCode;
         this.birthday = birthday;
+        this.thisUserArticlesList = new List();
     }
 
     public String getFirstName() {

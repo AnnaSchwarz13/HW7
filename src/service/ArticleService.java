@@ -26,7 +26,7 @@ public class ArticleService {
                 rand.nextDouble(), brief, todaysDateAsString(), false,
                 todaysDateAsString(), ArticleStatus.NOT_PUBLISHED);
 
-        loggedInAuthor.getThisUserArticlesList().add(article);
+        (loggedInAuthor.getThisUserArticlesList()).add(article);
     }
 
     public void showAnArticleList(List articles) {

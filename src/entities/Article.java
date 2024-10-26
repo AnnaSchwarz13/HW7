@@ -81,7 +81,7 @@ public class Article {
 
 
     @Override
-    public String toString() {//todo: write a method for that
+    public String toString() {
         return  title +"\n"+
                 "category:" + category.getTitle() +"\n"+
                 "status : " + status +"\n"+
