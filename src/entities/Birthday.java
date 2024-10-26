@@ -22,7 +22,7 @@ public class Birthday {
                 this.year = Integer.parseInt(arrayOfBirth[0]);
                 this.month = Integer.parseInt(arrayOfBirth[1]);
                 this.day = Integer.parseInt(arrayOfBirth[2]);
-                if (checkBirthdayLvl1() && checkBirthdayLvl2()) {
+                if (checkBirthdayLvl1() && checkBirthdayLvl2()&& checkBirthdayLvl3()) {
                     System.out.println("Birthday = " + year + "/" + month + "/" + day);
                     System.out.println("\n is correct? \n 1.Yes! \n 2.Edit");
                     int toSetBirthday = scanner.nextInt();
@@ -43,11 +43,9 @@ public class Birthday {
 
     private boolean checkBirthdayLvl1() {
         //check is birthday is before now and is now out bound
-        if (year <= today.getYear()) {
-            if (month <= today.getMonthValue() && ((month > 0) && (month <= 12))) {
-                if (day < today.getDayOfMonth() && ((day > 0) && (day <= 31))) {
-                    return true;
-                }
+        if (year < today.getYear()) {
+            if ((month > 0) && (month <= 12)) {
+                return ((day > 0) && (day <= 31));
             }
         }
         return false;
@@ -60,12 +58,19 @@ public class Birthday {
             }
         }
         if (month == 2) {
-            if (day == 30) {
-                return false;
-            }
+            return day != 30;
         }
         return true;
     }
+    private boolean checkBirthdayLvl3() {
+        if (year == today.getYear()) {
+            if (month <= today.getMonthValue()) {
+                return day < today.getDayOfMonth();
+            }
+        }
+        return false;
+    }
+
 
     private boolean isInputValid(String date) {
         if (date.split("/").length != 3) {

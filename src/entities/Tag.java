@@ -3,11 +3,11 @@ package entities;
 import java.util.Random;
 
 public class Tag {
-    private String title;
-    private double id;
-Random rand = new Random();
-    public Tag( String title) {
-        this.id = rand.nextDouble();
+    private final String title;
+    Random rand = new Random();
+
+    public Tag(String title) {
+        double id = rand.nextDouble();
         this.title = title;
     }
 

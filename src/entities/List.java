@@ -39,10 +39,10 @@ public class List {
 
     @Override
     public String toString() {
-        String Objects = "";
+        StringBuilder Objects = new StringBuilder();
         for (int i = 0; i < this.index; i++) {
-            Objects += this.objects[i].toString() + ", ";
+            Objects.append(this.objects[i].toString()).append(", ");
         }
-        return Objects;
+        return Objects.toString();
     }
 }

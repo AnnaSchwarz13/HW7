@@ -1,6 +1,4 @@
 package database;
-
-import entities.Author;
 import entities.List;
 import entities.User;
 

@@ -6,7 +6,6 @@ public class Article {
     private String title;
     private entities.Category category;
     private String content;
-    private double id;
     private entities.List brief;
     private String createDate;
     boolean isPublished;
@@ -20,7 +19,6 @@ public class Article {
         this.title = title;
         this.category = category;
         this.content = content;
-        this.id = id;
         this.brief = brief;
         this.createDate = createDate;
         this.isPublished = isPublished;

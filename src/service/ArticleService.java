@@ -61,8 +61,7 @@ public class ArticleService {
     }
 
     private Category chooseCategory() {
-        boolean isCategorySelected = true;
-        while (isCategorySelected) {
+        while (true) {
             if (DataBase.categoryList.getIndex() == 0) {
                 System.out.println("there is no category");
             } else {
@@ -84,18 +83,14 @@ public class ArticleService {
                     String categoryDescription = sc.nextLine() + sc.nextLine();
                     Category category = new Category(categoryName, categoryDescription);
                     DataBase.categoryList.add(category);
-                    isCategorySelected = false;
                     return category;
                 }
             }
             if (findCategoryByTitle(categoryName) != null) {
-                isCategorySelected = false;
                 return findCategoryByTitle(categoryName);
             }
             System.out.println("That category does not exist");
         }
-        return null;
-
     }
 
     public Article findArticleByTitle(String title, List articles) {

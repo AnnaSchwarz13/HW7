@@ -1,23 +1,16 @@
 package entities;
 
 import entities.enums.Role;
-
-import java.util.ArrayList;
-
 public class Author extends User{
-    private String firstName;
-    private String lastName;
-    private String nationalCode;
-    private Birthday birthday;
-    private List thisUserArticlesList;
+    private final String firstName;
+    private final String lastName;
+    private final List thisUserArticlesList;
 
     public Author(String username, String password, String firstName, String lastName,
                   String nationalCode, Birthday birthday) {
         super(username, password, Role.AUTHOR);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.nationalCode = nationalCode;
-        this.birthday = birthday;
         this.thisUserArticlesList = new List();
     }
 
