@@ -1,4 +1,4 @@
-package entities.Lists;
+package entities;
 
 import java.util.Arrays;
 

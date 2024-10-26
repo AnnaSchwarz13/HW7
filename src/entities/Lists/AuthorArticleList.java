@@ -1,6 +1,7 @@
 package entities.Lists;
 
 import entities.AuthorArticle;
+import entities.List;
 
 import java.util.Arrays;
 

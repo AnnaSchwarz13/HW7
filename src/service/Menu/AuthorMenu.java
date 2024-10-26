@@ -109,7 +109,7 @@ public class AuthorMenu {
                 System.out.println("Please enter the title of the article's list \n for see more details: ");
 
                 for (int i = 0; i < articlesList.getIndex(); ++i) {
-                    Article tempArticle = articlesList.getArticles(i);
+                    Article tempArticle =(Article) articlesList.getObjects(i);
                     System.out.println(tempArticle.getTitle());
                 }
                 String title = scanner.nextLine();

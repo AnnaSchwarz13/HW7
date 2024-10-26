@@ -1,6 +1,5 @@
 package entities;
 
-import entities.Lists.List;
 import entities.enums.Role;
 
 public class Author extends User{

@@ -3,7 +3,7 @@ package service;
 import database.DataBase;
 import entities.*;
 import entities.Lists.AuthorArticleList;
-import entities.Lists.List;
+import entities.List;
 import entities.Lists.TagList;
 import entities.enums.ArticleStatus;
 

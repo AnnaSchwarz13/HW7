@@ -3,7 +3,7 @@ package service;
 import database.DataBase;
 import entities.Author;
 import entities.Birthday;
-import entities.Lists.List;
+import entities.List;
 
 public class AuthorService {
 
@@ -24,7 +24,7 @@ public class AuthorService {
 
     public void authorLogin(String username, String password) {
         for (int i = 0; i < DataBase.authorList.getIndex(); i++) {
-            Author checkingUser = DataBase.authorList.getUsers(i);
+            Author checkingUser = (Author) DataBase.authorList.getObjects(i);
             if (checkingUser.getUsername().equals(username)) {
                 if (checkingUser.getPassword().equals(password)) {
                     AuthenticationService.setLoggedAuthor(checkingUser);
