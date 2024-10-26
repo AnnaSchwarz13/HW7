@@ -6,7 +6,7 @@ import entities.AuthorArticle;
 import entities.List;
 import entities.enums.ArticleStatus;
 import service.ArticleService;
-import service.ModeratorService;
+import service.UserService;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ import static database.DataBase.publishedArticles;
 
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
-    ModeratorService moderatorService = new ModeratorService();
+    UserService userService = new UserService();
     ArticleService articleService = new ArticleService();
 
     public ModeratorMenu() {
@@ -73,7 +73,7 @@ public class ModeratorMenu {
                 System.out.println("There is no new articles to check for publish");
             }
         } else if (option == 2) {
-            moderatorService.moderatorLogout();
+            userService.userLogout();
         }
     }
 }

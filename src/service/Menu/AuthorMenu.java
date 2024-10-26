@@ -1,6 +1,7 @@
 package service.Menu;
 
 import entities.Article;
+import entities.Author;
 import entities.Birthday;
 import entities.List;
 import service.ArticleService;
@@ -31,7 +32,7 @@ public class AuthorMenu {
         }
 
         if (loggedInAuthor != null) {
-            System.out.println("Good Day Dear " + loggedInAuthor.getFirstName() + "!");
+            System.out.println("Good Day Dear " + ((Author)loggedInUser).getFirstName() + "!");
         }
         while (loggedInAuthor != null) {
 
@@ -87,7 +88,7 @@ public class AuthorMenu {
             username = scanner.next();
             System.out.println("Enter password:");
             password = scanner.next();
-            authorService.authorLogin(username, password);
+            authorService.userLogin(username, password);
 
         } else if (option == 3) {
             articleService.showArticle(publishedArticles);
@@ -139,8 +140,8 @@ public class AuthorMenu {
 
         } else if (option == 5) {
 
-            System.out.println("Goodbye Dear " + loggedInAuthor.getFirstName() + "!");
-            authorService.authorLogout();
+            System.out.println("Goodbye Dear " +((Author)loggedInUser).getFirstName() + "!");
+            authorService.userLogout();
 
         }
 

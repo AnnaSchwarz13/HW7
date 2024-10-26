@@ -1,22 +1,22 @@
 import entities.Category;
 import entities.Moderator;
 import entities.Tag;
+import entities.enums.Role;
 import service.Menu.AuthorMenu;
 import service.Menu.ModeratorMenu;
-import database.DataBase;
-import service.ModeratorService;
+import service.UserService;
 
 import java.util.Scanner;
 
 import static database.DataBase.*;
 
 static Scanner scanner = new Scanner(System.in);
-static final ModeratorService moderatorService = new ModeratorService();
+static final UserService userService = new UserService();
 
 //todo: fix bug null tag
 public static void main() {
     Moderator moderator1 = new Moderator("admin", "admin");
-    moderatorList.add(moderator1);
+    userList.add(moderator1);
     Category c1 = new Category("History", "its about Historical events");
     Category c2 = new Category("Fiction", "its about fictional events");
     Category c3 = new Category("NoneFiction", "its about non-fictional events");
@@ -51,16 +51,16 @@ public static void main() {
         userRole = scanner.nextInt();
 
         if (userRole == 1) {
-            if (DataBase.moderator == null) {
+            if (loggedInUser == null) {
                 String username;
                 String password;
                 System.out.println("Enter username:");
                 username = scanner.next();
                 System.out.println("Enter password:");
                 password = scanner.next();
-                moderatorService.moderatorLogin(username, password);
+                userService.userLogin(username, password);
             }
-            while (DataBase.moderator != null) {
+            while (loggedInUser.getRole() == Role.MODERATOR) {
                 ModeratorMenu moderatorMenu = new ModeratorMenu();
             }
 

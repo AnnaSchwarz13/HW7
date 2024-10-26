@@ -3,7 +3,6 @@ package service;
 import database.DataBase;
 import entities.Author;
 import entities.Birthday;
-import entities.List;
 
 public class AuthorService extends UserService{
 
@@ -18,29 +17,8 @@ public class AuthorService extends UserService{
         signingAuthor.setPassword(password);
         signingAuthor.setNationalCode(nationalCode);
         signingAuthor.setBirthday(birthday);
-        DataBase.authorList.add(signingAuthor);
+        DataBase.userList.add(signingAuthor);
         System.out.println("Author signed up successfully");
-    }
-
-    public void authorLogin(String username, String password) {
-        for (int i = 0; i < DataBase.authorList.getIndex(); i++) {
-            Author checkingUser = (Author) DataBase.authorList.getObjects(i);
-            if (checkingUser.getUsername().equals(username)) {
-                if (checkingUser.getPassword().equals(password)) {
-                    AuthenticationService.setLoggedAuthor(checkingUser);
-                    System.out.println("User logged in successfully...");
-                    return;
-                }
-                break;
-            }
-        }
-        System.out.println("Username or password is wrong!");
-    }
-
-
-    public void authorLogout() {
-
-        DataBase.loggedInAuthor = null;
     }
 
 
