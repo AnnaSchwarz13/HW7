@@ -9,9 +9,12 @@ public class Author extends User{
     private Birthday birthday;
     private List thisUserArticlesList;
 
-    public Author(String username, String password ) {
+    public Author(String username, String password, String firstName, String lastName, String nationalCode, Birthday birthday) {
         super(username, password, Role.AUTHOR);
-
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nationalCode = nationalCode;
+        this.birthday = birthday;
     }
 
     public void setBirthday(Birthday birthday) {
