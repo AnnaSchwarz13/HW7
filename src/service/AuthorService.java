@@ -5,7 +5,7 @@ import entities.Author;
 import entities.Birthday;
 import entities.List;
 
-public class AuthorService {
+public class AuthorService extends UserService{
 
 
     public void userSignup(String firstName, String lastName, String userName,
@@ -29,7 +29,6 @@ public class AuthorService {
                 if (checkingUser.getPassword().equals(password)) {
                     AuthenticationService.setLoggedAuthor(checkingUser);
                     System.out.println("User logged in successfully...");
-                    setPreviousData();
                     return;
                 }
                 break;
@@ -40,21 +39,10 @@ public class AuthorService {
 
 
     public void authorLogout() {
-        saveUsersArticlesList();
+
         DataBase.loggedInAuthor = null;
     }
 
-    private void saveUsersArticlesList() {
-        DataBase.loggedInAuthor.clearThisUserArticlesList();
-        DataBase.loggedInAuthor.setThisUserArticlesList(DataBase.articlesList);
-        DataBase.articlesList = new List();
-    }
-
-    public void setPreviousData() {
-        if (DataBase.loggedInAuthor.getThisUserArticlesList() != null) {
-            DataBase.articlesList = DataBase.loggedInAuthor.getThisUserArticlesList();
-        }
-    }
 
     public void changePassword(String oldPassword, String newPassword) {
         //todo: use Database userList unless loggedInUser

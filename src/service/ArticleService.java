@@ -31,7 +31,7 @@ public class ArticleService {
         article.setId(rand.nextDouble());
         article.setPublished(false);
         article.setStatus(ArticleStatus.NOT_PUBLISHED);
-        DataBase.articlesList.add(article);
+        DataBase.loggedInAuthor.getThisUserArticlesList().add(article);
     }
 
     public void showArticle(List articles) {

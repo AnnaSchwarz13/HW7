@@ -2,6 +2,7 @@ package service.Menu;
 
 import entities.Article;
 import entities.Birthday;
+import entities.List;
 import service.ArticleService;
 import service.AuthenticationService;
 import service.AuthorService;
@@ -13,7 +14,7 @@ import static database.DataBase.*;
 public class AuthorMenu {
 
     Scanner scanner = new Scanner(System.in);
-
+   static List articlesList = loggedInAuthor.getThisUserArticlesList();
     public AuthorMenu() {
         int userInput;
         while (loggedInAuthor == null) {
