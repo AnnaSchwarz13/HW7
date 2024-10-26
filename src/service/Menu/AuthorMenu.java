@@ -4,6 +4,7 @@ import entities.Article;
 import entities.Author;
 import entities.Birthday;
 import entities.List;
+import entities.enums.Role;
 import service.ArticleService;
 import service.AuthenticationService;
 import service.AuthorService;
@@ -14,13 +15,12 @@ import static database.DataBase.loggedInUser;
 import static database.DataBase.publishedArticles;
 
 public class AuthorMenu {
-    static Author loggedInAuthor = (Author) loggedInUser;
     Scanner scanner = new Scanner(System.in);
-    static List articlesList = loggedInAuthor.getThisUserArticlesList();
+
 
     public AuthorMenu() {
         int userInput;
-        while (loggedInAuthor == null) {
+        while (loggedInUser == null) {
             System.out.println("\n\nDear user please choose a option from the menu : ");
             System.out.println("1.Signup");
             System.out.println("2.login");
@@ -33,10 +33,10 @@ public class AuthorMenu {
             userLoginMenu(userInput);
         }
 
-        if (loggedInAuthor != null) {
+        if (loggedInUser != null) {
             System.out.println("Good Day Dear " + ((Author) loggedInUser).getFirstName() + "!");
         }
-        while (loggedInAuthor != null) {
+        while (loggedInUser != null) {
 
 
             System.out.println("\nWhat do you want to do?");
@@ -50,6 +50,8 @@ public class AuthorMenu {
         }
 
     }
+
+
 
     public static void userLoginMenu(int option) {
         Scanner scanner = new Scanner(System.in);
@@ -90,7 +92,7 @@ public class AuthorMenu {
             username = scanner.next();
             System.out.println("Enter password:");
             password = scanner.next();
-            authorService.userLogin(username, password);
+            authorService.userLogin(username, password, Role.AUTHOR);
 
         } else if (option == 3) {
             articleService.showArticle(publishedArticles);
@@ -99,6 +101,8 @@ public class AuthorMenu {
     }
 
     public static void articleSiteMenu(int option) {
+         Author loggedInAuthor = (Author) loggedInUser;
+         List articlesList = loggedInAuthor.getThisUserArticlesList();
         Scanner scanner = new Scanner(System.in);
         ArticleService articleService = new ArticleService();
         AuthorService authorService = new AuthorService();

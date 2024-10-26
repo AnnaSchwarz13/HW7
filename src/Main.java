@@ -1,7 +1,6 @@
 import entities.Category;
 import entities.Moderator;
 import entities.Tag;
-import entities.enums.Role;
 import service.Menu.AuthorMenu;
 import service.Menu.ModeratorMenu;
 import service.UserService;
@@ -42,7 +41,6 @@ public static void main() {
 
     System.out.println("Welcome to Articles Site...\n\n");
 
-
     int userRole;
     while (true) {
         System.out.println("Please choose your role: ");
@@ -51,19 +49,7 @@ public static void main() {
         userRole = scanner.nextInt();
 
         if (userRole == 1) {
-            if (loggedInUser == null) {
-                String username;
-                String password;
-                System.out.println("Enter username:");
-                username = scanner.next();
-                System.out.println("Enter password:");
-                password = scanner.next();
-                userService.userLogin(username, password);
-            }
-            while (loggedInUser.getRole() == Role.MODERATOR) {
-                ModeratorMenu moderatorMenu = new ModeratorMenu();
-            }
-
+            ModeratorMenu moderatorMenu = new ModeratorMenu();
         } else if (userRole == 2) {
             AuthorMenu authorMenu = new AuthorMenu();
         }

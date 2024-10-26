@@ -5,13 +5,13 @@ import entities.Article;
 import entities.AuthorArticle;
 import entities.List;
 import entities.enums.ArticleStatus;
+import entities.enums.Role;
 import service.ArticleService;
 import service.UserService;
 
 import java.util.Scanner;
 
-import static database.DataBase.articlesToCheckForPublish;
-import static database.DataBase.publishedArticles;
+import static database.DataBase.*;
 
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
@@ -19,14 +19,25 @@ public class ModeratorMenu {
     ArticleService articleService = new ArticleService();
 
     public ModeratorMenu() {
-        if (DataBase.articlesToCheckForPublish.getIndex() > 0) {
-            System.out.println("There is new articles to check for publish!!");
+        if (loggedInUser == null) {
+            String username;
+            String password;
+            System.out.println("Enter username:");
+            username = scanner.next();
+            System.out.println("Enter password:");
+            password = scanner.next();
+            userService.userLogin(username, password , Role.MODERATOR);
         }
-        System.out.println("\n\nDear Moderator please choose a option from the menu : ");
-        System.out.println("1.See articles submitted for approval.");
-        System.out.println("2.logout");
-        int option = scanner.nextInt();
-        moderatorMenu(option);
+        while (loggedInUser!=null) {
+            if (DataBase.articlesToCheckForPublish.getIndex() > 0) {
+                System.out.println("There is new articles to check for publish!!");
+            }
+            System.out.println("\n\nDear Moderator please choose a option from the menu : ");
+            System.out.println("1.See articles submitted for approval.");
+            System.out.println("2.logout");
+            int option = scanner.nextInt();
+            moderatorMenu(option);
+        }
     }
 
 

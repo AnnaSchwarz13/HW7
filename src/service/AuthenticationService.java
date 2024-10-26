@@ -2,13 +2,14 @@ package service;
 
 import entities.User;
 import database.DataBase;
+import entities.enums.Role;
 
 public class AuthenticationService {
     public AuthenticationService() {
     }
 
     public static void setLoggedUser(User user) {
-        if(user == null) {
+        if(DataBase.loggedInUser == null) {
             DataBase.loggedInUser = user;
         }
     }
@@ -16,6 +17,13 @@ public class AuthenticationService {
         if (DataBase.loggedInUser != null) {
             DataBase.loggedInUser = null;
         }
+    }
+
+    public static boolean checkRole(Role role , User user) {
+        if(user.getRole().equals(role)) {
+            return true;
+        }
+        return false;
     }
 
     public static User getLoggedUser() {
