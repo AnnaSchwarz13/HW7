@@ -31,6 +31,7 @@ public class AuthorArticleList{
     public int getIndex() {
         return index;
     }
+
     public void remove(int tempIndex) {
             authorArticles[tempIndex] = null;
             for (int i = tempIndex; i < index - 1; i++) {
@@ -41,8 +42,8 @@ public class AuthorArticleList{
         }
 
 
-    public ArticleList getArticlesOfAuthor() {
-        ArticleList a = new ArticleList();
+    public List getArticlesOfAuthor() {
+        List a = new List();
         for (int i = 0; i < this.index; ++i) {
             a.add(this.authorArticles[i].getArticle());
         }

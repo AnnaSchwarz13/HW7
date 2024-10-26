@@ -20,4 +20,21 @@ public class List {
     public Object getObjects(int index) {
         return this.objects[index];
     }
+    public void removeObject(int tempIndex) {
+        objects[tempIndex] = null;
+        for (int i = tempIndex; i < index - 1; i++) {
+            objects[i] = objects[i + 1];
+        }
+        index--;
+        objects[index] = null;
+    }
+    public int getIndexOfObject(Object object) {
+        for (int i = 0; i < this.index; ++i) {
+            if (this.objects[i].equals(object)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }
