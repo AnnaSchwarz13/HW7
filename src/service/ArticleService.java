@@ -14,23 +14,18 @@ public class ArticleService {
     Scanner sc = new Scanner(System.in);
     Random rand = new Random();
     Author loggedInAuthor = (Author) DataBase.loggedInUser;
+
     public void addArticle() {
-        //todo:use a single constructor
-        Article article = new Article();
         Category articleCategory = this.chooseCategory();
-        article.setCategory(articleCategory);
         System.out.println("Enter title: ");
         this.title = sc.nextLine();
         System.out.println("Enter article text: ");
         String articleText = sc.nextLine();
-        article.setTitle(this.title);
-        article.setContent(articleText);
-        article.setCreateDate(todaysDateAsString());
-        article.setLastUpdateDate(todaysDateAsString());
-        article.setBrief(setArticleTags());
-        article.setId(rand.nextDouble());
-        article.setPublished(false);
-        article.setStatus(ArticleStatus.NOT_PUBLISHED);
+        List brief = setArticleTags();
+        Article article = new Article(this.title, articleCategory, articleText,
+                rand.nextDouble(), brief, todaysDateAsString(), false,
+                todaysDateAsString(), ArticleStatus.NOT_PUBLISHED);
+
         loggedInAuthor.getThisUserArticlesList().add(article);
     }
 
@@ -44,8 +39,8 @@ public class ArticleService {
                 Article tempArticle = new Article();
                 if (articles.getObjects(i) instanceof Article) {
                     tempArticle = (Article) articles.getObjects(i);
-                } else if (articles.getObjects(i) instanceof AuthorArticle ) {
-                   tempArticle = ((AuthorArticle) articles.getObjects(i)).getArticle();
+                } else if (articles.getObjects(i) instanceof AuthorArticle) {
+                    tempArticle = ((AuthorArticle) articles.getObjects(i)).getArticle();
                 }
                 System.out.println(tempArticle.getTitle());
             }
@@ -101,7 +96,6 @@ public class ArticleService {
         }
         return null;
 
-
     }
 
     public Article findArticleByTitle(String title, List articles) {
@@ -109,7 +103,7 @@ public class ArticleService {
             Article tempArticle = new Article();
             if (articles.getObjects(i) instanceof Article) {
                 tempArticle = (Article) articles.getObjects(i);
-            } else if (articles.getObjects(i) instanceof AuthorArticle ) {
+            } else if (articles.getObjects(i) instanceof AuthorArticle) {
                 tempArticle = ((AuthorArticle) articles.getObjects(i)).getArticle();
             }
             if (tempArticle.getTitle().equals(title)) {
@@ -143,8 +137,8 @@ public class ArticleService {
 
     public String todaysDateAsString() {
         Clock clock = Clock.system(ZoneId.of("Asia/Tehran"));
-        String time = clock.instant().toString().substring(0, 10) + " " + clock.instant().toString().substring(10, 16);
-        return time;
+        return clock.instant().toString().substring(0, 10) + " " + clock.instant().toString().substring(10, 16);
+
     }
 
     private List setArticleTags() {

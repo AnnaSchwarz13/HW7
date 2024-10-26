@@ -14,9 +14,21 @@ public class Article {
     private String publishDate;
     private ArticleStatus status;
 
-
-    public void setId(double id) {
+    public Article(String title, Category category, String content,
+                   double id, List brief, String createDate,
+                   boolean isPublished, String lastUpdateDate, ArticleStatus status) {
+        this.title = title;
+        this.category = category;
+        this.content = content;
         this.id = id;
+        this.brief = brief;
+        this.createDate = createDate;
+        this.isPublished = isPublished;
+        this.lastUpdateDate = lastUpdateDate;
+        this.status = status;
+    }
+    public Article(){
+
     }
 
     public String getTitle() {
@@ -35,16 +47,8 @@ public class Article {
         this.content = content;
     }
 
-    public entities.List getBrief() {
+    public List getBrief() {
         return brief;
-    }
-
-    public void setBrief(entities.List brief) {
-        this.brief = brief;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
     }
 
     public void setLastUpdateDate(String lastUpdateDate) {
