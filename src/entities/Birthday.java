@@ -1,31 +1,43 @@
 package entities;
 
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Birthday {
-    //todo:fix bug in wrong birthday
-    //baray taghvim Miladi
+    Scanner scanner = new Scanner(System.in);
+    //for Gregorian calender
     private int year;
     private int month;
     private int day;
+    private boolean isBirthdayValid;
     LocalDate today = LocalDate.now();
 
-    public Birthday(String date) {
-        String[] arrayOfBirth = getBirthdays(date);
-        if(arrayOfBirth !=null) {
-            this.year = Integer.parseInt(arrayOfBirth[0]);
-            this.month = Integer.parseInt(arrayOfBirth[1]);
-            this.day = Integer.parseInt(arrayOfBirth[2]);
-            if (checkBirthdayLvl1() && checkBirthdayLvl2()) {
-                System.out.println("Birthday = " + year + "/" + month + "/" + day);
-                System.out.println("\n is correct? \n 1.Yes! \n 2.Edit");
-
+    public Birthday() {
+        isBirthdayValid = false;
+        while (!isBirthdayValid) {
+            System.out.println("Enter your birthday like example:\nexample: 1995/12/3 ");
+            String date = scanner.next();
+            while (isInputValid(date)) {
+                String[] arrayOfBirth = date.split("/");
+                this.year = Integer.parseInt(arrayOfBirth[0]);
+                this.month = Integer.parseInt(arrayOfBirth[1]);
+                this.day = Integer.parseInt(arrayOfBirth[2]);
+                if (checkBirthdayLvl1() && checkBirthdayLvl2()) {
+                    System.out.println("Birthday = " + year + "/" + month + "/" + day);
+                    System.out.println("\n is correct? \n 1.Yes! \n 2.Edit");
+                    int toSetBirthday = scanner.nextInt();
+                    if (toSetBirthday == 1) {
+                        isBirthdayValid = true;
+                        return;
+                    } else if (toSetBirthday == 2) {
+                        isBirthdayValid = false;
+                        break;
+                    }
+                } else{
+                    System.out.println("Invalid birthday");
+                    break;
             }
-        }else {
-            System.out.println("Invalid birthday");
-            this.year = 0;
-            this.month = 0;
-            this.day = 0;
+            }
         }
     }
 
@@ -55,16 +67,15 @@ public class Birthday {
         return true;
     }
 
-    private String[] getBirthdays(String date) {
+    private boolean isInputValid(String date) {
         if (date.split("/").length != 3) {
             System.out.println("Invalid birthday");
-            return null;
+            return false;
         }
-        return date.split("/");
+        return true;
     }
 
-    public int getYear() {
-        return year;
+    public boolean isBirthdayValid() {
+        return isBirthdayValid;
     }
-
 }

@@ -12,6 +12,7 @@ import static database.DataBase.*;
 static Scanner scanner = new Scanner(System.in);
 static final UserService userService = new UserService();
 public static void main() {
+
     Moderator moderator1 = new Moderator("admin", "admin");
     userList.add(moderator1);
 //    Category c1 = new Category("History", "its about Historical events");
