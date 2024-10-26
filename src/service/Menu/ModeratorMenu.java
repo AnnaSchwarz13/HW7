@@ -45,7 +45,7 @@ public class ModeratorMenu {
         if (option == 1) {
             if (DataBase.articlesToCheckForPublish.getIndex() > 0) {
                 while (true) {
-                    articleService.showArticle(DataBase.articlesToCheckForPublish);
+                    articleService.showAnArticleList(DataBase.articlesToCheckForPublish);
                     System.out.println("If you dont wanna see more please enter -1 else 1");
                     int toEnd = scanner.nextInt();
                     if (toEnd == -1) {

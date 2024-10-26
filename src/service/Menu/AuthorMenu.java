@@ -95,7 +95,7 @@ public class AuthorMenu {
             authorService.userLogin(username, password, Role.AUTHOR);
 
         } else if (option == 3) {
-            articleService.showArticle(publishedArticles);
+            articleService.showAnArticleList(publishedArticles);
         }
 
     }
@@ -109,7 +109,7 @@ public class AuthorMenu {
         if (option == 1) {
             articleService.addArticle();
         } else if (option == 2) {
-            articleService.showArticle(articlesList);
+            articleService.showAnArticleList(articlesList);
         } else if (option == 3) {
             if (articlesList.getIndex() == 0) {
                 System.out.println("there is no article");

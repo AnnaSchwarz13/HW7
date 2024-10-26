@@ -9,7 +9,8 @@ public class Author extends User{
     private Birthday birthday;
     private List thisUserArticlesList;
 
-    public Author(String username, String password, String firstName, String lastName, String nationalCode, Birthday birthday) {
+    public Author(String username, String password, String firstName, String lastName,
+                  String nationalCode, Birthday birthday) {
         super(username, password, Role.AUTHOR);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,39 +18,16 @@ public class Author extends User{
         this.birthday = birthday;
     }
 
-    public void setBirthday(Birthday birthday) {
-        this.birthday = birthday;
-    }
-
     public String getFirstName() {
         return this.firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return this.lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setNationalCode(String nationalCode) {
-        this.nationalCode = nationalCode;
-    }
-
     public List getThisUserArticlesList() {
         return this.thisUserArticlesList;
     }
 
-    public void setThisUserArticlesList(List thisUserArticlesList) {
-        this.thisUserArticlesList = thisUserArticlesList;
-    }
-
-    public void clearThisUserArticlesList() {
-        this.thisUserArticlesList = new List();
-    }
 }

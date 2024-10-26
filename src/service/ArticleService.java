@@ -29,7 +29,7 @@ public class ArticleService {
         loggedInAuthor.getThisUserArticlesList().add(article);
     }
 
-    public void showArticle(List articles) {
+    public void showAnArticleList(List articles) {
         if (articles.getIndex() == 0) {
             System.out.println("there is no article");
         } else {
