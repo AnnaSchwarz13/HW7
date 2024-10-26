@@ -4,10 +4,10 @@ import entities.enums.ArticleStatus;
 
 public class Article {
     private String title;
-    private Category category;
+    private entities.Category category;
     private String content;
     private double id;
-    private List brief;
+    private entities.List brief;
     private String createDate;
     boolean isPublished;
     private String lastUpdateDate;
@@ -27,7 +27,7 @@ public class Article {
         this.title = title;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(entities.Category category) {
         this.category = category;
     }
 
@@ -35,11 +35,11 @@ public class Article {
         this.content = content;
     }
 
-    public List getBrief() {
+    public entities.List getBrief() {
         return brief;
     }
 
-    public void setBrief(List brief) {
+    public void setBrief(entities.List brief) {
         this.brief = brief;
     }
 
