@@ -1,11 +1,10 @@
 package service.Menu;
 
+import database.DataBase;
 import entities.Article;
 import entities.AuthorArticle;
-import entities.Lists.ArticleList;
 import entities.Lists.List;
 import entities.enums.ArticleStatus;
-import database.DataBase;
 import service.ArticleActions;
 import service.ModeratorService;
 
@@ -45,7 +44,7 @@ public class ModeratorMenu {
                 System.out.println("Enter an article name to remove or get publish :");
 
                 for (int i = 0; i < articlesToCheckForPublish.getIndex(); i++) {
-                    Article tempArticle = articlesToCheckForPublish.getArticlesOfAuthor().getArticles(i);
+                    Article tempArticle =(Article) articlesToCheckForPublish.getArticlesOfAuthor().getObjects(i);
                     System.out.println(tempArticle.getTitle());
                 }
 

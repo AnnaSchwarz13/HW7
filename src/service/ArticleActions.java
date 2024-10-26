@@ -1,12 +1,11 @@
 package service;
 
+import database.DataBase;
 import entities.*;
-import entities.Lists.ArticleList;
 import entities.Lists.AuthorArticleList;
 import entities.Lists.List;
 import entities.Lists.TagList;
 import entities.enums.ArticleStatus;
-import database.DataBase;
 
 import java.time.Clock;
 import java.time.ZoneId;
