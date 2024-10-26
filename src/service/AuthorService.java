@@ -3,6 +3,7 @@ package service;
 import database.DataBase;
 import entities.Author;
 import entities.Birthday;
+import service.AuthenticationService;
 
 public class AuthorService extends UserService{
 
@@ -24,8 +25,8 @@ public class AuthorService extends UserService{
 
     public void changePassword(String oldPassword, String newPassword) {
         //todo: use Database userList unless loggedInUser
-        if (DataBase.loggedInAuthor.getPassword().equals(oldPassword)) {
-            DataBase.loggedInAuthor.setPassword(newPassword);
+        if (AuthenticationService.getLoggedUser().getPassword().equals(oldPassword)) {
+            DataBase.loggedInUser.setPassword(newPassword);
             return;
         }
         System.out.println("Wrong password");
