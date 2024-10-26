@@ -13,8 +13,8 @@ public class DataBase {
     public static Author loggedInAuthor;
     //todo:don't use following line
     public static List articlesList = new List();
-    public static final CategoryList categoryList = new CategoryList();
-    public static final TagList tagList = new TagList();
+    public static final List categoryList = new List();
+    public static final List tagList = new List();
     public static final AuthorArticleList publishedArticles = new AuthorArticleList();
     public static final AuthorArticleList articlesToCheckForPublish = new AuthorArticleList();
 

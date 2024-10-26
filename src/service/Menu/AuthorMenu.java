@@ -2,7 +2,7 @@ package service.Menu;
 
 import entities.Article;
 import entities.Birthday;
-import service.ArticleActions;
+import service.ArticleService;
 import service.AuthenticationService;
 import service.AuthorService;
 
@@ -50,7 +50,7 @@ public class AuthorMenu {
     public static void userLoginMenu(int option) {
         Scanner scanner = new Scanner(System.in);
         AuthorService authorService = new AuthorService();
-        ArticleActions articleActions = new ArticleActions();
+        ArticleService articleService = new ArticleService();
         if (option == 1) {
             System.out.println("Enter first name:");
             String firstName = scanner.next();
@@ -89,19 +89,19 @@ public class AuthorMenu {
             authorService.authorLogin(username, password);
 
         } else if (option == 3) {
-            articleActions.showArticle(publishedArticles.getArticlesOfAuthor());
+            articleService.showArticle(publishedArticles.getArticlesOfAuthor());
         }
 
     }
 
     public static void articleSiteMenu(int option) {
         Scanner scanner = new Scanner(System.in);
-        ArticleActions articleActions = new ArticleActions();
+        ArticleService articleService = new ArticleService();
         AuthorService authorService = new AuthorService();
         if (option == 1) {
-            articleActions.addArticle();
+            articleService.addArticle();
         } else if (option == 2) {
-            articleActions.showArticle(articlesList);
+            articleService.showArticle(articlesList);
         } else if (option == 3) {
             if (articlesList.getIndex() == 0) {
                 System.out.println("there is no article");
@@ -113,17 +113,17 @@ public class AuthorMenu {
                     System.out.println(tempArticle.getTitle());
                 }
                 String title = scanner.nextLine();
-                Article choosenArticle = articleActions.findArticleByTitle(title, articlesList);
+                Article choosenArticle = articleService.findArticleByTitle(title, articlesList);
                 System.out.println("What do you want to do?");
                 System.out.println("1.Publish or Unpublished the article");
                 System.out.println("2.Edit the details");
                 int userInput = scanner.nextInt();
 
                 if (userInput == 1) {
-                    articleActions.changeArticleStatus(choosenArticle);
+                    articleService.changeArticleStatus(choosenArticle);
 
                 } else if (userInput == 2) {
-                    articleActions.changeDetailsOfArticle(choosenArticle);
+                    articleService.changeDetailsOfArticle(choosenArticle);
 
                 }
             }

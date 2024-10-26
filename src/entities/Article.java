@@ -1,6 +1,5 @@
 package entities;
 
-import entities.Lists.TagList;
 import entities.enums.ArticleStatus;
 
 public class Article {
@@ -8,7 +7,7 @@ public class Article {
     private Category category;
     private String content;
     private double id;
-    private TagList brief;
+    private List brief;
     private String createDate;
     boolean isPublished;
     private String lastUpdateDate;
@@ -36,11 +35,11 @@ public class Article {
         this.content = content;
     }
 
-    public TagList getBrief() {
+    public List getBrief() {
         return brief;
     }
 
-    public void setBrief(TagList brief) {
+    public void setBrief(List brief) {
         this.brief = brief;
     }
 
@@ -85,7 +84,7 @@ public class Article {
                 "createDate : " + createDate + "\n"+
                 "lastUpdateDate : " + lastUpdateDate  +
                 " \n" + content+"\n\n" +
-                "brief : " + brief.toStringTags() ;
+                "brief : " + brief.toString() ;
     }
 }
 

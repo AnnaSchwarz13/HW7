@@ -3,8 +3,6 @@ package service;
 import database.DataBase;
 import entities.*;
 import entities.Lists.AuthorArticleList;
-import entities.List;
-import entities.Lists.TagList;
 import entities.enums.ArticleStatus;
 
 import java.time.Clock;
@@ -12,7 +10,7 @@ import java.time.ZoneId;
 import java.util.Random;
 import java.util.Scanner;
 
-public class ArticleActions {
+public class ArticleService {
     private String title;
     Scanner sc = new Scanner(System.in);
     Random rand = new Random();
@@ -71,7 +69,7 @@ public class ArticleActions {
             } else {
                 System.out.println("Please Enter one of the following Categories:");
                 for (int i = 0; i < DataBase.categoryList.getIndex(); i++) {
-                    System.out.println(DataBase.categoryList.getCategory(i).getTitle());
+                    System.out.println(((Category)DataBase.categoryList.getObjects(i)).getTitle());
                 }
             }
 
@@ -126,7 +124,7 @@ public class ArticleActions {
 
     private Category findCategoryByTitle(String title) {
         for (int i = 0; i < DataBase.categoryList.getIndex(); i++) {
-            Category tempCategory = DataBase.categoryList.getCategory(i);
+            Category tempCategory =(Category) DataBase.categoryList.getObjects(i);
             if (tempCategory.getTitle().equals(title)) {
                 return tempCategory;
             }
@@ -140,11 +138,11 @@ public class ArticleActions {
         return time;
     }
 
-    private TagList setArticleTags() {
-        TagList tagList = new TagList();
+    private List setArticleTags() {
+        List tagList = new List();
         System.out.println("Please enter the tags of the article: \n at the end enter -1");
         for (int i = 0; i < DataBase.tagList.getIndex(); i++) {
-            Tag tag = DataBase.tagList.getTags(i);
+            Tag tag =(Tag) DataBase.tagList.getObjects(i);
             System.out.println(tag.getTitle());
         }
         System.out.println("For add a tag enter 1");
@@ -163,7 +161,7 @@ public class ArticleActions {
                     DataBase.tagList.add(newTag);
                     System.out.println("New tags are there please choose a tag: \n at the end enter -1");
                     for (int j = 0; j < DataBase.tagList.getIndex(); j++) {
-                        Tag tag = DataBase.tagList.getTags(j);
+                        Tag tag =(Tag) DataBase.tagList.getObjects(j);
                         System.out.println(tag.getTitle());
                     }
                     System.out.println("For add a tag enter 1");
@@ -181,7 +179,7 @@ public class ArticleActions {
 
     private Tag findTagByTitle(String title) {
         for (int i = 0; i < DataBase.tagList.getIndex(); ++i) {
-            Tag tempTag = DataBase.tagList.getTags(i);
+            Tag tempTag =(Tag) DataBase.tagList.getObjects(i);
             if (tempTag.getTitle().equals(title)) {
                 return tempTag;
             }
@@ -258,14 +256,14 @@ public class ArticleActions {
         } else if (choose == 4) {
             System.out.println("Your articles tag are there");
             for (int i = 0; i < choosenArticle.getBrief().getIndex(); i++) {
-                System.out.println(choosenArticle.getBrief().getTags(i).getTitle());
+                System.out.println(((Tag)choosenArticle.getBrief().getObjects(i)).getTitle());
             }
             System.out.println("for add more enter 1 \n for remove one enter -1");
             int choose2 = sc.nextInt();
             if (choose2 == 1) {
-                TagList newTagsToAdd = setArticleTags();
+                List newTagsToAdd = setArticleTags();
                 for (int i = 0; i < newTagsToAdd.getIndex(); i++) {
-                    choosenArticle.getBrief().add(newTagsToAdd.getTags(i));
+                    choosenArticle.getBrief().add(newTagsToAdd.getObjects(i));
                     choosenArticle.setLastUpdateDate(todaysDateAsString());
                 }
             }
@@ -276,7 +274,7 @@ public class ArticleActions {
                     System.out.println("That tag does not exist");
                 } else {
                     int index = choosenArticle.getBrief().getIndex();
-                    choosenArticle.getBrief().remove(index);
+                    choosenArticle.getBrief().removeObject(index);
                     choosenArticle.setLastUpdateDate(todaysDateAsString());
                 }
 

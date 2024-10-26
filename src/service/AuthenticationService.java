@@ -18,7 +18,7 @@ public class AuthenticationService {
 
     public static boolean isUserNameNew(String username) {
         for(int i = 0; i< DataBase.authorList.getIndex(); i++) {
-            User checkingAuthor = DataBase.authorList.getUsers(i);
+            User checkingAuthor =(User) DataBase.authorList.getObjects(i);
             if (checkingAuthor.getUsername().equals(username)) {
                 return false;
             }

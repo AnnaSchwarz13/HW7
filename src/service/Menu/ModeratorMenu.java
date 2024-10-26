@@ -5,7 +5,7 @@ import entities.Article;
 import entities.AuthorArticle;
 import entities.List;
 import entities.enums.ArticleStatus;
-import service.ArticleActions;
+import service.ArticleService;
 import service.ModeratorService;
 
 import java.util.Scanner;
@@ -16,7 +16,7 @@ import static database.DataBase.publishedArticles;
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
     ModeratorService moderatorService = new ModeratorService();
-    ArticleActions articleActions = new ArticleActions();
+    ArticleService articleService = new ArticleService();
 
     public ModeratorMenu() {
         if (DataBase.articlesToCheckForPublish.getIndex() > 0) {
@@ -34,7 +34,7 @@ public class ModeratorMenu {
         if (option == 1) {
             if (DataBase.articlesToCheckForPublish.getIndex() > 0) {
                 while (true) {
-                    articleActions.showArticle(DataBase.articlesToCheckForPublish.getArticlesOfAuthor());
+                    articleService.showArticle(DataBase.articlesToCheckForPublish.getArticlesOfAuthor());
                     System.out.println("If you dont wanna see more please enter -1 else 1");
                     int toEnd = scanner.nextInt();
                     if (toEnd == -1) {
@@ -49,8 +49,8 @@ public class ModeratorMenu {
                 }
 
                 String title = scanner.nextLine() +scanner.nextLine();
-                if (articleActions.findAuthorArticleByTitle(title, articlesToCheckForPublish) != null) {
-                    AuthorArticle chosenArticle = articleActions.findAuthorArticleByTitle(title, articlesToCheckForPublish);
+                if (articleService.findAuthorArticleByTitle(title, articlesToCheckForPublish) != null) {
+                    AuthorArticle chosenArticle = articleService.findAuthorArticleByTitle(title, articlesToCheckForPublish);
                     int index = articlesToCheckForPublish.findIndexByAuthorArticle(chosenArticle);
                     List articleList = chosenArticle.getAuthor().getThisUserArticlesList();
 
@@ -60,13 +60,13 @@ public class ModeratorMenu {
                     if (option1 == 1) {
                         articlesToCheckForPublish.remove(index);
                         publishedArticles.add(chosenArticle);
-                        articleActions.findArticleByTitle(title, articleList).setPublished(true);
-                        articleActions.findArticleByTitle(title, articleList).setPublishDate(articleActions.todaysDateAsString());
-                        articleActions.findArticleByTitle(title, articleList).setStatus(ArticleStatus.PUBLISHED);
+                        articleService.findArticleByTitle(title, articleList).setPublished(true);
+                        articleService.findArticleByTitle(title, articleList).setPublishDate(articleService.todaysDateAsString());
+                        articleService.findArticleByTitle(title, articleList).setStatus(ArticleStatus.PUBLISHED);
                     } else if (option1 == 2) {
                         articlesToCheckForPublish.remove(index);
-                        articleActions.findArticleByTitle(title, articleList).setPublished(false);
-                        articleActions.findArticleByTitle(title, articleList).setStatus(ArticleStatus.NOT_PUBLISHED);
+                        articleService.findArticleByTitle(title, articleList).setPublished(false);
+                        articleService.findArticleByTitle(title, articleList).setStatus(ArticleStatus.NOT_PUBLISHED);
                     }
                 }
             } else {
