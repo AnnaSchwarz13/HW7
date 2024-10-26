@@ -52,7 +52,6 @@ public class AuthorMenu {
     }
 
 
-
     public static void userLoginMenu(int option) {
         Scanner scanner = new Scanner(System.in);
         AuthorService authorService = new AuthorService();
@@ -69,19 +68,11 @@ public class AuthorMenu {
                 if (AuthenticationService.isUserNameNew(username)) {
                     System.out.println("Enter your national code: ");
                     String nationalCode = scanner.next();
-                    while (true) {
-                        System.out.println("Enter your birthday like example:\nexample: 1995/12/3 ");
-                        String birthday = scanner.next();
-                        Birthday birthdaySet = new Birthday(birthday);
-                        if (birthdaySet.getYear() != 0) {
-                            int toSetBirthday = scanner.nextInt();
-                            if (toSetBirthday == 1) {
-                                authorService.userSignup(firstName, lastName, username, nationalCode, nationalCode, birthdaySet);
-                                break;
-                            }
-                        }
+                    Birthday birthdaySet = new Birthday();
+                    if (birthdaySet.isBirthdayValid()) {
+                        authorService.userSignup(firstName, lastName, username, nationalCode, nationalCode, birthdaySet);
+                        break;
                     }
-                    break;
                 }
                 System.out.println("this username are already taken!");
             }
@@ -101,8 +92,8 @@ public class AuthorMenu {
     }
 
     public static void articleSiteMenu(int option) {
-         Author loggedInAuthor = (Author) loggedInUser;
-         List articlesList = loggedInAuthor.getThisUserArticlesList();
+        Author loggedInAuthor = (Author) loggedInUser;
+        List articlesList = loggedInAuthor.getThisUserArticlesList();
         Scanner scanner = new Scanner(System.in);
         ArticleService articleService = new ArticleService();
         AuthorService authorService = new AuthorService();
