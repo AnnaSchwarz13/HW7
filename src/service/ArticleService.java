@@ -13,7 +13,7 @@ public class ArticleService {
     private String title;
     Scanner sc = new Scanner(System.in);
     Random rand = new Random();
-
+    Author loggedInAuthor = (Author) DataBase.loggedInUser;
     public void addArticle() {
         //todo:use a single constructor
         Article article = new Article();
@@ -31,7 +31,7 @@ public class ArticleService {
         article.setId(rand.nextDouble());
         article.setPublished(false);
         article.setStatus(ArticleStatus.NOT_PUBLISHED);
-        DataBase.loggedInAuthor.getThisUserArticlesList().add(article);
+        loggedInAuthor.getThisUserArticlesList().add(article);
     }
 
     public void showArticle(List articles) {
@@ -207,7 +207,7 @@ public class ArticleService {
             System.out.println("Send request to get published article");
             choose = scanner.nextInt();
             if (choose == 1) {
-                AuthorArticle authorArticle = new AuthorArticle(choosenArticle, DataBase.loggedInAuthor);
+                AuthorArticle authorArticle = new AuthorArticle(choosenArticle, loggedInAuthor);
                 choosenArticle.setStatus(ArticleStatus.PENDING);
                 DataBase.articlesToCheckForPublish.add(authorArticle);
                 choosenArticle.setLastUpdateDate(todaysDateAsString());

@@ -10,12 +10,14 @@ import service.AuthorService;
 
 import java.util.Scanner;
 
-import static database.DataBase.*;
+import static database.DataBase.loggedInUser;
+import static database.DataBase.publishedArticles;
 
 public class AuthorMenu {
-
+    static Author loggedInAuthor = (Author) loggedInUser;
     Scanner scanner = new Scanner(System.in);
-   static List articlesList = loggedInAuthor.getThisUserArticlesList();
+    static List articlesList = loggedInAuthor.getThisUserArticlesList();
+
     public AuthorMenu() {
         int userInput;
         while (loggedInAuthor == null) {
@@ -32,7 +34,7 @@ public class AuthorMenu {
         }
 
         if (loggedInAuthor != null) {
-            System.out.println("Good Day Dear " + ((Author)loggedInUser).getFirstName() + "!");
+            System.out.println("Good Day Dear " + ((Author) loggedInUser).getFirstName() + "!");
         }
         while (loggedInAuthor != null) {
 
@@ -111,7 +113,7 @@ public class AuthorMenu {
                 System.out.println("Please enter the title of the article's list \n for see more details: ");
 
                 for (int i = 0; i < articlesList.getIndex(); ++i) {
-                    Article tempArticle =(Article) articlesList.getObjects(i);
+                    Article tempArticle = (Article) articlesList.getObjects(i);
                     System.out.println(tempArticle.getTitle());
                 }
                 String title = scanner.nextLine();
@@ -140,7 +142,7 @@ public class AuthorMenu {
 
         } else if (option == 5) {
 
-            System.out.println("Goodbye Dear " +((Author)loggedInUser).getFirstName() + "!");
+            System.out.println("Goodbye Dear " + ((Author) loggedInUser).getFirstName() + "!");
             authorService.userLogout();
 
         }
