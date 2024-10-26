@@ -68,11 +68,18 @@ public class AuthorMenu {
                 if (AuthenticationService.isUserNameNew(username)) {
                     System.out.println("Enter your national code: ");
                     String nationalCode = scanner.next();
-                    Birthday birthdaySet = new Birthday();
-                    if (birthdaySet.isBirthdayValid()) {
-                        authorService.userSignup(firstName, lastName, username, nationalCode, nationalCode, birthdaySet);
-                        break;
+                    boolean forGetACorrectBirth = false;
+                    while (!forGetACorrectBirth) {
+                        System.out.println("Enter your birthday like example:\nexample: 1995/12/3 ");
+                        String date = scanner.next();
+                        Birthday birthdaySet = new Birthday(date);
+                        forGetACorrectBirth = birthdaySet.isBirthdayValid();
+                        if (birthdaySet.isBirthdayValid()) {
+                            authorService.userSignup(firstName, lastName, username, nationalCode, nationalCode, birthdaySet);
+                            break;
+                        }
                     }
+                    break;
                 }
                 System.out.println("this username are already taken!");
             }

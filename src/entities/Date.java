@@ -6,11 +6,11 @@ import java.util.Scanner;
 public class Date {
     Scanner scanner = new Scanner(System.in);
     //for Gregorian calender
-    private int year;
-    private int month;
-    private int day;
-    private boolean isDateValid = false;
-    private final LocalDate today = LocalDate.now();
+   protected int year;
+   protected int month;
+   protected int day;
+   protected boolean isDateValid = false;
+   protected final LocalDate today = LocalDate.now();
 
     public Date(String date) {
             if (isInputValid(date)) {
@@ -29,7 +29,7 @@ public class Date {
 
     private boolean checkBirthdayLvl1() {
         //check is birthday is before now and is now out bound
-        if (year < today.getYear()) {
+        if (year <= today.getYear()) {
             if ((month > 0) && (month <= 12)) {
                 return ((day > 0) && (day <= 31));
             }
