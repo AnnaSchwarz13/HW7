@@ -1,0 +1,21 @@
+package database;
+
+import Entities.Author;
+import Entities.Lists.*;
+import Entities.Moderator;
+
+public class DataBase {
+    public static final Entities.Lists.AuthorList authorList = new AuthorList();
+    public static final Entities.Lists.ModeratorList moderatorList = new ModeratorList();
+    //todo: have a single user list and loggedInUser
+    public static Moderator moderator;
+    public static Author loggedInAuthor;
+    //todo:don't use following line
+    public static ArticleList articlesList = new ArticleList();
+    public static final CategoryList categoryList = new CategoryList();
+    public static final TagList tagList = new TagList();
+    public static final AuthorArticleList publishedArticles = new AuthorArticleList();
+    public static final AuthorArticleList articlesToCheckForPublish = new AuthorArticleList();
+
+
+}

@@ -1,0 +1,30 @@
+package service;
+
+import Entities.Author;
+import Entities.Moderator;
+import Entities.User;
+import Entities.enums.Role;
+import database.DataBase;
+
+public class AuthenticationService {
+    public AuthenticationService() {
+    }
+
+    public static void setLoggedModerator(Moderator moderator) {
+            DataBase.moderator = moderator;
+    }
+    public static void setLoggedAuthor(Author author) {
+            DataBase.loggedInAuthor = author;
+    }
+
+    public static boolean isUserNameNew(String username) {
+        for(int i = 0; i< DataBase.authorList.getIndex(); i++) {
+            User checkingAuthor = DataBase.authorList.getUsers(i);
+            if (checkingAuthor.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+}
