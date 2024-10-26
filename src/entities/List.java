@@ -41,7 +41,7 @@ public class List {
     public String toString() {
         String Objects = "";
         for (int i = 0; i < this.index; i++) {
-            Objects += this.objects[i] + ", ";
+            Objects += this.objects[i].toString() + ", ";
         }
         return Objects;
     }

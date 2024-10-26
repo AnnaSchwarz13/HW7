@@ -15,5 +15,8 @@ Random rand = new Random();
         return title;
     }
 
-
+    @Override
+    public String toString() {
+        return title;
+    }
 }
