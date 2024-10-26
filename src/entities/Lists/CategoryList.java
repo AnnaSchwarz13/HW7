@@ -1,6 +1,6 @@
-package Entities.Lists;
+package entities.Lists;
 
-import Entities.Category;
+import entities.Category;
 
 import java.util.Arrays;
 

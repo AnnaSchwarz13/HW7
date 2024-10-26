@@ -1,6 +1,6 @@
-package Entities.Lists;
+package entities.Lists;
 
-import Entities.Article;
+import entities.Article;
 
 import java.util.Arrays;
 //todo: make a mother class user list or list

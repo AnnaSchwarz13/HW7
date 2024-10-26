@@ -1,6 +1,6 @@
-package Entities;
+package entities;
 
-import Entities.enums.Role;
+import entities.enums.Role;
 
 import java.util.Random;
 

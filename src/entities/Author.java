@@ -1,7 +1,7 @@
-package Entities;
+package entities;
 
-import Entities.Lists.ArticleList;
-import Entities.enums.Role;
+import entities.Lists.ArticleList;
+import entities.enums.Role;
 
 public class Author extends User{
     private String firstName;

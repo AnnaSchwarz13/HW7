@@ -1,6 +1,6 @@
-package Entities.Lists;
+package entities.Lists;
 
-import Entities.Author;
+import entities.Author;
 
 import java.util.Arrays;
 

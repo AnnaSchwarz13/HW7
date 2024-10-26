@@ -1,8 +1,8 @@
-import Entities.Category;
-import Entities.Moderator;
-import Entities.Tag;
-import Menu.AuthorMenu;
-import Menu.ModeratorMenu;
+import entities.Category;
+import entities.Moderator;
+import entities.Tag;
+import service.Menu.AuthorMenu;
+import service.Menu.ModeratorMenu;
 import database.DataBase;
 import service.ModeratorService;
 

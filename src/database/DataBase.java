@@ -1,12 +1,12 @@
 package database;
 
-import Entities.Author;
-import Entities.Lists.*;
-import Entities.Moderator;
+import entities.Author;
+import entities.Lists.*;
+import entities.Moderator;
 
 public class DataBase {
-    public static final Entities.Lists.AuthorList authorList = new AuthorList();
-    public static final Entities.Lists.ModeratorList moderatorList = new ModeratorList();
+    public static final entities.Lists.AuthorList authorList = new AuthorList();
+    public static final entities.Lists.ModeratorList moderatorList = new ModeratorList();
     //todo: have a single user list and loggedInUser
     public static Moderator moderator;
     public static Author loggedInAuthor;

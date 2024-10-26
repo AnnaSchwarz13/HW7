@@ -1,6 +1,6 @@
 package service;
 
-import Entities.Moderator;
+import entities.Moderator;
 import database.DataBase;
 
 public class ModeratorService {

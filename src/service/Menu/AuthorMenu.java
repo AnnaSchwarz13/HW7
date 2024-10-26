@@ -1,7 +1,7 @@
-package Menu;
+package service.Menu;
 
-import Entities.Article;
-import Entities.Birthday;
+import entities.Article;
+import entities.Birthday;
 import service.ArticleActions;
 import service.AuthenticationService;
 import service.AuthorService;

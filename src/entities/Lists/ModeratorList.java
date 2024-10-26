@@ -1,6 +1,6 @@
-package Entities.Lists;
+package entities.Lists;
 
-import Entities.Moderator;
+import entities.Moderator;
 
 import java.util.Arrays;
 

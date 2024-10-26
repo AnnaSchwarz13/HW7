@@ -1,9 +1,8 @@
 package service;
 
-import Entities.Author;
-import Entities.Moderator;
-import Entities.User;
-import Entities.enums.Role;
+import entities.Author;
+import entities.Moderator;
+import entities.User;
 import database.DataBase;
 
 public class AuthenticationService {

@@ -1,9 +1,9 @@
-package Menu;
+package service.Menu;
 
-import Entities.Article;
-import Entities.AuthorArticle;
-import Entities.Lists.ArticleList;
-import Entities.enums.ArticleStatus;
+import entities.Article;
+import entities.AuthorArticle;
+import entities.Lists.ArticleList;
+import entities.enums.ArticleStatus;
 import database.DataBase;
 import service.ArticleActions;
 import service.ModeratorService;

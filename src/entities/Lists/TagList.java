@@ -1,6 +1,6 @@
-package Entities.Lists;
+package entities.Lists;
 
-import Entities.Tag;
+import entities.Tag;
 
 import java.util.Arrays;
 

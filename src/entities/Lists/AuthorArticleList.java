@@ -1,7 +1,6 @@
-package Entities.Lists;
+package entities.Lists;
 
-import Entities.Article;
-import Entities.AuthorArticle;
+import entities.AuthorArticle;
 
 import java.util.Arrays;
 

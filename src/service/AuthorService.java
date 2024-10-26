@@ -1,8 +1,8 @@
 package service;
 
-import Entities.Author;
-import Entities.Birthday;
-import Entities.Lists.ArticleList;
+import entities.Author;
+import entities.Birthday;
+import entities.Lists.ArticleList;
 import database.DataBase;
 
 public class AuthorService {

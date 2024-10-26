@@ -1,7 +1,7 @@
-package Entities;
+package entities;
 
-import Entities.Lists.TagList;
-import Entities.enums.ArticleStatus;
+import entities.Lists.TagList;
+import entities.enums.ArticleStatus;
 
 public class Article {
     private String title;
