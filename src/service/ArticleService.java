@@ -216,13 +216,13 @@ public class ArticleService {
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PENDING) {
             AuthorArticle ExsistedAuthorArticle = findAuthorArticleByTitle(choosenArticle.getTitle(), DataBase.articlesToCheckForPublish);
-            int index = DataBase.articlesToCheckForPublish.findIndexByAuthorArticle(ExsistedAuthorArticle);
+            int index = DataBase.articlesToCheckForPublish.getIndexOfObject(ExsistedAuthorArticle);
 
             System.out.println("Cancel request to get published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
                 choosenArticle.setStatus(ArticleStatus.NOT_PUBLISHED);
-                DataBase.articlesToCheckForPublish.remove(index);
+                DataBase.articlesToCheckForPublish.removeObject(index);
                 choosenArticle.setLastUpdateDate(todaysDateAsString());
             }
         }
