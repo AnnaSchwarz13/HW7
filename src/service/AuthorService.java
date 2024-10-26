@@ -4,6 +4,7 @@ import entities.Author;
 import entities.Birthday;
 import entities.Lists.ArticleList;
 import database.DataBase;
+import entities.Lists.List;
 
 public class AuthorService {
 
@@ -47,7 +48,7 @@ public class AuthorService {
     private void saveUsersArticlesList() {
         DataBase.loggedInAuthor.clearThisUserArticlesList();
         DataBase.loggedInAuthor.setThisUserArticlesList(DataBase.articlesList);
-        DataBase.articlesList = new ArticleList();
+        DataBase.articlesList = new List();
     }
 
     public void setPreviousData() {

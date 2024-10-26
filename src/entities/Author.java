@@ -1,6 +1,7 @@
 package entities;
 
 import entities.Lists.ArticleList;
+import entities.Lists.List;
 import entities.enums.Role;
 
 public class Author extends User{
@@ -8,7 +9,7 @@ public class Author extends User{
     private String lastName;
     private String nationalCode;
     private Birthday birthday;
-    private ArticleList thisUserArticlesList;
+    private List thisUserArticlesList;
 
     public Author(String username, String password ) {
         super(username, password, Role.AUTHOR);
@@ -39,15 +40,15 @@ public class Author extends User{
         this.nationalCode = nationalCode;
     }
 
-    public ArticleList getThisUserArticlesList() {
+    public List getThisUserArticlesList() {
         return this.thisUserArticlesList;
     }
 
-    public void setThisUserArticlesList(ArticleList thisUserArticlesList) {
+    public void setThisUserArticlesList(List thisUserArticlesList) {
         this.thisUserArticlesList = thisUserArticlesList;
     }
 
     public void clearThisUserArticlesList() {
-        this.thisUserArticlesList = new ArticleList();
+        this.thisUserArticlesList = new List();
     }
 }

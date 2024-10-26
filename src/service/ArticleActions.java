@@ -3,6 +3,7 @@ package service;
 import entities.*;
 import entities.Lists.ArticleList;
 import entities.Lists.AuthorArticleList;
+import entities.Lists.List;
 import entities.Lists.TagList;
 import entities.enums.ArticleStatus;
 import database.DataBase;
@@ -37,14 +38,14 @@ public class ArticleActions {
         DataBase.articlesList.add(article);
     }
 
-    public void showArticle(ArticleList articles) {
+    public void showArticle(List articles) {
         if (articles.getIndex() == 0) {
             System.out.println("there is no article");
         } else {
             System.out.println("Please enter the title of the article's list \n for see more details: ");
 
             for (int i = 0; i < articles.getIndex(); ++i) {
-                Article tempArticle = articles.getArticles(i);
+                Article tempArticle =(Article) articles.getObjects(i);
                 System.out.println(tempArticle.getTitle());
             }
 
@@ -102,9 +103,9 @@ public class ArticleActions {
 
     }
 
-    public Article findArticleByTitle(String title, ArticleList articles) {
+    public Article findArticleByTitle(String title, List articles) {
         for (int i = 0; i < articles.getIndex(); ++i) {
-            Article tempArticle = articles.getArticles(i);
+            Article tempArticle =(Article) articles.getObjects(i);
             if (tempArticle.getTitle().equals(title)) {
                 return tempArticle;
             }

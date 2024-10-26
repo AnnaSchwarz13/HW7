@@ -3,6 +3,7 @@ package service.Menu;
 import entities.Article;
 import entities.AuthorArticle;
 import entities.Lists.ArticleList;
+import entities.Lists.List;
 import entities.enums.ArticleStatus;
 import database.DataBase;
 import service.ArticleActions;
@@ -52,7 +53,7 @@ public class ModeratorMenu {
                 if (articleActions.findAuthorArticleByTitle(title, articlesToCheckForPublish) != null) {
                     AuthorArticle chosenArticle = articleActions.findAuthorArticleByTitle(title, articlesToCheckForPublish);
                     int index = articlesToCheckForPublish.findIndexByAuthorArticle(chosenArticle);
-                    ArticleList articleList = chosenArticle.getAuthor().getThisUserArticlesList();
+                    List articleList = chosenArticle.getAuthor().getThisUserArticlesList();
 
                     System.out.println("1. Accept and publish");
                     System.out.println("2. Reject and remove");
