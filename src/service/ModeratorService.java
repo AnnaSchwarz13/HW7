@@ -7,7 +7,7 @@ public class ModeratorService {
 //todo:make a mother class userService
     public void moderatorLogin(String username, String password) {
         for(int i = 0; i< DataBase.moderatorList.getIndex(); i++){
-            Moderator checkingUser =DataBase.moderatorList.getModerators(i);
+            Moderator checkingUser =(Moderator) DataBase.moderatorList.getObjects(i);
             if (checkingUser.getUsername().equals(username)) {
                 if (checkingUser.getPassword().equals(password)) {
                     AuthenticationService.setLoggedModerator(checkingUser);

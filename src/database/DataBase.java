@@ -5,8 +5,8 @@ import entities.Lists.*;
 import entities.Moderator;
 
 public class DataBase {
-    public static final entities.Lists.AuthorList authorList = new AuthorList();
-    public static final entities.Lists.ModeratorList moderatorList = new ModeratorList();
+    public static final AuthorList authorList = new AuthorList();
+    public static final List moderatorList = new ModeratorList();
     //todo: have a single user list and loggedInUser
     public static Moderator moderator;
     public static Author loggedInAuthor;
