@@ -2,7 +2,7 @@ package service;
 
 import database.DataBase;
 import entities.*;
-import entities.Lists.AuthorArticleList;
+import entities.List;
 import entities.enums.ArticleStatus;
 
 import java.time.Clock;
@@ -52,7 +52,7 @@ public class ArticleService {
                 System.out.println(userChoice);
                 if (userChoice.isPublished()) {
                     System.out.println("publishedDate: " + userChoice.getPublishDate());
-                    Author author = getAuthorArticle(userChoice, DataBase.publishedArticles).getAuthor();
+                    Author author = getAuthorOfArticle(userChoice, DataBase.publishedArticles).getAuthor();
                     System.out.print("Author: ");
                     System.out.println(author.getFirstName() + "  " + author.getLastName());
                 }
@@ -111,9 +111,9 @@ public class ArticleService {
         return null;
     }
 
-    public AuthorArticle findAuthorArticleByTitle(String title, AuthorArticleList authorArticles) {
+    public AuthorArticle findAuthorArticleByTitle(String title, List authorArticles) {
         for (int i = 0; i < authorArticles.getIndex(); i++) {
-            AuthorArticle tempArticle = authorArticles.getAuthorArticle(i);
+            AuthorArticle tempArticle =(AuthorArticle) authorArticles.getObjects(i);
             if (tempArticle.getArticle().getTitle().equals(title)) {
                 return tempArticle;
             }
@@ -205,12 +205,12 @@ public class ArticleService {
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
             AuthorArticle ExsistedAuthorArticle = findAuthorArticleByTitle(choosenArticle.getTitle(), DataBase.publishedArticles);
-            int index = DataBase.publishedArticles.findIndexByAuthorArticle(ExsistedAuthorArticle);
+            int index = DataBase.publishedArticles.getIndexOfObject(ExsistedAuthorArticle);
             System.out.println("Remove article from published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
                 choosenArticle.setStatus(ArticleStatus.NOT_PUBLISHED);
-                DataBase.publishedArticles.remove(index);
+                DataBase.publishedArticles.removeObject(index);
                 choosenArticle.setLastUpdateDate(todaysDateAsString());
                 choosenArticle.setPublished(false);
             }
@@ -284,10 +284,10 @@ public class ArticleService {
 
     }
 
-    public AuthorArticle getAuthorArticle(Article article, AuthorArticleList authorArticleList) {
+    public AuthorArticle getAuthorOfArticle(Article article, List authorArticleList) {
         for (int i = 0; i < authorArticleList.getIndex(); i++) {
-            if (authorArticleList.getAuthorArticle(i).getArticle().equals(article)) {
-                return authorArticleList.getAuthorArticle(i);
+            if (((AuthorArticle)authorArticleList.getObjects(i)).getArticle().equals(article)) {
+                return (AuthorArticle) authorArticleList.getObjects(i);
             }
         }
         return null;

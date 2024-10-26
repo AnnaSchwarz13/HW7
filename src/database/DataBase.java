@@ -15,7 +15,7 @@ public class DataBase {
     public static List articlesList = new List();
     public static final List categoryList = new List();
     public static final List tagList = new List();
-    public static final AuthorArticleList publishedArticles = new AuthorArticleList();
+    public static final List publishedArticles = new List();
     public static final AuthorArticleList articlesToCheckForPublish = new AuthorArticleList();
 
 

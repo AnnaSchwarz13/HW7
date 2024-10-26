@@ -89,7 +89,7 @@ public class AuthorMenu {
             authorService.authorLogin(username, password);
 
         } else if (option == 3) {
-            articleService.showArticle(publishedArticles.getArticlesOfAuthor());
+            articleService.showArticle(publishedArticles);
         }
 
     }
