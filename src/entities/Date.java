@@ -1,8 +1,12 @@
 package entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.util.Scanner;
-
+@Getter
+@Setter
 public class Date {
     Scanner scanner = new Scanner(System.in);
     //for Gregorian calender
@@ -57,9 +61,6 @@ public class Date {
         }
         return true;
     }
-
-    public boolean isDateValid() {
-        return isDateValid;
-    }
 }
+
 
