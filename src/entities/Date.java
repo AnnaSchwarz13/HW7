@@ -1,34 +1,30 @@
 package entities;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDate;
 import java.util.Scanner;
-@Getter
-@Setter
+
 public class Date {
     Scanner scanner = new Scanner(System.in);
     //for Gregorian calender
-   protected int year;
-   protected int month;
-   protected int day;
-   protected boolean isDateValid = false;
-   protected final LocalDate today = LocalDate.now();
+    protected int year;
+    protected int month;
+    protected int day;
+    protected boolean isDateValid = false;
+    protected final LocalDate today = LocalDate.now();
 
     public Date(String date) {
-            if (isInputValid(date)) {
-                String[] arrayOfBirth = date.split("/");
-                this.year = Integer.parseInt(arrayOfBirth[0]);
-                this.month = Integer.parseInt(arrayOfBirth[1]);
-                this.day = Integer.parseInt(arrayOfBirth[2]);
-                if (checkBirthdayLvl1() && checkBirthdayLvl2()) {
-                   isDateValid=true;
-                } else{
-                    System.out.println("Invalid date");
-                }
+        if (isInputValid(date)) {
+            String[] arrayOfBirth = date.split("-");
+            this.year = Integer.parseInt(arrayOfBirth[0]);
+            this.month = Integer.parseInt(arrayOfBirth[1]);
+            this.day = Integer.parseInt(arrayOfBirth[2]);
+            if (checkBirthdayLvl1() && checkBirthdayLvl2()) {
+                isDateValid = true;
+            } else {
+                System.out.println("Invalid date");
             }
         }
+    }
 
 
     private boolean checkBirthdayLvl1() {
@@ -55,12 +51,29 @@ public class Date {
 
 
     private boolean isInputValid(String date) {
-        if (date.split("/").length != 3) {
+        if (date.split("-").length != 3) {
             System.out.println("Invalid birthday");
             return false;
         }
         return true;
     }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public boolean isDateValid() {
+        return isDateValid;
+    }
+
 }
 
 

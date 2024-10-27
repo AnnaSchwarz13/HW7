@@ -13,7 +13,7 @@ public class Birthday extends Date {
         super(date);
             if (super.isDateValid) {
                 if (checkBirthdayLvl3()) {
-                    System.out.println("Birthday = " + year + "/" + month + "/" + day);
+                    System.out.println("Birthday = " + year + "-" + month + "-" + day);
                     System.out.println("\n is correct? \n 1.Yes! \n 2.Edit");
                     int toSetBirthday = scanner.nextInt();
                     if (toSetBirthday == 1) {

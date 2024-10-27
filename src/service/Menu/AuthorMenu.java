@@ -70,7 +70,7 @@ public class AuthorMenu {
                     String nationalCode = scanner.next();
                     boolean forGetACorrectBirth = false;
                     while (!forGetACorrectBirth) {
-                        System.out.println("Enter your birthday like example:\nexample: 1995/12/3 ");
+                        System.out.println("Enter your birthday like example:\nexample: 1995-12-3 ");
                         String date = scanner.next();
                         Birthday birthdaySet = new Birthday(date);
                         forGetACorrectBirth = birthdaySet.isBirthdayValid();
