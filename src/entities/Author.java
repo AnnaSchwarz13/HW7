@@ -6,7 +6,7 @@ public class Author extends User{
     private final String lastName;
     private final List thisUserArticlesList;
 
-    public Author(String username, String password, String firstName, String lastName,
+    public Author(String firstName, String lastName,String username, String password,
                   String nationalCode, Birthday birthday) {
         super(username, password, Role.AUTHOR);
         this.firstName = firstName;
