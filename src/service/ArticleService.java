@@ -130,7 +130,7 @@ public class ArticleService {
         return null;
     }
 
-    public String todaysDateAsString() {
+    public static String todaysDateAsString() {
         Clock clock = Clock.system(ZoneId.of("Asia/Tehran"));
         return clock.instant().toString().substring(0, 10) + " " + clock.instant().toString().substring(10, 16);
 

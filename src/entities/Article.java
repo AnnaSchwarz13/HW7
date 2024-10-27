@@ -77,6 +77,13 @@ public class Article {
         return isPublished;
     }
 
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public String getLastUpdateDate() {
+        return lastUpdateDate;
+    }
 
     @Override
     public String toString() {
