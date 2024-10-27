@@ -12,6 +12,7 @@ import service.UserService;
 import java.util.Scanner;
 
 import static database.DataBase.*;
+import static service.DateService.todaysDateAsString;
 
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
@@ -72,7 +73,7 @@ public class ModeratorMenu {
                         articlesToCheckForPublish.removeObject(index);
                         publishedArticles.add(chosenArticle);
                         articleService.findArticleByTitle(title, articleList).setPublished(true);
-                        articleService.findArticleByTitle(title, articleList).setPublishDate(articleService.todaysDateAsString());
+                        articleService.findArticleByTitle(title, articleList).setPublishDate(todaysDateAsString());
                         articleService.findArticleByTitle(title, articleList).setStatus(ArticleStatus.PUBLISHED);
                     } else if (option1 == 2) {
                         articlesToCheckForPublish.removeObject(index);

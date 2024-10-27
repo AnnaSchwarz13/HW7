@@ -5,9 +5,11 @@ import entities.AuthorArticle;
 import entities.Date;
 import entities.List;
 
+import static service.DateService.todaysDateAsString;
+
 public class Filtering {
     DateService dateService = new DateService();
-    Date today = new Date(ArticleService.todaysDateAsString().substring(0, 10));
+    Date today = new Date(todaysDateAsString().substring(0, 10));
     List filteredList = new List();
     public List filterTo1Year(List list , String whichDate) {
 

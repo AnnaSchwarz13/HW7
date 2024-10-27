@@ -1,6 +1,9 @@
 package service;
 import entities.Date;
 
+import java.time.Clock;
+import java.time.ZoneId;
+
 public class DateService {
     //for filter 1 year 6month 1 month and 1 week
     public double timeIntervalOfTwoDates(Date date, Date today, String chosenDomain) {
@@ -40,5 +43,9 @@ public class DateService {
         }
         return 0;
     }
+    public static String todaysDateAsString() {
+        Clock clock = Clock.system(ZoneId.of("Asia/Tehran"));
+        return clock.instant().toString().substring(0, 10) + " " + clock.instant().toString().substring(10, 16);
 
+    }
 }

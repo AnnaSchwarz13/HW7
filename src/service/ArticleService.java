@@ -3,11 +3,10 @@ package service;
 import database.DataBase;
 import entities.*;
 import entities.enums.ArticleStatus;
-
-import java.time.Clock;
-import java.time.ZoneId;
 import java.util.Random;
 import java.util.Scanner;
+
+import static service.DateService.todaysDateAsString;
 
 
 public class ArticleService {
@@ -129,12 +128,6 @@ public class ArticleService {
             }
         }
         return null;
-    }
-
-    public static String todaysDateAsString() {
-        Clock clock = Clock.system(ZoneId.of("Asia/Tehran"));
-        return clock.instant().toString().substring(0, 10) + " " + clock.instant().toString().substring(10, 16);
-
     }
 
     private List setArticleTags() {
