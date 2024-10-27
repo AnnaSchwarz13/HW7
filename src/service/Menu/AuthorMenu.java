@@ -8,6 +8,7 @@ import entities.enums.Role;
 import service.ArticleService;
 import service.AuthenticationService;
 import service.AuthorService;
+import service.Filtering;
 
 import java.util.Scanner;
 
@@ -93,7 +94,67 @@ public class AuthorMenu {
             authorService.userLogin(username, password, Role.AUTHOR);
 
         } else if (option == 3) {
-            articleService.showAnArticleList(publishedArticles);
+            System.out.println("\nWhat do you want to do?");
+            System.out.println("1.See all articles without any filter");
+            System.out.println("2.Select a filter");
+            int filterOption = scanner.nextInt();
+            if (filterOption == 1) {
+                articleService.showAnArticleList(publishedArticles);
+            } else if (filterOption == 2) {
+                Filtering filtering = new Filtering();
+                System.out.println("\nplease enter one of the following filters: ");
+                System.out.println("1.created date");
+                System.out.println("2.last updated date");
+                System.out.println("3.published date");
+                int filter1choose = scanner.nextInt();
+                System.out.println("1.last year");
+                System.out.println("2.last 6 month");
+                System.out.println("3.last month");
+                System.out.println("4.last week");
+                System.out.println("5.last 24 hour");
+                int filter2choose = scanner.nextInt();
+                if (filter1choose == 1) {
+                    if (filter2choose == 1) {
+                        articleService.showAnArticleList(filtering.filterTo1Year(publishedArticles,"created"));
+                    } else if (filter2choose == 2) {
+                        articleService.showAnArticleList(filtering.filterTo6Month(publishedArticles,"created"));
+                    } else if (filter2choose == 3) {
+                        articleService.showAnArticleList(filtering.filterTo1Month(publishedArticles,"created"));
+
+                    } else if (filter2choose == 4) {
+                        articleService.showAnArticleList(filtering.filterTo1Week(publishedArticles,"created"));
+                    } else if (filter2choose == 5) {
+                        articleService.showAnArticleList(filtering.filterTo24Hour(publishedArticles,"created"));
+                    }
+                } else if (filter1choose == 2) {
+                    if (filter2choose == 1) {
+                        articleService.showAnArticleList(filtering.filterTo1Year(publishedArticles,"lastUpdate"));
+                    } else if (filter2choose == 2) {
+                        articleService.showAnArticleList(filtering.filterTo6Month(publishedArticles,"lastUpdate"));
+                    } else if (filter2choose == 3) {
+                        articleService.showAnArticleList(filtering.filterTo1Month(publishedArticles,"lastUpdate"));
+
+                    } else if (filter2choose == 4) {
+                        articleService.showAnArticleList(filtering.filterTo1Week(publishedArticles,"lastUpdate"));
+                    } else if (filter2choose == 5) {
+                        articleService.showAnArticleList(filtering.filterTo24Hour(publishedArticles,"lastUpdate"));
+                    }
+                } else if (filter1choose == 3) {
+                    if (filter2choose == 1) {
+                        articleService.showAnArticleList(filtering.filterTo1Year(publishedArticles,"published"));
+                    } else if (filter2choose == 2) {
+                        articleService.showAnArticleList(filtering.filterTo6Month(publishedArticles,"published"));
+                    } else if (filter2choose == 3) {
+                        articleService.showAnArticleList(filtering.filterTo1Month(publishedArticles,"published"));
+
+                    } else if (filter2choose == 4) {
+                        articleService.showAnArticleList(filtering.filterTo1Week(publishedArticles,"published"));
+                    } else if (filter2choose == 5) {
+                        articleService.showAnArticleList(filtering.filterTo24Hour(publishedArticles,"published"));
+                    }
+                }
+
+            }
         }
 
     }
