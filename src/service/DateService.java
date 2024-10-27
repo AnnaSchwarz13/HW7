@@ -23,9 +23,17 @@ public class DateService {
             }
             case "1week" -> {
                 if ((today.getYear() - date.getYear() <= 1)) {
-                    if (((((date.getYear() - today.getYear()) * 12) +today.getMonth() - date.getMonth()) * 30
+                    if (((((date.getYear() - today.getYear()) * 12) + today.getMonth() - date.getMonth()) * 30
                             - date.getDay() + today.getDay()) <= 7) {
                         return 168;//mean for last week
+                    }
+                }
+            }
+            case "24hour" -> {
+                if ((today.getYear() - date.getYear() <= 1)) {
+                    if (((((date.getYear() - today.getYear()) * 12) + today.getMonth() - date.getMonth()) * 30
+                            - date.getDay() + today.getDay()) <= 1) {
+                        return 24;//mean for last 24hour
                     }
                 }
             }
@@ -33,7 +41,4 @@ public class DateService {
         return 0;
     }
 
-//    public double isForLast24Hour(Date date, Date today) {
-//
-//    }
 }
