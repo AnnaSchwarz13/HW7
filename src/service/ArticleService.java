@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.Random;
 import java.util.Scanner;
 
+
 public class ArticleService {
     private String title;
     Scanner sc = new Scanner(System.in);

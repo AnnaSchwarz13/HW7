@@ -1,7 +1,11 @@
 package entities;
 
 import entities.enums.ArticleStatus;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Article {
     private String title;
     private entities.Category category;
@@ -29,60 +33,12 @@ public class Article {
 
     }
 
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setCategory(entities.Category category) {
-        this.category = category;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public List getBrief() {
-        return brief;
-    }
-
-    public void setLastUpdateDate(String lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
-    }
-
-    public String getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public ArticleStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ArticleStatus status) {
-        this.status = status;
-    }
-
     public void setPublished(boolean published) {
         isPublished = published;
     }
 
     public boolean isPublished() {
         return isPublished;
-    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public String getLastUpdateDate() {
-        return lastUpdateDate;
     }
 
     @Override

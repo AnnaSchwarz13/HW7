@@ -1,8 +1,10 @@
 package entities;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 import java.util.Scanner;
-
+@Getter
 public class Date {
     Scanner scanner = new Scanner(System.in);
     //for Gregorian calender
@@ -51,23 +53,11 @@ public class Date {
 
 
     private boolean isInputValid(String date) {
-        if (date.split("-").length != 3) {
+        if (date.split("").length != 3) {
             System.out.println("Invalid birthday");
             return false;
         }
         return true;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public int getDay() {
-        return day;
     }
 
     public boolean isDateValid() {
