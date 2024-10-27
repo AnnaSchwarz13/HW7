@@ -9,24 +9,50 @@ public class DateService {
     public boolean timeIntervalOfTwoDates(Date today, Date date, String chosenDomain) {
         switch (chosenDomain) {
             case "1year" -> {
-                return ((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) <= 12;//mean for last year
+                if (((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) <= 12) {
+                    return true;//mean for last year
+                }
+                else{
+                    return false;
+                }
             }
             case "6month" -> {
-                return ((date.getYear() - today.getYear()) * 12 - date.getMonth() + today.getMonth()) <= 6;//mean for last 6 month
+                if (((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) <= 6) {
+                    return true;//mean for last 6 month
+
+                }
+                else{
+                    return false;
+                }
             }
             case "1month" -> {
-                return ((date.getYear() - today.getYear()) * 12 - date.getMonth() + today.getMonth()) <= 1;//mean for last month
+                if (((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) <= 1) {
+                    return true;//mean for last month
+                }
+                else{
+                    return false;
+                }
             }
             case "1week" -> {
                 if ((today.getYear() - date.getYear() <= 1)) {
-                    return ((((date.getYear() - today.getYear()) * 12) + today.getMonth() - date.getMonth()) * 30
-                            - date.getDay() + today.getDay()) <= 7;//mean for last week
+                    if ((((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) * 30
+                            - date.getDay() + today.getDay()) <= 7) {
+                        return true;//mean for last week
+                    }
+                    else{
+                        return false;
+                    }
                 }
             }
             case "24hour" -> {
                 if ((today.getYear() - date.getYear() <= 1)) {
-                    return ((((date.getYear() - today.getYear()) * 12) + today.getMonth() - date.getMonth()) * 30
-                            - date.getDay() + today.getDay()) <= 1;//mean for last 24hour
+                    if ((((( - date.getYear() + today.getYear()) * 12) + today.getMonth() - date.getMonth()) * 30
+                            - date.getDay() + today.getDay()) <= 1) {
+                        return true;//mean for last 24hour
+                    }
+                    else{
+                        return false;
+                    }
                 }
             }
         }

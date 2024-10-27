@@ -18,7 +18,7 @@ public class Filtering {
                 for (int i = 0; i < list.getIndex(); i++) {
                     Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
                     Date publishedDate = new Date(article.getPublishDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates( today,publishedDate, "1year")) {
+                    if (dateService.timeIntervalOfTwoDates(today,publishedDate, "1year")) {
                         filteredList.add(article);
                     }
                 }
@@ -28,7 +28,7 @@ public class Filtering {
                 for (int i = 0; i < list.getIndex(); i++) {
                     Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
                     Date lastUpdate = new Date(article.getLastUpdateDate().substring(0, 10));
-                    if ( dateService.timeIntervalOfTwoDates(  today,lastUpdate,"1year")) {
+                    if ( dateService.timeIntervalOfTwoDates(today,lastUpdate,"1year")) {
                         filteredList.add(article);
                     }
                 }
