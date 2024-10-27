@@ -22,9 +22,10 @@ public class ArticleService {
         System.out.println("Enter article text: ");
         String articleText = sc.nextLine();
         List brief = setArticleTags();
+        String date = todaysDateAsString();
         Article article = new Article(this.title, articleCategory, articleText,
-                rand.nextDouble(), brief, todaysDateAsString(), false,
-                todaysDateAsString(), ArticleStatus.NOT_PUBLISHED);
+                rand.nextDouble(), brief, date, false,
+                date, ArticleStatus.NOT_PUBLISHED);
 
         (loggedInAuthor.getThisUserArticlesList()).add(article);
     }
