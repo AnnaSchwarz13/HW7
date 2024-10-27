@@ -57,14 +57,10 @@ public class Date {
 
     private boolean isInputValid(String date) {
         if (date.split("-").length != 3) {
-            System.out.println("Invalid birthday");
+            System.out.println("Invalid date");
             return false;
         }
         return true;
-    }
-
-    public boolean isDateValid() {
-        return isDateValid;
     }
 
 }

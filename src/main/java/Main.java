@@ -40,7 +40,7 @@ public static void main(String[] args) {
     Article article1 = new Article("first",c1,"1",1,tagList,
             "2024-05-02",true,"2023-11-02", ArticleStatus.PUBLISHED);
     Article article2 = new Article("sec",c2,"1",1,tagList,
-            "2024-09-30",true,"2024-02-02", ArticleStatus.PUBLISHED);
+            "2020-09-30",true,"2024-02-02", ArticleStatus.PUBLISHED);
     Article article3 = new Article("thi",c3,"1",1,tagList,
             "2024-10-22",true,"2024-10-26", ArticleStatus.PUBLISHED);
 
