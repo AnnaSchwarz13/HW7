@@ -1,5 +1,8 @@
 package entities;
 
+import lombok.Getter;
+
+@Getter
 public class AuthorArticle {
     private final Article article;
     private final Author author;
@@ -8,11 +11,4 @@ public class AuthorArticle {
         this.author = author;
     }
 
-    public Article getArticle() {
-        return article;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
 }

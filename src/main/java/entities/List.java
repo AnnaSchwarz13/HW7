@@ -1,9 +1,12 @@
 package entities;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
 public class List {
     private Object[] objects = new Object[10];
+    @Getter
     private int index = 0;
 
     public void add(Object object) {
@@ -12,9 +15,6 @@ public class List {
         if (this.index >= this.objects.length) {
             this.objects = Arrays.copyOf(this.objects, this.objects.length * 2);
         }
-    }
-    public int getIndex() {
-        return index;
     }
 
     public Object getObjects(int index) {
