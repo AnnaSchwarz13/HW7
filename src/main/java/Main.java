@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import static database.DataBase.*;
 
-static Scanner scanner = new Scanner(System.in);
+public static Scanner scanner = new Scanner(System.in);
 public static void main() {
 
     Moderator moderator1 = new Moderator("admin", "admin");
