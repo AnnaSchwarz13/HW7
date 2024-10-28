@@ -66,7 +66,7 @@ public class AuthorMenu {
             while (true) {
                 System.out.println("Enter username:");
                 String username = scanner.next();
-                if (AuthenticationService.isUserNameNew(username)) {
+                if (AuthenticationService.isUserNameNew(username,Role.AUTHOR)) {
                     System.out.println("Enter your national code: ");
                     String nationalCode = scanner.next();
                     boolean forGetACorrectBirth = false;

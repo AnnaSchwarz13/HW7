@@ -13,6 +13,7 @@ public static void main(String[] args) {
     userList.add(moderator1);
     Birthday birthday1 = new Birthday("2000-02-02");
     Author author1 = new Author("anna", "schwarz", "a", "a", "a", birthday1);
+    userList.add(author1);
 
     Category c1 = new Category("History", "its about Historical events");
     Category c2 = new Category("Fiction", "its about fictional events");
