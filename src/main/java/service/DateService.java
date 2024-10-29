@@ -7,6 +7,7 @@ import java.time.ZoneId;
 public class DateService {
     //for filter 1 year 6month 1 month and 1 week
     public boolean timeIntervalOfTwoDates(Date today, Date date, String chosenDomain) {
+        //TODO:don't use string -> int
         switch (chosenDomain) {
             case "1year" -> {
                 return ((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) <= 12;//mean for last year

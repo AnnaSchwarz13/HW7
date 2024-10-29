@@ -12,7 +12,7 @@ public class Filtering {
     Date today = new Date(todaysDateAsString().substring(0, 10));
     List filteredList = new List();
     public List filterTo1Year(List list , String whichDate) {
-
+//TODO: make a new method of three.
         switch (whichDate) {
             case "published" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
