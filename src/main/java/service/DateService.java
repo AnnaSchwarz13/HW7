@@ -1,5 +1,5 @@
 package service;
-import entities.Date;
+import java.sql.Date;
 
 import java.time.Clock;
 import java.time.ZoneId;
