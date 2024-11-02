@@ -1,24 +1,25 @@
 package service;
 
 import entities.Article;
+
 import java.sql.Date;
 import java.time.LocalDate;
+
 import entities.List;
 
 public class Filtering {
     DateService dateService = new DateService();
     Date today = Date.valueOf(LocalDate.now());
     List filteredList = new List();
-    public List filterTo1Year(List list , String whichDate) {
-//TODO: make a new method of three.
+
+    public List filter(List list, String whichDate, int distance) {
         switch (whichDate) {
             case "published" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
                     Article article = ((Article) list.getObjects(i));
                     Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today,publishedDate, "1year")) {
-                        filteredList.add(article);
-                    }
+                    checkDistance(distance, article, publishedDate);
+
                 }
                 return filteredList;
             }
@@ -26,9 +27,8 @@ public class Filtering {
                 for (int i = 0; i < list.getIndex(); i++) {
                     Article article = ((Article) list.getObjects(i));
                     Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
-                    if ( dateService.timeIntervalOfTwoDates(today,lastUpdate,"1year")) {
-                        filteredList.add(article);
-                    }
+                    checkDistance(distance, article, lastUpdate);
+
                 }
                 return filteredList;
             }
@@ -36,158 +36,37 @@ public class Filtering {
                 for (int i = 0; i < list.getIndex(); i++) {
                     Article article = ((Article) list.getObjects(i));
                     Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, creatDate, "1year")) {
-                        filteredList.add(article);
-                    }
+                    checkDistance(distance, article, creatDate);
+
                 }
                 return filteredList;
             }
         }
         return null;
     }
-    public List filterTo6Month(List list , String whichDate) {
 
-        switch (whichDate) {
-            case "published" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, publishedDate, "6month")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
+
+    private void checkDistance(int distance, Article article, Date date) {
+        if (distance == 365) {
+            if (dateService.timeIntervalOfTwoDates(today, date, "1year")) {
+                filteredList.add(article);
             }
-            case "lastUpdate" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, lastUpdate, "6month")){
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
+        } else if (distance == 180) {
+            if (dateService.timeIntervalOfTwoDates(today, date, "6month")) {
+                filteredList.add(article);
             }
-            case "created" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, creatDate, "6month")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
+        } else if (distance == 30) {
+            if (dateService.timeIntervalOfTwoDates(today, date, "1month")) {
+                filteredList.add(article);
+            }
+        } else if (distance == 7) {
+            if (dateService.timeIntervalOfTwoDates(today, date, "1week")) {
+                filteredList.add(article);
+            }
+        } else if (distance == 1) {
+            if (dateService.timeIntervalOfTwoDates(today, date, "24hour")) {
+                filteredList.add(article);
             }
         }
-        return null;
-    }
-    public List filterTo1Month(List list , String whichDate) {
-
-        switch (whichDate) {
-            case "published" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, publishedDate, "1month")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-            case "lastUpdate" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, lastUpdate, "1month")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-            case "created" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, creatDate, "1month")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-        }
-        return null;
-    }
-    public List filterTo1Week(List list , String whichDate) {
-
-        switch (whichDate) {
-            case "published" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, publishedDate, "1week")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-            case "lastUpdate" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, lastUpdate, "1week")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-            case "created" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
-
-                    if (dateService.timeIntervalOfTwoDates(today, creatDate, "1week")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-        }
-        return null;
-    }
-    public List filterTo24Hour(List list , String whichDate) {
-
-        switch (whichDate) {
-            case "published" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
-                    if ( dateService.timeIntervalOfTwoDates(today, publishedDate, "24hour")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-            case "lastUpdate" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, lastUpdate, "24hour")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-            case "created" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
-                    Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
-                    if (dateService.timeIntervalOfTwoDates(today, creatDate, "24hour")) {
-                        filteredList.add(article);
-                    }
-                }
-                return filteredList;
-            }
-        }
-        return null;
     }
 }
