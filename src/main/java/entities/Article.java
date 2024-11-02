@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 
 public class Article {
+    private Author author;
     private String title;
     private entities.Category category;
     private String content;
@@ -20,7 +21,7 @@ public class Article {
 
     public Article(String title, Category category, String content,
                    double id, List brief, String createDate,
-                   boolean isPublished, String lastUpdateDate, ArticleStatus status) {
+                   boolean isPublished, String lastUpdateDate, ArticleStatus status , Author author) {
         this.title = title;
         this.category = category;
         this.content = content;
@@ -29,6 +30,7 @@ public class Article {
         this.isPublished = isPublished;
         this.lastUpdateDate = lastUpdateDate;
         this.status = status;
+        this.author = author;
     }
     public Article(){
 

@@ -2,7 +2,6 @@ package service.Menu;
 
 import database.DataBase;
 import entities.Article;
-import entities.AuthorArticle;
 import entities.List;
 import entities.enums.ArticleStatus;
 import entities.enums.Role;
@@ -56,13 +55,13 @@ public class ModeratorMenu {
                 System.out.println("Enter an article name to remove or get publish :");
 
                 for (int i = 0; i < articlesToCheckForPublish.getIndex(); i++) {
-                    Article tempArticle =((AuthorArticle)articlesToCheckForPublish.getObjects(i)).getArticle();
+                    Article tempArticle =(Article)articlesToCheckForPublish.getObjects(i);
                     System.out.println(tempArticle.getTitle());
                 }
 
                 String title = scanner.nextLine() +scanner.nextLine();
-                if (articleService.findAuthorArticleByTitle(title, articlesToCheckForPublish) != null) {
-                    AuthorArticle chosenArticle = articleService.findAuthorArticleByTitle(title, articlesToCheckForPublish);
+                if (articleService.findArticleByTitle(title, articlesToCheckForPublish) != null) {
+                    Article chosenArticle = articleService.findArticleByTitle(title, articlesToCheckForPublish);
                     int index = articlesToCheckForPublish.getIndexOfObject(chosenArticle);
                     List articleList = chosenArticle.getAuthor().getThisUserArticlesList();
 

@@ -1,13 +1,9 @@
 package service;
 
 import entities.Article;
-import entities.AuthorArticle;
 import java.sql.Date;
 import java.time.LocalDate;
-
 import entities.List;
-
-import static service.DateService.todaysDateAsString;
 
 public class Filtering {
     DateService dateService = new DateService();
@@ -18,7 +14,7 @@ public class Filtering {
         switch (whichDate) {
             case "published" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today,publishedDate, "1year")) {
                         filteredList.add(article);
@@ -28,7 +24,7 @@ public class Filtering {
             }
             case "lastUpdate" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
                     if ( dateService.timeIntervalOfTwoDates(today,lastUpdate,"1year")) {
                         filteredList.add(article);
@@ -38,7 +34,7 @@ public class Filtering {
             }
             case "created" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, creatDate, "1year")) {
                         filteredList.add(article);
@@ -54,7 +50,7 @@ public class Filtering {
         switch (whichDate) {
             case "published" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, publishedDate, "6month")) {
                         filteredList.add(article);
@@ -64,7 +60,7 @@ public class Filtering {
             }
             case "lastUpdate" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, lastUpdate, "6month")){
                         filteredList.add(article);
@@ -74,7 +70,7 @@ public class Filtering {
             }
             case "created" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, creatDate, "6month")) {
                         filteredList.add(article);
@@ -90,7 +86,7 @@ public class Filtering {
         switch (whichDate) {
             case "published" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, publishedDate, "1month")) {
                         filteredList.add(article);
@@ -100,7 +96,7 @@ public class Filtering {
             }
             case "lastUpdate" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, lastUpdate, "1month")) {
                         filteredList.add(article);
@@ -110,7 +106,7 @@ public class Filtering {
             }
             case "created" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, creatDate, "1month")) {
                         filteredList.add(article);
@@ -126,7 +122,7 @@ public class Filtering {
         switch (whichDate) {
             case "published" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, publishedDate, "1week")) {
                         filteredList.add(article);
@@ -136,7 +132,7 @@ public class Filtering {
             }
             case "lastUpdate" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, lastUpdate, "1week")) {
                         filteredList.add(article);
@@ -146,7 +142,7 @@ public class Filtering {
             }
             case "created" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
 
                     if (dateService.timeIntervalOfTwoDates(today, creatDate, "1week")) {
@@ -163,7 +159,7 @@ public class Filtering {
         switch (whichDate) {
             case "published" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
                     if ( dateService.timeIntervalOfTwoDates(today, publishedDate, "24hour")) {
                         filteredList.add(article);
@@ -173,7 +169,7 @@ public class Filtering {
             }
             case "lastUpdate" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, lastUpdate, "24hour")) {
                         filteredList.add(article);
@@ -183,7 +179,7 @@ public class Filtering {
             }
             case "created" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((AuthorArticle) list.getObjects(i)).getArticle();
+                    Article article = ((Article) list.getObjects(i));
                     Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
                     if (dateService.timeIntervalOfTwoDates(today, creatDate, "24hour")) {
                         filteredList.add(article);

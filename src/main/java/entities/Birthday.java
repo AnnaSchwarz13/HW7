@@ -2,11 +2,9 @@ package entities;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Scanner;
 
 
 public class Birthday extends Date {
-    Scanner scanner = new Scanner(System.in);
     Date today = Date.valueOf(LocalDate.now());
     boolean isBirthdayValid;
     public Birthday(String date) {
@@ -19,14 +17,7 @@ public class Birthday extends Date {
         //for Gregorian calender
 
         if (!birthday.before(today)) {
-            System.out.println("Birthday = " + year + "-" + month + "-" + day);
-            System.out.println("\n is correct? \n 1.Yes! \n 2.Edit");
-            int toSetBirthday = scanner.nextInt();
-            if (toSetBirthday == 1) {
-                isBirthdayValid = true;
-            } else if (toSetBirthday == 2) {
-                isBirthdayValid = false;
-            }
+            System.out.println("Birthday : " + year + "-" + month + "-" + day);
         } else {
             System.out.println("Invalid birthday");
             isBirthdayValid = false;

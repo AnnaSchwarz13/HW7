@@ -3,6 +3,7 @@ package service;
 import database.DataBase;
 import entities.*;
 import entities.enums.ArticleStatus;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public class ArticleService {
         String date = todaysDateAsString();
         Article article = new Article(this.title, articleCategory, articleText,
                 rand.nextDouble(), brief, date, false,
-                date, ArticleStatus.NOT_PUBLISHED);
+                date, ArticleStatus.NOT_PUBLISHED, (Author) DataBase.loggedInUser);
 
         (loggedInAuthor.getThisUserArticlesList()).add(article);
     }
@@ -37,12 +38,8 @@ public class ArticleService {
             System.out.println("Please enter the title of the article's list \n for see more details: ");
 
             for (int i = 0; i < articles.getIndex(); ++i) {
-                Article tempArticle = new Article();
-                if (articles.getObjects(i) instanceof Article) {
-                    tempArticle = (Article) articles.getObjects(i);
-                } else if (articles.getObjects(i) instanceof AuthorArticle) {
-                    tempArticle = ((AuthorArticle) articles.getObjects(i)).getArticle();
-                }
+                Article tempArticle = (Article) articles.getObjects(i);
+
                 System.out.println(tempArticle.getTitle());
             }
 
@@ -50,11 +47,11 @@ public class ArticleService {
             Article userChoice = this.findArticleByTitle(this.title, articles);
             if (userChoice != null) {
                 System.out.println(userChoice);
+                System.out.print("Author: ");
+                System.out.println(userChoice.getAuthor().getFirstName() + "  " + userChoice.getAuthor().getLastName());
                 if (userChoice.isPublished()) {
                     System.out.println("publishedDate: " + userChoice.getPublishDate());
-                    Author author = getAuthorOfArticle(userChoice, DataBase.publishedArticles).getAuthor();
-                    System.out.print("Author: ");
-                    System.out.println(author.getFirstName() + "  " + author.getLastName());
+
                 }
             }
         }
@@ -96,24 +93,9 @@ public class ArticleService {
 
     public Article findArticleByTitle(String title, List articles) {
         for (int i = 0; i < articles.getIndex(); ++i) {
-            Article tempArticle = new Article();
-            if (articles.getObjects(i) instanceof Article) {
-                tempArticle = (Article) articles.getObjects(i);
-            } else if (articles.getObjects(i) instanceof AuthorArticle) {
-                tempArticle = ((AuthorArticle) articles.getObjects(i)).getArticle();
-            }
-            if (tempArticle.getTitle().equals(title)) {
-                return tempArticle;
-            }
-        }
-        System.out.println("That article does not exist");
-        return null;
-    }
+            Article tempArticle = (Article) articles.getObjects(i);
 
-    public AuthorArticle findAuthorArticleByTitle(String title, List authorArticles) {
-        for (int i = 0; i < authorArticles.getIndex(); i++) {
-            AuthorArticle tempArticle = (AuthorArticle) authorArticles.getObjects(i);
-            if (tempArticle.getArticle().getTitle().equals(title)) {
+            if (tempArticle.getTitle().equals(title)) {
                 return tempArticle;
             }
         }
@@ -191,13 +173,12 @@ public class ArticleService {
             System.out.println("Send request to get published article");
             choose = scanner.nextInt();
             if (choose == 1) {
-                AuthorArticle authorArticle = new AuthorArticle(choosenArticle, loggedInAuthor);
                 choosenArticle.setStatus(ArticleStatus.PENDING);
-                DataBase.articlesToCheckForPublish.add(authorArticle);
+                DataBase.articlesToCheckForPublish.add(choosenArticle);
                 choosenArticle.setLastUpdateDate(todaysDateAsString());
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
-            AuthorArticle ExsistedAuthorArticle = findAuthorArticleByTitle(choosenArticle.getTitle(), DataBase.publishedArticles);
+            Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), DataBase.publishedArticles);
             int index = DataBase.publishedArticles.getIndexOfObject(ExsistedAuthorArticle);
             System.out.println("Remove article from published articles");
             choose = scanner.nextInt();
@@ -208,7 +189,7 @@ public class ArticleService {
                 choosenArticle.setPublished(false);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PENDING) {
-            AuthorArticle ExsistedAuthorArticle = findAuthorArticleByTitle(choosenArticle.getTitle(), DataBase.articlesToCheckForPublish);
+            Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), DataBase.articlesToCheckForPublish);
             int index = DataBase.articlesToCheckForPublish.getIndexOfObject(ExsistedAuthorArticle);
 
             System.out.println("Cancel request to get published articles");
@@ -274,15 +255,6 @@ public class ArticleService {
             }
         }
 
-
     }
 
-    public AuthorArticle getAuthorOfArticle(Article article, List authorArticleList) {
-        for (int i = 0; i < authorArticleList.getIndex(); i++) {
-            if (((AuthorArticle) authorArticleList.getObjects(i)).getArticle().equals(article)) {
-                return (AuthorArticle) authorArticleList.getObjects(i);
-            }
-        }
-        return null;
-    }
 }

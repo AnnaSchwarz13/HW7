@@ -41,22 +41,19 @@ public class DataBase {
         userList.add(author1);
 
         Article article1 = new Article("first",c1,"1",1,tagList,
-                "2024-05-02",true,"2023-11-02", ArticleStatus.PUBLISHED);
+                "2024-05-02",true,"2023-11-02", ArticleStatus.PUBLISHED,author1);
         Article article2 = new Article("sec",c2,"1",1,tagList,
-                "2020-09-30",true,"2024-02-02", ArticleStatus.PUBLISHED);
+                "2020-09-30",true,"2024-02-02", ArticleStatus.PUBLISHED,author1);
         Article article3 = new Article("thi",c3,"1",1,tagList,
-                "2024-10-22",true,"2024-10-26", ArticleStatus.PUBLISHED);
+                "2024-10-22",true,"2024-10-26", ArticleStatus.PUBLISHED,author1);
 
         article1.setPublishDate("2024-05-02");
         article2.setPublishDate("2024-09-30");
         article3.setPublishDate("2023-10-30");
 
-        AuthorArticle authorArticle1= new AuthorArticle(article1,author1);
-        AuthorArticle authorArticle2= new AuthorArticle(article2,author1);
-        AuthorArticle authorArticle3= new AuthorArticle(article3,author1);
-        publishedArticles.add(authorArticle3);
-        publishedArticles.add(authorArticle2);
-        publishedArticles.add(authorArticle1);
+        publishedArticles.add(article1);
+        publishedArticles.add(article2);
+        publishedArticles.add(article3);
 
     }
 
