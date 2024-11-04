@@ -10,6 +10,7 @@ import java.util.Scanner;
 import static service.DateService.todaysDateAsString;
 
 
+
 public class ArticleService {
     private String title;
     Scanner sc = new Scanner(System.in);

@@ -8,11 +8,11 @@ public class Birthday extends Date {
     Date today = Date.valueOf(LocalDate.now());
     boolean isBirthdayValid;
     public Birthday(String date) {
-
+        super(Integer.parseInt(date.substring(0, 4)),Integer.parseInt(date.substring(5, 7)) , Integer.parseInt(date.substring(8, 10)));
         int year = Integer.parseInt(date.substring(0, 4));
         int month = Integer.parseInt(date.substring(5, 7));
         int day = Integer.parseInt(date.substring(8, 10));
-        super(year, month, day);
+
         Date birthday = new Date(year, month, day);
         //for Gregorian calender
 

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<new:project xmlns:new="http://maven.apache.org/POM/4.0.0"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <new:modelVersion>4.0.0</new:modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>Upgrated Article System</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <new:groupId>org.example</new:groupId>
+    <new:artifactId>Upgraded Article System</new:artifactId>
+    <new:version>1.0-SNAPSHOT</new:version>
 
-    <properties>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
-            <scope>provided</scope>
-        </dependency>
+    <new:properties>
+        <new:maven.compiler.source>22</new:maven.compiler.source>
+        <new:maven.compiler.target>22</new:maven.compiler.target>
+        <new:project.build.sourceEncoding>UTF-8</new:project.build.sourceEncoding>
+    </new:properties>
+    <new:dependencies>
+        <new:dependency>
+            <new:groupId>org.projectlombok</new:groupId>
+            <new:artifactId>lombok</new:artifactId>
+            <new:version>1.18.30</new:version>
+            <new:scope>provided</new:scope>
+        </new:dependency>
 
-    </dependencies>
-</project>
+    </new:dependencies>
+</new:project>
