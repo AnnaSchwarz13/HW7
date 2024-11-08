@@ -1,9 +1,17 @@
 package service;
-import entities.*;
+
+
+import entities.Article;
+import entities.Author;
+import entities.Category;
+import entities.Tag;
 import entities.enums.ArticleStatus;
 import repository.Imp.ArticleRepositoryImp;
+import repository.Imp.TagRepositoryImp;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -27,22 +35,20 @@ public class ArticleService {
         this.title = sc.nextLine();
         System.out.println("Enter article text: ");
         String articleText = sc.nextLine();
-        List brief = tagService.;
+        List<Tag> brief = tagService.setArticleTags();
         String date = todaysDateAsString();
         Article article = new Article();
 
         (loggedInAuthor.getThisUserArticlesList()).add(article);
     }
 
-    public void showAnArticleList(List articles) {
-        if (articles.getIndex() == 0) {
+    public void showAnArticleList(List<Article> articles) {
+        if (articles.isEmpty()) {
             System.out.println("there is no article");
         } else {
             System.out.println("Please enter the title of the article's list \n for see more details: ");
 
-            for (int i = 0; i < articles.getIndex(); ++i) {
-                Article tempArticle = (Article) articles.getObjects(i);
-
+            for (Article tempArticle : articles) {
                 System.out.println(tempArticle.getTitle());
             }
 
@@ -62,7 +68,7 @@ public class ArticleService {
     }
 
     public Article findArticleByTitle(String title, List<Article> articles) {
-        for (Article tempArticle:articles) {
+        for (Article tempArticle : articles) {
             if (tempArticle.getTitle().equals(title)) {
                 return tempArticle;
             }
@@ -72,7 +78,7 @@ public class ArticleService {
     }
 
 
-    public void changeArticleStatus(Article choosenArticle) {
+    public void changeArticleStatus(Article choosenArticle) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("The selected article status is " + choosenArticle.getStatus());
         System.out.println("If you dont want to change the status of this article, please enter -1");
@@ -82,19 +88,14 @@ public class ArticleService {
             System.out.println("Send request to get published article");
             choose = scanner.nextInt();
             if (choose == 1) {
-                choosenArticle.setStatus(ArticleStatus.PENDING);
-                pendingArticles.add(choosenArticle);
-                choosenArticle.setLastUpdateDate(todaysDateAsString());
+                ArticleRepositoryImp.updateStatusPending(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
             Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), publishedArticles);
             System.out.println("Remove article from published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
-                choosenArticle.setStatus(ArticleStatus.NOT_PUBLISHED);
-                publishedArticles.removeObject(index);
-                choosenArticle.setLastUpdateDate(todaysDateAsString());
-                choosenArticle.setPublished(false);
+                ArticleRepositoryImp.updateStatusNotPublished(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PENDING) {
             Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), pendingArticles);
@@ -102,9 +103,7 @@ public class ArticleService {
             System.out.println("Cancel request to get published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
-                choosenArticle.setStatus(ArticleStatus.NOT_PUBLISHED);
-                pendingArticles.removeObject(index);
-                choosenArticle.setLastUpdateDate(todaysDateAsString());
+                ArticleRepositoryImp.updateStatusNotPublished(choosenArticle);
             }
         }
         System.out.println("The selected article status is " + choosenArticle.getStatus());
@@ -124,39 +123,38 @@ public class ArticleService {
             System.out.println("Please enter the new title:");
             String newTitle = sc.nextLine() + sc.nextLine();
             choosenArticle.setTitle(newTitle);
-            choosenArticle.setLastUpdateDate(todaysDateAsString());
+            choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
         } else if (choose == 2) {
             Category newCategory = categoryService.chooseCategory();
             choosenArticle.setCategory(newCategory);
-            choosenArticle.setLastUpdateDate(todaysDateAsString());
+            choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
         } else if (choose == 3) {
             System.out.println("Please enter the new content:");
             String newText = sc.nextLine() + sc.nextLine();
             choosenArticle.setContent(newText);
-            choosenArticle.setLastUpdateDate(todaysDateAsString());
+            choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
         } else if (choose == 4) {
             System.out.println("Your articles tag are there");
-            for (int i = 0; i < choosenArticle.getBrief().getIndex(); i++) {
-                System.out.println(((Tag) choosenArticle.getBrief().getObjects(i)).getTitle());
+            for (Tag tag :choosenArticle.getBrief()) {
+                System.out.println(tag.getTitle());
             }
             System.out.println("for add more enter 1 \n for remove one enter -1");
             int choose2 = sc.nextInt();
             if (choose2 == 1) {
-                List newTagsToAdd =tagService.setArticleTags();
-                for (int i = 0; i < newTagsToAdd.getIndex(); i++) {
-                    choosenArticle.getBrief().add(newTagsToAdd.getObjects(i));
-                    choosenArticle.setLastUpdateDate(todaysDateAsString());
+                List<Tag> newTagsToAdd = tagService.setArticleTags();
+                for (Tag tag : newTagsToAdd) {
+                    choosenArticle.getBrief().add(tag);
+                    choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
                 }
             }
             if (choose2 == -1) {
                 System.out.println("Please enter a tag name to remove");
                 String tagName = sc.nextLine() + sc.nextLine();
-                if (findTagByTitle(tagName) == null) {
+                if (TagRepositoryImp.findTagByTile(tagName) == null) {
                     System.out.println("That tag does not exist");
                 } else {
-                    int index = choosenArticle.getBrief().getIndex();
-                    choosenArticle.getBrief().removeObject(index);
-                    choosenArticle.setLastUpdateDate(todaysDateAsString());
+                    choosenArticle.getBrief().remove(TagRepositoryImp.findTagByTile(tagName));
+                    choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
                 }
 
             }

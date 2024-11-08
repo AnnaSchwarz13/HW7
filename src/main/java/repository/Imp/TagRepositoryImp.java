@@ -99,7 +99,7 @@ public class TagRepositoryImp implements TagRepository {
 
     }
 
-    public Tag findTagByTile(String title) throws SQLException {
+    public static Tag findTagByTile(String title) throws SQLException {
         try (var statement = ds.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();

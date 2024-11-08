@@ -11,13 +11,12 @@ import java.util.List;
 public class Filtering {
     DateService dateService = new DateService();
     Date today = Date.valueOf(LocalDate.now());
-    List filteredList = new LinkedList();
+    List<Article> filteredList = new LinkedList<>();
 
-    public List filter(List list, String whichDate, int distance) {
+    public List<Article> filter(List<Article> list, String whichDate, int distance) {
         switch (whichDate) {
             case "published" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
+                for (Article article : list) {
                     Date publishedDate = (Date) article.getPublishDate();
                     checkDistance(distance, article, publishedDate);
 
@@ -25,8 +24,7 @@ public class Filtering {
                 return filteredList;
             }
             case "lastUpdate" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
+                for (Article article : list) {
                     Date lastUpdate = (Date) article.getLastUpdateDate();
                     checkDistance(distance, article, lastUpdate);
 
@@ -34,8 +32,7 @@ public class Filtering {
                 return filteredList;
             }
             case "created" -> {
-                for (int i = 0; i < list.getIndex(); i++) {
-                    Article article = ((Article) list.getObjects(i));
+                for (Article article : list) {
                     Date creatDate = (Date) article.getCreateDate();
                     checkDistance(distance, article, creatDate);
 

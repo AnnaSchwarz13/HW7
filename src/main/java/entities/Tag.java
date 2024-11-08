@@ -9,6 +9,9 @@ public class Tag {
     public Tag(long id,String title) {
         this.title = title;
     }
+    public Tag(String title) {
+        this.title = title;
+    }
 
     @Override
     public String toString() {

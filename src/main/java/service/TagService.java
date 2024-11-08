@@ -11,11 +11,10 @@ public class TagService {
     Scanner sc = new Scanner(System.in);
     List<Tag> tagList = TagRepositoryImp.all();
 
-    protected List setArticleTags() {
+    protected List<Tag> setArticleTags() {
         List<Tag> tags = new ArrayList<>();
         System.out.println("Please enter the tags of the article: \n at the end enter -1");
-        for (int i = 0; i < tagList.getIndex(); i++) {
-            Tag tag = tagList.getObjects(i);
+        for (Tag tag : tagList) {
             System.out.println(tag.getTitle());
         }
         System.out.println("For add a tag enter 1");
@@ -33,8 +32,7 @@ public class TagService {
                     Tag newTag = new Tag(newTagName);
                     tagList.add(newTag);
                     System.out.println("New tags are there please choose a tag: \n at the end enter -1");
-                    for (int j = 0; j < tagList.getIndex(); j++) {
-                        Tag tag = (Tag) tagList.getObjects(j);
+                    for (Tag tag : tagList) {
                         System.out.println(tag.getTitle());
                     }
                     System.out.println("For add a tag enter 1");
@@ -51,10 +49,9 @@ public class TagService {
     }
 
     private Tag findTagByTitle(String title) {
-        for (int i = 0; i < tagList.getIndex(); ++i) {
-            Tag tempTag = (Tag) tagList.getObjects(i);
-            if (tempTag.getTitle().equals(title)) {
-                return tempTag;
+        for (Tag tag : tagList) {
+            if (tag.getTitle().equals(title)) {
+                return tag;
             }
         }
         System.out.println("That tag does not exist");

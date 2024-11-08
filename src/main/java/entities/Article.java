@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,12 +16,12 @@ public class Article {
     private String title;
     private entities.Category category;
     private String content;
-    private entities.List brief;
     private Date createDate;
     boolean isPublished;
     private Date lastUpdateDate;
     private Date publishDate;
     private ArticleStatus status;
+    private List<Tag> brief ;
 
     public Article(long id,String title,  String content,Category category,
                      Date createDate, boolean isPublished,

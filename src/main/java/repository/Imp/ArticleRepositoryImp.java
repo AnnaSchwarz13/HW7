@@ -9,6 +9,7 @@ import repository.ArticleRepository;
 
 import javax.sql.DataSource;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -166,14 +167,25 @@ public class ArticleRepositoryImp implements ArticleRepository {
         try (var statement = ds.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "article_status");
             statement.setString(2, "NOT_PUBLISHED");
-            statement.setString(3, "published_date");
-            statement.setDate(4, null);
-            statement.setString(5, "last_updated_date");
-            statement.setDate(6, Date.valueOf(LocalDate.now()));
-            statement.setString(7, "is_published");
-            statement.setBoolean(8, false);
-            statement.setLong(9, article.getId());
+            ChangStatus(article, statement);
         }
+    }
+    static public void updateStatusPending(Article article) throws SQLException {
+        try (var statement = ds.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
+            statement.setString(1, "article_status");
+            statement.setString(2, "PENDING");
+            ChangStatus(article, statement);
+        }
+    }
+
+    private static void ChangStatus(Article article, PreparedStatement statement) throws SQLException {
+        statement.setString(3, "published_date");
+        statement.setDate(4, null);
+        statement.setString(5, "last_updated_date");
+        statement.setDate(6, Date.valueOf(LocalDate.now()));
+        statement.setString(7, "is_published");
+        statement.setBoolean(8, false);
+        statement.setLong(9, article.getId());
     }
 
 
