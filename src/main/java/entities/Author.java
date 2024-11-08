@@ -24,7 +24,7 @@ public class Author extends User{
         this.lastName = lastName;
         this.nationalCode = nationalCode;
         this.birthDate = birthday;
-        this.thisUserArticlesList = new ArrayList<Article>();
+        this.thisUserArticlesList = new ArrayList<>();
     }
 
 }

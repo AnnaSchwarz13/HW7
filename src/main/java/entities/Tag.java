@@ -2,9 +2,8 @@ package entities;
 
 import lombok.Getter;
 
-
+@Getter
 public class Tag {
-    @Getter
     private final String title;
 
     public Tag(long id,String title) {

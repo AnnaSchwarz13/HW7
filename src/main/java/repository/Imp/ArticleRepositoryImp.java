@@ -147,7 +147,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
     }
 
-    static public Article updateStatusPublished(Article article) throws SQLException {
+    static public void updateStatusPublished(Article article) throws SQLException {
         try (var statement = ds.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "article_status");
             statement.setString(2, "PUBLISHED");
@@ -160,10 +160,9 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.setLong(9, article.getId());
         }
 
-        return article;
     }
 
-    static public Article updateStatusNotPublished(Article article) throws SQLException {
+    static public void updateStatusNotPublished(Article article) throws SQLException {
         try (var statement = ds.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "article_status");
             statement.setString(2, "NOT_PUBLISHED");
@@ -175,7 +174,6 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.setBoolean(8, false);
             statement.setLong(9, article.getId());
         }
-        return article;
     }
 
 
