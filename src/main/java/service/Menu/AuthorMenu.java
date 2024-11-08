@@ -160,7 +160,7 @@ public class AuthorMenu {
 
     public static void articleSiteMenu(int option) throws SQLException {
         Author loggedInAuthor = (Author) loggedInUser;
-        List articlesList = loggedInAuthor.getThisUserArticlesList();
+        List<Article> articlesList = loggedInAuthor.getThisUserArticlesList();
         Scanner scanner = new Scanner(System.in);
         ArticleService articleService = new ArticleService();
         AuthorService authorService = new AuthorService();
@@ -169,13 +169,12 @@ public class AuthorMenu {
         } else if (option == 2) {
             articleService.showAnArticleList(articlesList);
         } else if (option == 3) {
-            if (articlesList.getIndex() == 0) {
+            if (articlesList.isEmpty()) {
                 System.out.println("there is no article");
             } else {
                 System.out.println("Please enter the title of the article's list \n for see more details: ");
 
-                for (int i = 0; i < articlesList.getIndex(); ++i) {
-                    Article tempArticle = (Article) articlesList.getObjects(i);
+                for (Article tempArticle: articlesList) {
                     System.out.println(tempArticle.getTitle());
                 }
                 String title = scanner.nextLine();

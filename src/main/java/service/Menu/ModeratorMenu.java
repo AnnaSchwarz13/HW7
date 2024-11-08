@@ -1,26 +1,27 @@
 package service.Menu;
 
 import entities.Article;
-import entities.enums.ArticleStatus;
 import entities.enums.Role;
+import repository.ArticleRepository;
 import repository.Imp.ArticleRepositoryImp;
 import service.ArticleService;
 import service.UserService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import static service.DateService.todaysDateAsString;
 import static service.UserService.loggedInUser;
 
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
     UserService userService = new UserService();
     ArticleService articleService = new ArticleService();
+    ArticleRepository articleRepository = new ArticleRepositoryImp();
    static List<Article> publishedArticles = ArticleRepositoryImp.allPublished();
    static List<Article> pendingArticles = ArticleRepositoryImp.allPending();
 
-    public ModeratorMenu() {
+    public ModeratorMenu() throws SQLException {
         if (loggedInUser == null) {
             String username;
             String password;
@@ -31,7 +32,7 @@ public class ModeratorMenu {
             userService.userLogin(username, password , Role.MODERATOR);
         }
         while (loggedInUser!=null) {
-            if (pendingArticles.getIndex() > 0) {
+            if (!pendingArticles.isEmpty()) {
                 System.out.println("There is new articles to check for publish!!");
             }
             System.out.println("\n\nDear Moderator please choose a option from the menu : ");
@@ -43,9 +44,9 @@ public class ModeratorMenu {
     }
 
 
-    private void moderatorMenu(int option) {
+    private void moderatorMenu(int option) throws SQLException {
         if (option == 1) {
-            if (pendingArticles.getIndex() > 0) {
+            if (!pendingArticles.isEmpty()) {
                 while (true) {
                     articleService.showAnArticleList(pendingArticles);
                     System.out.println("If you dont wanna see more please enter -1 else 1");
@@ -56,30 +57,25 @@ public class ModeratorMenu {
                 }
                 System.out.println("Enter an article name to remove or get publish :");
 
-                for (int i = 0; i < pendingArticles.getIndex(); i++) {
-                    Article tempArticle =(Article)pendingArticles.getObjects(i);
+                for (Article tempArticle :pendingArticles) {
                     System.out.println(tempArticle.getTitle());
                 }
 
                 String title = scanner.nextLine() +scanner.nextLine();
                 if (articleService.findArticleByTitle(title, pendingArticles) != null) {
                     Article chosenArticle = articleService.findArticleByTitle(title, pendingArticles);
-                    int index = pendingArticles.getIndexOfObject(chosenArticle);
-                    List articleList = chosenArticle.getAuthor().getThisUserArticlesList();
+                    List<Article> articleList = chosenArticle.getAuthor().getThisUserArticlesList();
 
                     System.out.println("1. Accept and publish");
                     System.out.println("2. Reject and remove");
                     int option1 = scanner.nextInt();
                     if (option1 == 1) {
-                        pendingArticles.removeObject(index);
+                        pendingArticles.remove(chosenArticle);
                         publishedArticles.add(chosenArticle);
-                        articleService.findArticleByTitle(title, articleList).setPublished(true);
-                        articleService.findArticleByTitle(title, articleList).setPublishDate(todaysDateAsString());
-                        articleService.findArticleByTitle(title, articleList).setStatus(ArticleStatus.PUBLISHED);
+                        ArticleRepositoryImp.updateStatusPublished(chosenArticle);
                     } else if (option1 == 2) {
-                        pendingArticles.removeObject(index);
-                        articleService.findArticleByTitle(title, articleList).setPublished(false);
-                        articleService.findArticleByTitle(title, articleList).setStatus(ArticleStatus.NOT_PUBLISHED);
+                        pendingArticles.remove(chosenArticle);
+                       ArticleRepositoryImp.updateStatusNotPublished(chosenArticle);
                     }
                 }
             } else {

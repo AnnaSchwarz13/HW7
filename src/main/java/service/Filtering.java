@@ -5,19 +5,20 @@ import entities.Article;
 import java.sql.Date;
 import java.time.LocalDate;
 
-import entities.List;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Filtering {
     DateService dateService = new DateService();
     Date today = Date.valueOf(LocalDate.now());
-    List filteredList = new List();
+    List filteredList = new LinkedList();
 
     public List filter(List list, String whichDate, int distance) {
         switch (whichDate) {
             case "published" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
                     Article article = ((Article) list.getObjects(i));
-                    Date publishedDate = Date.valueOf(article.getPublishDate().substring(0, 10));
+                    Date publishedDate = (Date) article.getPublishDate();
                     checkDistance(distance, article, publishedDate);
 
                 }
@@ -26,7 +27,7 @@ public class Filtering {
             case "lastUpdate" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
                     Article article = ((Article) list.getObjects(i));
-                    Date lastUpdate = Date.valueOf(article.getLastUpdateDate().substring(0, 10));
+                    Date lastUpdate = (Date) article.getLastUpdateDate();
                     checkDistance(distance, article, lastUpdate);
 
                 }
@@ -35,7 +36,7 @@ public class Filtering {
             case "created" -> {
                 for (int i = 0; i < list.getIndex(); i++) {
                     Article article = ((Article) list.getObjects(i));
-                    Date creatDate = Date.valueOf(article.getCreateDate().substring(0, 10));
+                    Date creatDate = (Date) article.getCreateDate();
                     checkDistance(distance, article, creatDate);
 
                 }

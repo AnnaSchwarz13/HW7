@@ -27,11 +27,7 @@ public class UserRepositoryImp implements UserRepository {
             SELECT * FROM Users
             WHERE id = ?
             """;
-    private static final String UPDATE_SQL = """
-            UPDATE Users
-            SET ? = ?
-            where id = ?
-            """;
+
     public static final String READ_ALL_SQL = """
             SELECT * FROM Users
             """;

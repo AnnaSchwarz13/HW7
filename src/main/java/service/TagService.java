@@ -9,11 +9,12 @@ import java.util.Scanner;
 
 public class TagService {
     Scanner sc = new Scanner(System.in);
-    List<Tag> tagList = TagRepositoryImp.all() ;
-    private List setArticleTags() {
+    List<Tag> tagList = TagRepositoryImp.all();
+
+    protected List setArticleTags() {
         List<Tag> tags = new ArrayList<>();
         System.out.println("Please enter the tags of the article: \n at the end enter -1");
-        for (int i = 0; i <tagList.getIndex(); i++) {
+        for (int i = 0; i < tagList.getIndex(); i++) {
             Tag tag = tagList.getObjects(i);
             System.out.println(tag.getTitle());
         }
@@ -32,7 +33,7 @@ public class TagService {
                     Tag newTag = new Tag(newTagName);
                     tagList.add(newTag);
                     System.out.println("New tags are there please choose a tag: \n at the end enter -1");
-                    for (int j = 0; j <tagList.getIndex(); j++) {
+                    for (int j = 0; j < tagList.getIndex(); j++) {
                         Tag tag = (Tag) tagList.getObjects(j);
                         System.out.println(tag.getTitle());
                     }

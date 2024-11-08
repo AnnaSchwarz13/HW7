@@ -13,6 +13,7 @@ import static service.DateService.todaysDateAsString;
 
 public class ArticleService {
     CategoryService categoryService = new CategoryService();
+    TagService tagService = new TagService();
     private String title;
     Scanner sc = new Scanner(System.in);
     Random rand = new Random();
@@ -26,7 +27,7 @@ public class ArticleService {
         this.title = sc.nextLine();
         System.out.println("Enter article text: ");
         String articleText = sc.nextLine();
-        List brief = setArticleTags();
+        List brief = tagService.;
         String date = todaysDateAsString();
         Article article = new Article();
 
@@ -60,10 +61,8 @@ public class ArticleService {
 
     }
 
-    public Article findArticleByTitle(String title, List articles) {
-        for (int i = 0; i < articles.getIndex(); ++i) {
-            Article tempArticle = (Article) articles.getObjects(i);
-
+    public Article findArticleByTitle(String title, List<Article> articles) {
+        for (Article tempArticle:articles) {
             if (tempArticle.getTitle().equals(title)) {
                 return tempArticle;
             }
@@ -143,7 +142,7 @@ public class ArticleService {
             System.out.println("for add more enter 1 \n for remove one enter -1");
             int choose2 = sc.nextInt();
             if (choose2 == 1) {
-                List newTagsToAdd = setArticleTags();
+                List newTagsToAdd =tagService.setArticleTags();
                 for (int i = 0; i < newTagsToAdd.getIndex(); i++) {
                     choosenArticle.getBrief().add(newTagsToAdd.getObjects(i));
                     choosenArticle.setLastUpdateDate(todaysDateAsString());

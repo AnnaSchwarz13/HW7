@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import entities.enums.Role;
 import lombok.Getter;
 import service.UserService;
@@ -10,7 +12,7 @@ import java.util.Date;
 public class Author extends User{
     private final String firstName;
     private final String lastName;
-    private final List thisUserArticlesList;
+    private final List<Article> thisUserArticlesList;
     private final String nationalCode;
     private final Date birthDate;
     private int id;
@@ -21,8 +23,8 @@ public class Author extends User{
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalCode = nationalCode;
-        this.thisUserArticlesList = new List();
         this.birthDate = birthday;
+        this.thisUserArticlesList = new ArrayList<Article>();
     }
 
 }
