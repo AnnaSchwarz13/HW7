@@ -1,18 +1,19 @@
 package service;
 
-import database.DataBase;
 import entities.Author;
+import repository.Imp.AuthorRepositoryImp;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 public class AuthorService extends UserService{
-
+AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
 
     public void userSignup(String firstName, String lastName, String username,
-                           String password, String nationalCode, Date birthday) {
+                           String password, String nationalCode, Date birthday) throws SQLException {
         
         Author signingAuthor = new Author(firstName, lastName, username, password, nationalCode, birthday);
-        DataBase.userList.add(signingAuthor);
+        authorRepositoryImp.create(signingAuthor);
         System.out.println("Author signed up successfully");
     }
 

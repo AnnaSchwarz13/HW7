@@ -2,9 +2,10 @@ import database.DataBase;
 import service.Menu.AuthorMenu;
 import service.Menu.ModeratorMenu;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
-public static void main() {
+public static void main() throws SQLException {
 
     DataBase db = new DataBase();
 

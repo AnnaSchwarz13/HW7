@@ -10,6 +10,7 @@ import service.AuthorService;
 import service.Filtering;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 import static service.UserService.loggedInUser;
@@ -19,7 +20,7 @@ public class AuthorMenu {
     Scanner scanner = new Scanner(System.in);
 
 
-    public AuthorMenu() {
+    public AuthorMenu() throws SQLException {
         int userInput;
         while (loggedInUser == null) {
             System.out.println("\n\nDear user please choose a option from the menu : ");
@@ -53,7 +54,7 @@ public class AuthorMenu {
     }
 
 
-    public static void userLoginMenu(int option) {
+    public static void userLoginMenu(int option) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         AuthorService authorService = new AuthorService();
         ArticleService articleService = new ArticleService();

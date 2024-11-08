@@ -1,11 +1,12 @@
 package service;
 
 import entities.User;
-import database.DataBase;
 import entities.enums.Role;
+import repository.Imp.UserRepositoryImp;
 
 public class AuthenticationService {
-    public AuthenticationService() {
+
+    private AuthenticationService() {
     }
 
     public static void setLoggedUser(User user) {
@@ -27,8 +28,7 @@ public class AuthenticationService {
         return UserService.loggedInUser;
     }
     public static boolean isUserNameNew(String username , Role role) {
-        for(int i = 0; i< DataBase.userList.getIndex(); i++) {
-            User checkingUser =(User) DataBase.userList.getObjects(i);
+        for(User checkingUser : UserRepositoryImp.all()) {
             if (checkingUser.getUsername().equals(username)) {
                 if(checkingUser.getRole().equals(role)) {
                     return false;
