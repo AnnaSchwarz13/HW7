@@ -43,7 +43,7 @@ public class UserRepositoryImp implements UserRepository {
         statement.setString(2, user.getPassword());
         statement.setString(3, valueOf(user.getRole()));
 
-        statement.execute();
+        statement.executeUpdate();
         statement.close();
         return user;
     }
@@ -99,6 +99,7 @@ public class UserRepositoryImp implements UserRepository {
     }
     static public long findByUsername(String username) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_ID_BY_USERNAME_SQL)){
+            statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             long userId = 0;
             if (resultSet.next()) {

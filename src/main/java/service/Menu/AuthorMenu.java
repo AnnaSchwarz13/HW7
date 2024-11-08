@@ -36,7 +36,7 @@ public class AuthorMenu {
         }
 
         if (loggedInUser != null) {
-            System.out.println("Good Day Dear " + ((Author) loggedInUser).getFirstName() + "!");
+            System.out.println("Good Day Dear " + (loggedInUser).getUsername() + "!");
         }
         while (loggedInUser != null) {
 
@@ -203,7 +203,7 @@ public class AuthorMenu {
 
         } else if (option == 5) {
 
-            System.out.println("Goodbye Dear " + ((Author) loggedInUser).getFirstName() + "!");
+            System.out.println("Goodbye Dear " + (loggedInUser).getUsername() + "!");
             authorService.userLogout();
 
         }

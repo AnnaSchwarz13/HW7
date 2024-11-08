@@ -39,7 +39,7 @@ public class TagRepositoryImp implements TagRepository {
     public Tag create(Tag tag) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(INSERT_SQL)) {
             statement.setString(1, tag.getTitle());
-
+            statement.executeUpdate();
             return tag;
         }
     }

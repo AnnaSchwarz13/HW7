@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import entities.enums.Role;
 import lombok.Getter;
-import service.UserService;
 
 import java.util.Date;
 

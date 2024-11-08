@@ -42,7 +42,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
         try (var statement = Datasource.getConnection().prepareStatement(INSERT_SQL)) {
             statement.setString(1, category.getTitle());
             statement.setString(2, category.getDescription());
-
+            statement.executeUpdate();
             return category;
         }
     }

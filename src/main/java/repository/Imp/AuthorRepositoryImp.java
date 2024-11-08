@@ -4,7 +4,6 @@ import entities.Author;
 import entities.User;
 import repository.AuthorRepository;
 import repository.Datasource;
-import service.UserService;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -14,8 +13,8 @@ public class AuthorRepositoryImp implements AuthorRepository {
 
     UserRepositoryImp userRepo = new UserRepositoryImp();
     private static final String INSERT_SQL = """
-            INSERT INTO Authors(firstname, lastname, birthday , national_cod, user_id)
-                    VALUES (?, ?, ,? ,? ,?)
+            INSERT INTO Authors(firstname, lastname, birthday , national_code, user_id)
+                    VALUES (?, ?, ? ,? ,?)
             """;
 
     private static final String DELETE_BY_ID_SQL = """
@@ -42,6 +41,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
             statement.setString(4, author.getNationalCode());
             long userId = UserRepositoryImp.findByUsername(author.getUsername());
             statement.setLong(5, userId);
+
             statement.executeUpdate();
 
             return author;
