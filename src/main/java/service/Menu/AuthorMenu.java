@@ -2,7 +2,6 @@ package service.Menu;
 
 import entities.Article;
 import entities.Author;
-import entities.Birthday;
 import entities.List;
 import entities.enums.Role;
 import service.ArticleService;
@@ -10,8 +9,11 @@ import service.AuthenticationService;
 import service.AuthorService;
 import service.Filtering;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Scanner;
-
+import java.sql.Date;
+import java.time.LocalDate;
 import static database.DataBase.loggedInUser;
 import static database.DataBase.publishedArticles;
 
@@ -70,13 +72,11 @@ public class AuthorMenu {
                     System.out.println("Enter your national code: ");
                     String nationalCode = scanner.next();
                     boolean forGetACorrectBirth = false;
-                    while (!forGetACorrectBirth) {
+                    while (true) {
                         System.out.println("Enter your birthday like example:\nexample: 1995-12-3 ");
-                        String date = scanner.next();
-                        Birthday birthdaySet = new Birthday(date);
-                        forGetACorrectBirth = birthdaySet.isBirthdayValid();
-                        if (birthdaySet.isBirthdayValid()) {
-                            authorService.userSignup(firstName, lastName, username, nationalCode, nationalCode, birthdaySet);
+                        Date date = Date.valueOf(scanner.next());
+                        if (!date.before(Date.valueOf(LocalDate.now()))) {
+                            authorService.userSignup(firstName, lastName, username, nationalCode, nationalCode, date);
                             break;
                         }
                     }

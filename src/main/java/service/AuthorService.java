@@ -2,13 +2,14 @@ package service;
 
 import database.DataBase;
 import entities.Author;
-import entities.Birthday;
+
+import java.sql.Date;
 
 public class AuthorService extends UserService{
 
 
     public void userSignup(String firstName, String lastName, String username,
-                           String password, String nationalCode, Birthday birthday) {
+                           String password, String nationalCode, Date birthday) {
         
         Author signingAuthor = new Author(firstName, lastName, username, password, nationalCode, birthday);
         DataBase.userList.add(signingAuthor);
