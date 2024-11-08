@@ -4,33 +4,36 @@ import entities.enums.ArticleStatus;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 
 public class Article {
+    private Long id;
     private Author author;
     private String title;
     private entities.Category category;
     private String content;
     private entities.List brief;
-    private String createDate;
+    private Date createDate;
     boolean isPublished;
-    private String lastUpdateDate;
-    private String publishDate;
+    private Date lastUpdateDate;
+    private Date publishDate;
     private ArticleStatus status;
 
-    public Article(String title, Category category, String content,
-                   double id, List brief, String createDate,
-                   boolean isPublished, String lastUpdateDate, ArticleStatus status , Author author) {
+    public Article(Long id,String title,  String content,Category category,
+                     Date createDate, boolean isPublished,
+                   Date lastUpdateDate, ArticleStatus status , Author author) {
         this.title = title;
         this.category = category;
         this.content = content;
-        this.brief = brief;
         this.createDate = createDate;
         this.isPublished = isPublished;
         this.lastUpdateDate = lastUpdateDate;
         this.status = status;
         this.author = author;
+        this.id = id;
     }
     public Article(){
 

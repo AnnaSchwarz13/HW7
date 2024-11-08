@@ -3,17 +3,16 @@ package entities;
 import lombok.Getter;
 
 import java.util.Random;
-
+@Getter
 public class Category {
-    @Getter
     private final String title;
-    @Getter
     private final String description;
+    private final Double id;
     Random rand = new Random();
-    public Category( String title, String description) {
+    public Category( Double id,String title, String description) {
         this.title = title;
         this.description = description;
-        double id = rand.nextDouble();
+        this.id = id;
     }
 
 }

@@ -2,5 +2,9 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main/java/database/DataBase.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/repository/Imp/ArticleRepositoryImp.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/repository/Imp/AuthorRepositoryImp.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/repository/Imp/CategoryRepositoryImp.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/repository/Imp/UserRepositoryImp.java" dialect="GenericSQL" />
   </component>
 </project>

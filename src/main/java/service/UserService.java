@@ -3,9 +3,11 @@ package service;
 import database.DataBase;
 import entities.User;
 import entities.enums.Role;
+import repository.Imp.UserRepositoryImp;
 
 public class UserService {
 
+    UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
     public void userLogin(String username, String password , Role role) {
         for(int i = 0; i< DataBase.userList.getIndex(); i++){
             User checkingUser =(User) DataBase.userList.getObjects(i);

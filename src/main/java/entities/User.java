@@ -5,6 +5,7 @@ import entities.enums.Role;
 import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
+import service.UserService;
 
 @Getter
 @Setter
@@ -15,11 +16,13 @@ public class User {
     String password;
     Role role;
     double id;
+    UserService userService;
 
-    public User(String username, String password, Role role) {
+    public User(Double id,String username, String password, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
-        id = rand.nextDouble();
+        this.id = id;
     }
+
 }
