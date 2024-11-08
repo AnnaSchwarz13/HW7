@@ -10,7 +10,7 @@ import java.util.Date;
 @Setter
 
 public class Article {
-    private Long id;
+    private long id;
     private Author author;
     private String title;
     private entities.Category category;
@@ -22,7 +22,7 @@ public class Article {
     private Date publishDate;
     private ArticleStatus status;
 
-    public Article(Long id,String title,  String content,Category category,
+    public Article(long id,String title,  String content,Category category,
                      Date createDate, boolean isPublished,
                    Date lastUpdateDate, ArticleStatus status , Author author) {
         this.title = title;

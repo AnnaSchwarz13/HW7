@@ -57,39 +57,6 @@ public class ArticleService {
 
     }
 
-    private Category chooseCategory() {
-        while (true) {
-            if (DataBase.categoryList.getIndex() == 0) {
-                System.out.println("there is no category");
-            } else {
-                System.out.println("Please Enter one of the following Categories:");
-                for (int i = 0; i < DataBase.categoryList.getIndex(); i++) {
-                    System.out.println(((Category) DataBase.categoryList.getObjects(i)).getTitle());
-                }
-            }
-
-            System.out.println("\nenter -1 to add a new category");
-            String categoryName = sc.nextLine();
-            if (categoryName.equals("-1")) {
-                System.out.println("Please enter category name");
-                categoryName = sc.nextLine() + sc.nextLine();
-                if (findCategoryByTitle(categoryName) != null) {
-                    System.out.println("Category already exists");
-                } else {
-                    System.out.println("Please enter category description");
-                    String categoryDescription = sc.nextLine() + sc.nextLine();
-                    Category category = new Category(categoryName, categoryDescription);
-                    DataBase.categoryList.add(category);
-                    return category;
-                }
-            }
-            if (findCategoryByTitle(categoryName) != null) {
-                return findCategoryByTitle(categoryName);
-            }
-            System.out.println("That category does not exist");
-        }
-    }
-
     public Article findArticleByTitle(String title, List articles) {
         for (int i = 0; i < articles.getIndex(); ++i) {
             Article tempArticle = (Article) articles.getObjects(i);
@@ -99,16 +66,6 @@ public class ArticleService {
             }
         }
         System.out.println("That article does not exist");
-        return null;
-    }
-
-    private Category findCategoryByTitle(String title) {
-        for (int i = 0; i < DataBase.categoryList.getIndex(); i++) {
-            Category tempCategory = (Category) DataBase.categoryList.getObjects(i);
-            if (tempCategory.getTitle().equals(title)) {
-                return tempCategory;
-            }
-        }
         return null;
     }
 

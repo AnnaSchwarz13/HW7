@@ -15,10 +15,10 @@ public class User {
     String username;
     String password;
     Role role;
-    double id;
+    long id;
     UserService userService;
 
-    public User(Double id,String username, String password, Role role) {
+    public User(long id,String username, String password, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;

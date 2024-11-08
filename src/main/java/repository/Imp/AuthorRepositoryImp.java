@@ -40,7 +40,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
             statement.setString(2, author.getLastName());
             statement.setDate(3, (Date) author.getBirthDate());
             statement.setString(4, author.getNationalCode());
-            statement.setDouble(5, UserService.loggedInUser.getId());
+            statement.setLong(5, UserService.loggedInUser.getId());
 
             return author;
         }
@@ -53,7 +53,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
 
             Author author = null;
             if (resultSet.next()) {
-                Double authorId = resultSet.getDouble(1);
+                long authorId = resultSet.getLong(1);
                 String authorFirstname = resultSet.getString(2);
                 String authorLastname = resultSet.getString(3);
                 Date bithdate = resultSet.getDate(4);

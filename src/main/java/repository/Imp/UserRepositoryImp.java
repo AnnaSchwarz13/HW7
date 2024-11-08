@@ -56,7 +56,7 @@ public class UserRepositoryImp implements UserRepository {
 
             User user = null;
             if (resultSet.next()) {
-                Double userId = resultSet.getDouble(1);
+                long userId = resultSet.getLong(1);
                 String username = resultSet.getString(2);
                 String password = resultSet.getString(3);
                 String role = resultSet.getString(4);
@@ -83,7 +83,7 @@ public class UserRepositoryImp implements UserRepository {
             ResultSet resultSet = statement.executeQuery();
             List<User> users = new LinkedList<>();
             while (resultSet.next()) {
-                Double userId = resultSet.getDouble(1);
+                long userId = resultSet.getLong(1);
                 String username = resultSet.getString(2);
                 String password = resultSet.getString(3);
                 String role = resultSet.getString(4);

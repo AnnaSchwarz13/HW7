@@ -42,7 +42,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
         try (var statement = ds.getConnection().prepareStatement(INSERT_SQL)) {
             statement.setString(1, article.getTitle());
             statement.setString(2, article.getContent());
-            statement.setDouble(3, (article.getCategory()).getId());
+            statement.setLong(3, (article.getCategory()).getId());
             statement.setDate(4, (Date) article.getPublishDate());
             statement.setDate(5, (Date) article.getCreateDate());
             statement.setDate(6, (Date) article.getLastUpdateDate());
@@ -71,7 +71,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
             Article article = null;
             if (resultSet.next()) {
-                Long articleId = resultSet.getLong(1);
+                long articleId = resultSet.getLong(1);
                 String title = resultSet.getString(2);
                 String text = resultSet.getString(3);
                 int categoryId = resultSet.getInt(4);
