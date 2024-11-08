@@ -9,13 +9,13 @@ public class AuthenticationService {
     }
 
     public static void setLoggedUser(User user) {
-        if(DataBase.loggedInUser == null) {
-            DataBase.loggedInUser = user;
+        if(UserService.loggedInUser == null) {
+           UserService.loggedInUser = user;
         }
     }
     public static void logout() {
-        if (DataBase.loggedInUser != null) {
-            DataBase.loggedInUser = null;
+        if (UserService.loggedInUser != null) {
+            UserService.loggedInUser = null;
         }
     }
 
@@ -24,7 +24,7 @@ public class AuthenticationService {
     }
 
     public static User getLoggedUser() {
-        return DataBase.loggedInUser;
+        return UserService.loggedInUser;
     }
     public static boolean isUserNameNew(String username , Role role) {
         for(int i = 0; i< DataBase.userList.getIndex(); i++) {

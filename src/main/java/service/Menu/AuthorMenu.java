@@ -12,9 +12,7 @@ import service.Filtering;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Scanner;
-import java.sql.Date;
-import java.time.LocalDate;
-import static database.DataBase.loggedInUser;
+import static service.UserService.loggedInUser;
 import static database.DataBase.publishedArticles;
 
 public class AuthorMenu {

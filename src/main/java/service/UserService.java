@@ -6,6 +6,7 @@ import entities.enums.Role;
 import repository.Imp.UserRepositoryImp;
 
 public class UserService {
+    public static User loggedInUser;
 
     UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
     public void userLogin(String username, String password , Role role) {

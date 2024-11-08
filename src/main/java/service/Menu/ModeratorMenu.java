@@ -7,7 +7,7 @@ import entities.enums.ArticleStatus;
 import entities.enums.Role;
 import service.ArticleService;
 import service.UserService;
-
+import static service.UserService.loggedInUser;
 import java.util.Scanner;
 
 import static database.DataBase.*;

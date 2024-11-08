@@ -15,7 +15,7 @@ public class ArticleService {
     private String title;
     Scanner sc = new Scanner(System.in);
     Random rand = new Random();
-    Author loggedInAuthor = (Author) DataBase.loggedInUser;
+    Author loggedInAuthor = (Author) UserService.loggedInUser;
 
     public void addArticle() {
         Category articleCategory = this.chooseCategory();
@@ -25,9 +25,7 @@ public class ArticleService {
         String articleText = sc.nextLine();
         List brief = setArticleTags();
         String date = todaysDateAsString();
-        Article article = new Article(this.title, articleCategory, articleText,
-                rand.nextDouble(), brief, date, false,
-                date, ArticleStatus.NOT_PUBLISHED, (Author) DataBase.loggedInUser);
+        Article article = new Article();
 
         (loggedInAuthor.getThisUserArticlesList()).add(article);
     }

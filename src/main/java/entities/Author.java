@@ -3,6 +3,7 @@ package entities;
 import database.DataBase;
 import entities.enums.Role;
 import lombok.Getter;
+import service.UserService;
 
 import java.util.Date;
 
@@ -17,7 +18,7 @@ public class Author extends User{
 
     public Author(String firstName, String lastName,String username, String password,
                   String nationalCode, Date birthday) {
-        super(DataBase.loggedInUser.getId() ,username, password, Role.AUTHOR);
+        super(UserService.loggedInUser.getId() ,username, password, Role.AUTHOR);
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalCode = nationalCode;

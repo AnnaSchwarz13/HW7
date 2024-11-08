@@ -4,6 +4,7 @@ import database.DataBase;
 import entities.Author;
 import entities.User;
 import repository.AuthorRepository;
+import service.UserService;
 
 import javax.sql.DataSource;
 import java.sql.Date;
@@ -39,7 +40,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
             statement.setString(2, author.getLastName());
             statement.setDate(3, (Date) author.getBirthDate());
             statement.setString(4, author.getNationalCode());
-            statement.setDouble(5, DataBase.loggedInUser.getId());
+            statement.setDouble(5, UserService.loggedInUser.getId());
 
             return author;
         }
