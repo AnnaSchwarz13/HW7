@@ -70,12 +70,12 @@ public class AuthorMenu {
                 if (AuthenticationService.isUserNameNew(username,Role.AUTHOR)) {
                     System.out.println("Enter your national code: ");
                     String nationalCode = scanner.next();
-                    boolean forGetACorrectBirth = false;
                     while (true) {
                         System.out.println("Enter your birthday like example:\nexample: 1995-12-3 ");
                         Date date = Date.valueOf(scanner.next());
-                        if (!date.before(Date.valueOf(LocalDate.now()))) {
+                        if (date.before(Date.valueOf(LocalDate.now()))) {
                             authorService.userSignup(firstName, lastName, username, nationalCode, nationalCode, date);
+                            System.out.println("You have successfully singUp!");
                             break;
                         }
                     }

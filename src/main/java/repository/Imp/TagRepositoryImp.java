@@ -2,7 +2,7 @@ package repository.Imp;
 import entities.Tag;
 import repository.TagRepository;
 
-import javax.sql.DataSource;
+import repository.Datasource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TagRepositoryImp implements TagRepository {
-    static DataSource ds;
     private static final String INSERT_SQL =
             "INSERT INTO Tags(title, description) VALUES (?, ?)";
 
@@ -38,7 +37,7 @@ public class TagRepositoryImp implements TagRepository {
 
     @Override
     public Tag create(Tag tag) throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(INSERT_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(INSERT_SQL)) {
             statement.setString(1, tag.getTitle());
 
             return tag;
@@ -47,7 +46,7 @@ public class TagRepositoryImp implements TagRepository {
 
     @Override
     public Tag read(int id) throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
@@ -64,7 +63,7 @@ public class TagRepositoryImp implements TagRepository {
 
     @Override
     public void delete(int id) throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setLong(1, id);
             var affectedRows = statement.executeUpdate();
             System.out.println("# of Contacts deleted: " + affectedRows);
@@ -72,7 +71,7 @@ public class TagRepositoryImp implements TagRepository {
     }
 
     public static int findCount() throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(FIND_COUNT_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_COUNT_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             int tagsIndex=0;
             if (resultSet.next()) {
@@ -82,7 +81,7 @@ public class TagRepositoryImp implements TagRepository {
         }
     }
     static public List<Tag> all() {
-        try (var statement = ds.getConnection().prepareStatement(READ_ALL_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(READ_ALL_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             List<Tag> tags = new LinkedList<>();
             while (resultSet.next()) {
@@ -100,7 +99,7 @@ public class TagRepositoryImp implements TagRepository {
     }
 
     public static Tag findTagByTile(String title) throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();
 

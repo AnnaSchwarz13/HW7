@@ -2,8 +2,8 @@ package repository.Imp;
 
 import entities.Category;
 import repository.CategoryRepository;
+import repository.Datasource;
 
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CategoryRepositoryImp implements CategoryRepository {
-    static DataSource ds;
+
     private static final String INSERT_SQL =
             "INSERT INTO Categories(title, description) VALUES (?, ?)";
 
@@ -39,7 +39,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     @Override
     public Category create(Category category) throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(INSERT_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(INSERT_SQL)) {
             statement.setString(1, category.getTitle());
             statement.setString(2, category.getDescription());
 
@@ -49,7 +49,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     @Override
     public Category read(int id) throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
@@ -68,7 +68,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
     @Override
     public void delete(int id) throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setLong(1, id);
             var affectedRows = statement.executeUpdate();
             System.out.println("# of Contacts deleted: " + affectedRows);
@@ -76,7 +76,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
     }
 
     public static int findCount() throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(FIND_COUNT_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_COUNT_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             int categoryIndex=0;
             if (resultSet.next()) {
@@ -86,7 +86,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
     }
     static public List<Category> all() {
-        try (var statement = ds.getConnection().prepareStatement(READ_ALL_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(READ_ALL_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             List<Category> categories = new LinkedList<>();
             while (resultSet.next()) {
@@ -105,7 +105,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
     }
 
     public Category findCategoryByTile(String title) throws SQLException {
-        try (var statement = ds.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();
 

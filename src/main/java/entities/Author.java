@@ -15,11 +15,11 @@ public class Author extends User{
     private final List<Article> thisUserArticlesList;
     private final String nationalCode;
     private final Date birthDate;
-    private int id;
+    private long id;
 
     public Author(String firstName, String lastName,String username, String password,
                   String nationalCode, Date birthday) {
-        super(UserService.loggedInUser.getId() ,username, password, Role.AUTHOR);
+        super(username, password, Role.AUTHOR);
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalCode = nationalCode;
