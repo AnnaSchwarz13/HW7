@@ -4,6 +4,7 @@ import entities.Article;
 import entities.Author;
 import entities.enums.Role;
 import repository.Imp.ArticleRepositoryImp;
+import repository.Imp.AuthorRepositoryImp;
 import service.ArticleService;
 import service.AuthenticationService;
 import service.AuthorService;
@@ -159,7 +160,7 @@ public class AuthorMenu {
     }
 
     public static void articleSiteMenu(int option) throws SQLException {
-        Author loggedInAuthor = (Author) loggedInUser;
+        Author loggedInAuthor = AuthorRepositoryImp.findByUserId(loggedInUser.getId());
         List<Article> articlesList = loggedInAuthor.getThisUserArticlesList();
         Scanner scanner = new Scanner(System.in);
         ArticleService articleService = new ArticleService();

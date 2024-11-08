@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class AuthorRepositoryImp implements AuthorRepository {
 
-    UserRepositoryImp userRepo = new UserRepositoryImp();
+    static UserRepositoryImp userRepo = new UserRepositoryImp();
     private static final String INSERT_SQL = """
             INSERT INTO Authors(firstname, lastname, birthday , national_code, user_id)
                     VALUES (?, ?, ? ,? ,?)
@@ -26,10 +26,9 @@ public class AuthorRepositoryImp implements AuthorRepository {
             SELECT * FROM Authors
             WHERE id = ?
             """;
-    private static final String UPDATE_SQL = """
-            UPDATE Authors
-            SET ? = ?
-            where id = ?
+    private static final String FIND_AUTHOR_BY_USERID_SQL= """
+            SELECT * FROM Authors
+            WHERE user_id = ?
             """;
 
     @Override
@@ -77,6 +76,27 @@ public class AuthorRepositoryImp implements AuthorRepository {
             statement.setLong(1, id);
             var affectedRows = statement.executeUpdate();
             System.out.println("# of Contacts deleted: " + affectedRows);
+        }
+
+    }
+
+    public static Author findByUserId(long userId) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_AUTHOR_BY_USERID_SQL)) {
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            Author author = null;
+            if (resultSet.next()) {
+                long authorId = resultSet.getLong(1);
+                String authorFirstname = resultSet.getString(2);
+                String authorLastname = resultSet.getString(3);
+                Date bithdate = resultSet.getDate(4);
+                String nationalCode = resultSet.getString(5);
+                int userID = resultSet.getInt(6);
+                User user = userRepo.read(userID);
+                author = new Author(authorFirstname, authorLastname, user.getUsername()
+                        , user.getPassword(), nationalCode, bithdate);
+            }
+            return author;
         }
 
     }

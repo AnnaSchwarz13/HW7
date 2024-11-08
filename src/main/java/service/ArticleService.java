@@ -7,6 +7,7 @@ import entities.Category;
 import entities.Tag;
 import entities.enums.ArticleStatus;
 import repository.Imp.ArticleRepositoryImp;
+import repository.Imp.AuthorRepositoryImp;
 import repository.Imp.TagRepositoryImp;
 
 import java.sql.Date;
@@ -25,9 +26,12 @@ public class ArticleService {
     private String title;
     Scanner sc = new Scanner(System.in);
     Random rand = new Random();
-    Author loggedInAuthor = (Author) UserService.loggedInUser;
+    Author loggedInAuthor = AuthorRepositoryImp.findByUserId(UserService.loggedInUser.getId());
     List<Article> publishedArticles = ArticleRepositoryImp.allPublished();
     List<Article> pendingArticles = ArticleRepositoryImp.allPending();
+
+    public ArticleService() throws SQLException {
+    }
 
     public void addArticle() throws SQLException {
         Category articleCategory = categoryService.chooseCategory();
