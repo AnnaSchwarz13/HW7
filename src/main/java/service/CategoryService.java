@@ -1,6 +1,5 @@
 package service;
 
-import database.DataBase;
 import entities.Category;
 import repository.Imp.CategoryRepositoryImp;
 
@@ -10,7 +9,7 @@ import java.util.Scanner;
 public class CategoryService {
     Scanner sc = new Scanner(System.in);
     CategoryRepositoryImp categoryRepositoryImp = new CategoryRepositoryImp();
-    private Category chooseCategory() throws SQLException {
+    protected Category chooseCategory() throws SQLException {
         while (true) {
             if (CategoryRepositoryImp.findCount() == 0) {
                 System.out.println("there is no category");

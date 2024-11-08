@@ -3,22 +3,27 @@ package service;
 import database.DataBase;
 import entities.*;
 import entities.enums.ArticleStatus;
+import repository.Imp.ArticleRepositoryImp;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 import static service.DateService.todaysDateAsString;
 
 
-
 public class ArticleService {
+    CategoryService categoryService = new CategoryService();
     private String title;
     Scanner sc = new Scanner(System.in);
     Random rand = new Random();
     Author loggedInAuthor = (Author) UserService.loggedInUser;
+    List<Article> publishedArticles = ArticleRepositoryImp.allPublished();
+    List<Article> pendingArticles = ArticleRepositoryImp.allPending();
 
-    public void addArticle() {
-        Category articleCategory = this.chooseCategory();
+    public void addArticle() throws SQLException {
+        Category articleCategory = categoryService.chooseCategory();
         System.out.println("Enter title: ");
         this.title = sc.nextLine();
         System.out.println("Enter article text: ");
@@ -130,36 +135,34 @@ public class ArticleService {
             choose = scanner.nextInt();
             if (choose == 1) {
                 choosenArticle.setStatus(ArticleStatus.PENDING);
-                DataBase.articlesToCheckForPublish.add(choosenArticle);
+                pendingArticles.add(choosenArticle);
                 choosenArticle.setLastUpdateDate(todaysDateAsString());
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
-            Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), DataBase.publishedArticles);
-            int index = DataBase.publishedArticles.getIndexOfObject(ExsistedAuthorArticle);
+            Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), publishedArticles);
             System.out.println("Remove article from published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
                 choosenArticle.setStatus(ArticleStatus.NOT_PUBLISHED);
-                DataBase.publishedArticles.removeObject(index);
+                publishedArticles.removeObject(index);
                 choosenArticle.setLastUpdateDate(todaysDateAsString());
                 choosenArticle.setPublished(false);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PENDING) {
-            Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), DataBase.articlesToCheckForPublish);
-            int index = DataBase.articlesToCheckForPublish.getIndexOfObject(ExsistedAuthorArticle);
+            Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), pendingArticles);
 
             System.out.println("Cancel request to get published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
                 choosenArticle.setStatus(ArticleStatus.NOT_PUBLISHED);
-                DataBase.articlesToCheckForPublish.removeObject(index);
+                pendingArticles.removeObject(index);
                 choosenArticle.setLastUpdateDate(todaysDateAsString());
             }
         }
         System.out.println("The selected article status is " + choosenArticle.getStatus());
     }
 
-    public void changeDetailsOfArticle(Article choosenArticle) {
+    public void changeDetailsOfArticle(Article choosenArticle) throws SQLException {
         System.out.println("Which do you want to edit?");
         System.out.println("""
                         1.Edit title
@@ -175,7 +178,7 @@ public class ArticleService {
             choosenArticle.setTitle(newTitle);
             choosenArticle.setLastUpdateDate(todaysDateAsString());
         } else if (choose == 2) {
-            Category newCategory = chooseCategory();
+            Category newCategory = categoryService.chooseCategory();
             choosenArticle.setCategory(newCategory);
             choosenArticle.setLastUpdateDate(todaysDateAsString());
         } else if (choose == 3) {

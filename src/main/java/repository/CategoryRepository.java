@@ -1,12 +1,11 @@
 package repository;
 
-import entities.Author;
 import entities.Category;
 
 import java.sql.SQLException;
 
 public interface CategoryRepository {
-    public Category create(Category category) throws SQLException;
-    public Category read(int id) throws SQLException;
-    public void delete(int id) throws SQLException;
+    Category create(Category category) throws SQLException;
+    Category read(int id) throws SQLException;
+    void delete(int id) throws SQLException;
 }

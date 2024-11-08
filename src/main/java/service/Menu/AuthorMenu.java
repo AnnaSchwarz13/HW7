@@ -2,8 +2,8 @@ package service.Menu;
 
 import entities.Article;
 import entities.Author;
-import entities.List;
 import entities.enums.Role;
+import repository.Imp.ArticleRepositoryImp;
 import service.ArticleService;
 import service.AuthenticationService;
 import service.AuthorService;
@@ -12,13 +12,13 @@ import service.Filtering;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 import static service.UserService.loggedInUser;
-import static database.DataBase.publishedArticles;
 
 public class AuthorMenu {
     Scanner scanner = new Scanner(System.in);
-
+    static List<Article> publishedArticles = ArticleRepositoryImp.allPublished();
 
     public AuthorMenu() throws SQLException {
         int userInput;
@@ -158,7 +158,7 @@ public class AuthorMenu {
 
     }
 
-    public static void articleSiteMenu(int option) {
+    public static void articleSiteMenu(int option) throws SQLException {
         Author loggedInAuthor = (Author) loggedInUser;
         List articlesList = loggedInAuthor.getThisUserArticlesList();
         Scanner scanner = new Scanner(System.in);

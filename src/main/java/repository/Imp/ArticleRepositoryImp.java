@@ -11,15 +11,19 @@ import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import static java.lang.String.valueOf;
 
 
 public class ArticleRepositoryImp implements ArticleRepository {
     //CRUD create read update delete
-    DataSource ds;
-    AuthorRepositoryImp authorRepositoryImp;
-    CategoryRepositoryImp categoryRepositoryImp;
+    static DataSource ds;
+    static AuthorRepositoryImp authorRepositoryImp;
+    static CategoryRepositoryImp categoryRepositoryImp;
+    static ArticleRepositoryImp articleRepositoryImp;
     private static final String INSERT_SQL = """
             INSERT INTO Articles(title, text,category_id, published_date  ,
                                    created_date , last_updated_date\s
@@ -35,6 +39,15 @@ public class ArticleRepositoryImp implements ArticleRepository {
     private static final String FIND_BY_ID_SQL = """
             SELECT * FROM Articles
             WHERE id = ?
+            """;
+    private static final String PUBLISHED_ARTICLES_SQL= """
+            SELECT id FROM Articles
+            WHERE ARTICLE_STATUS = 'PUBLISHED'
+            """;
+
+    private static final String PENDING_ARTICLES_SQL = """
+            SELECT id FROM Articles
+            WHERE ARTICLE_STATUS = 'PENDING'
             """;
 
     @Override
@@ -95,6 +108,39 @@ public class ArticleRepositoryImp implements ArticleRepository {
             return article;
         }
     }
-}
+        static public List<Article> allPublished(){
+            try (var statement = ds.getConnection().prepareStatement(PUBLISHED_ARTICLES_SQL)) {
+                ResultSet resultSet = statement.executeQuery();
+                List<Article> publishedArticles = new LinkedList<>();
+                while (resultSet.next()) {
+                  Article article =articleRepositoryImp.read(resultSet.getInt(1));
+                  publishedArticles.add(article);
+                }
+
+                return new ArrayList<>(publishedArticles);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        static public List<Article> allPending() {
+            try (var statement = ds.getConnection().prepareStatement(PENDING_ARTICLES_SQL)) {
+                ResultSet resultSet = statement.executeQuery();
+                List<Article> pendingArticles = new LinkedList<>();
+                while (resultSet.next()) {
+                    Article article =articleRepositoryImp.read(resultSet.getInt(1));
+                    pendingArticles.add(article);
+                }
+
+                return new ArrayList<>(pendingArticles);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+    }
+
 
 

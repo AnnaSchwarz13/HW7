@@ -1,6 +1,5 @@
 package service;
 
-import database.DataBase;
 import entities.User;
 import entities.enums.Role;
 import repository.Imp.UserRepositoryImp;

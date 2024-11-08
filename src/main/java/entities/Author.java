@@ -1,6 +1,5 @@
 package entities;
 
-import database.DataBase;
 import entities.enums.Role;
 import lombok.Getter;
 import service.UserService;
