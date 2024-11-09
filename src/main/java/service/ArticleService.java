@@ -119,12 +119,12 @@ public class ArticleService {
 
         } else if (choose == 4) {
             TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
-            System.out.println("Your articles tag are there");
-            for (Tag tag : choosenArticle.getBrief()) {
-                System.out.println(tag.getTitle());
-            }
             List<Tag> newTags = choosenArticle.getBrief();
             while (true) {
+                System.out.println("Your articles tag are there");
+                for (Tag tag : newTags) {
+                    System.out.println(tag.getTitle());
+                }
                 System.out.println("for add more enter 1 \n remove one tag enter 2 \n and at the end -1");
                 int choose2 = sc.nextInt();
                 if (choose2 == 1) {
@@ -137,7 +137,7 @@ public class ArticleService {
                     if (TagRepositoryImp.findTagByTile(tagName) == null) {
                         System.out.println("That tag does not exist");
                     } else {
-                        newTags.remove(TagRepositoryImp.findTagByTile(tagName));
+                        newTags.removeIf(tag -> tag.getTitle().equals(tagName));
                     }
                 }
                 if (choose2 == -1) {
