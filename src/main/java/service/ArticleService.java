@@ -9,9 +9,7 @@ import repository.Imp.ArticleRepositoryImp;
 import repository.Imp.AuthorRepositoryImp;
 import repository.Imp.TagRepositoryImp;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,7 +23,7 @@ public class ArticleService {
     TagService tagService = new TagService();
     Scanner sc = new Scanner(System.in);
 
-    public ArticleService()  {
+    public ArticleService() {
     }
 
     public void addArticle() throws SQLException {
@@ -36,9 +34,9 @@ public class ArticleService {
         String articleText = sc.nextLine();
         List<Tag> brief = tagService.setArticleTags();
         String date = todaysDateAsString();
-        Article article = new Article(AuthorRepositoryImp.findByUserId(loggedInUser.getId()),title,articleCategory,articleText);
+        Article article = new Article(AuthorRepositoryImp.findByUserId(loggedInUser.getId()), title, articleCategory, articleText);
         articleRepository.create(article);
-
+        TagRepositoryImp.setArticlesTag(brief, article);
     }
 
     public void showAnArticleList(List<Article> articles) throws SQLException {
@@ -80,7 +78,7 @@ public class ArticleService {
                 ArticleRepositoryImp.updateStatusNotPublished(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PENDING) {
-            Article ExsistedAuthorArticle =  ArticleRepositoryImp.findArticleByTile(choosenArticle.getTitle());
+            Article ExsistedAuthorArticle = ArticleRepositoryImp.findArticleByTile(choosenArticle.getTitle());
 
             System.out.println("Cancel request to get published articles");
             choose = scanner.nextInt();
@@ -88,7 +86,7 @@ public class ArticleService {
                 ArticleRepositoryImp.updateStatusNotPublished(choosenArticle);
             }
         }
-        System.out.println("The selected article status is " + choosenArticle.getStatus());
+        System.out.println("The selected article status is " + ArticleRepositoryImp.read(choosenArticle.getId()).getStatus());
     }
 
     public void changeDetailsOfArticle(Article choosenArticle) throws SQLException {
@@ -104,41 +102,47 @@ public class ArticleService {
         if (choose == 1) {
             System.out.println("Please enter the new title:");
             String newTitle = sc.nextLine() + sc.nextLine();
-            choosenArticle.setTitle(newTitle);
-            choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
+            ArticleRepositoryImp.update(choosenArticle, "title", newTitle);
+
         } else if (choose == 2) {
             Category newCategory = categoryService.chooseCategory();
-            choosenArticle.setCategory(newCategory);
-            choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
+            ArticleRepositoryImp.updateCategory(choosenArticle, newCategory);
+
         } else if (choose == 3) {
             System.out.println("Please enter the new content:");
             String newText = sc.nextLine() + sc.nextLine();
-            choosenArticle.setContent(newText);
-            choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
+            ArticleRepositoryImp.update(choosenArticle, "text", newText);
+
         } else if (choose == 4) {
+            TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
             System.out.println("Your articles tag are there");
-            for (Tag tag :choosenArticle.getBrief()) {
+            for (Tag tag : choosenArticle.getBrief()) {
                 System.out.println(tag.getTitle());
             }
-            System.out.println("for add more enter 1 \n for remove one enter -1");
-            int choose2 = sc.nextInt();
-            if (choose2 == 1) {
-                List<Tag> newTagsToAdd = tagService.setArticleTags();
-                for (Tag tag : newTagsToAdd) {
-                    choosenArticle.getBrief().add(tag);
-                    choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
+            List<Tag> newTags = choosenArticle.getBrief();
+            while (true) {
+                System.out.println("for add more enter 1 \n remove one tag enter 2 \n and at the end -1");
+                int choose2 = sc.nextInt();
+                if (choose2 == 1) {
+                    List<Tag> newTagsToAdd = tagService.setArticleTags();
+                    newTags.addAll(newTagsToAdd);
                 }
-            }
-            if (choose2 == -1) {
-                System.out.println("Please enter a tag name to remove");
-                String tagName = sc.nextLine() + sc.nextLine();
-                if (TagRepositoryImp.findTagByTile(tagName) == null) {
-                    System.out.println("That tag does not exist");
-                } else {
-                    choosenArticle.getBrief().remove(TagRepositoryImp.findTagByTile(tagName));
-                    choosenArticle.setLastUpdateDate(Date.valueOf(LocalDate.now()));
+                if (choose2 == 2) {
+                    System.out.println("Please enter a tag name to remove");
+                    String tagName = sc.nextLine() + sc.nextLine();
+                    if (TagRepositoryImp.findTagByTile(tagName) == null) {
+                        System.out.println("That tag does not exist");
+                    } else {
+                        newTags.remove(TagRepositoryImp.findTagByTile(tagName));
+                    }
                 }
-
+                if (choose2 == -1) {
+                    tagRepositoryImp.delete(choosenArticle.getId());
+                    TagRepositoryImp.setArticlesTag(newTags, choosenArticle);
+                    ArticleRepositoryImp.setLastUpdateDate();
+                    System.out.println("Tag list updated successfully");
+                    break;
+                }
             }
         }
 
@@ -146,18 +150,18 @@ public class ArticleService {
 
     public void displayArticle(Article choosenArticle) {
         System.out.println(choosenArticle.getTitle());
-        System.out.println("category : "+choosenArticle.getCategory().getTitle());
-        System.out.println("Status : "+choosenArticle.getStatus());
-        System.out.println("created date : "+choosenArticle.getCreateDate());
-        System.out.println("last update date : "+choosenArticle.getLastUpdateDate());
+        System.out.println("category : " + choosenArticle.getCategory().getTitle());
+        System.out.println("Status : " + choosenArticle.getStatus());
+        System.out.println("created date : " + choosenArticle.getCreateDate());
+        System.out.println("last update date : " + choosenArticle.getLastUpdateDate());
         if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
-            System.out.println("published date : "+choosenArticle.getPublishDate());
+            System.out.println("published date : " + choosenArticle.getPublishDate());
         }
-        System.out.println("\n"+choosenArticle.getContent());
-        if(choosenArticle.getBrief()!=null) {
+        System.out.println("\n" + choosenArticle.getContent());
+        if (choosenArticle.getBrief() != null) {
             System.out.println("\n brief: " + choosenArticle.getBrief());
         }
-        System.out.println(choosenArticle.getAuthor().getUsername()+" "+choosenArticle.getAuthor().getLastName());
+        System.out.println(choosenArticle.getAuthor().getUsername() + " " + choosenArticle.getAuthor().getLastName());
     }
 
 }

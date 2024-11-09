@@ -10,4 +10,5 @@ public interface ArticleRepository {
     void delete(long id) throws SQLException;
 
   //  Article read(int id) throws SQLException;
+
 }

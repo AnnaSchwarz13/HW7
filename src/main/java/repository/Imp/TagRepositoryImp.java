@@ -16,9 +16,9 @@ public class TagRepositoryImp implements TagRepository {
     private static final String INSERT_SQL =
             "INSERT INTO Tags(title) VALUES (?)";
 
-    private static final String DELETE_BY_ID_SQL = """
-            DELETE FROM Tags
-            WHERE id = ?
+    private static final String DELETE_BY_ARTICLE_ID_SQL = """
+            DELETE FROM Tags_articles
+            WHERE article_id = ?
             """;
 
     private static final String FIND_BY_ID_SQL = """
@@ -71,7 +71,7 @@ public class TagRepositoryImp implements TagRepository {
 
     @Override
     public void delete(long id) throws SQLException {
-        try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
+        try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ARTICLE_ID_SQL)) {
             statement.setLong(1, id);
             var affectedRows = statement.executeUpdate();
             System.out.println("# of Contacts deleted: " + affectedRows);

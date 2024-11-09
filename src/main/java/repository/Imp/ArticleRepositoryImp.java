@@ -47,17 +47,29 @@ public class ArticleRepositoryImp implements ArticleRepository {
             """;
     private static final String UPDATE_Article_Status_SQL = """
             UPDATE Articles
-            SET ? = ? , ?=? , ?=? , ?=?
+            SET article_status = ? , published_date=? , last_updated_date=? , is_published=?
             where id = ?
             """;
     public static final String FIND_BY_TITLE_SQL = """
             SELECT * FROM Articles
             WHERE title = ?
             """;
-    public static final String FIND_ALL_AUTHOR_ARTICLES_SQL= """
+    public static final String FIND_ALL_AUTHOR_ARTICLES_SQL = """
             SELECT * FROM Articles
             WHERE author_id = ?
             """;
+    public static final String UPDATE_SQL= """
+            UPDATE Articles
+            SET ? = ? , last_updated_date = ?
+            WHERE id = ?
+            """;
+    public static final String UPDATE_LAST_DATE_SQL= """
+            UPDATE Articles
+            SET last_updated_date = ?
+            WHERE id = ?
+            """;
+
+
 
 
     @Override
@@ -70,7 +82,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.setDate(5, Date.valueOf(LocalDate.now()));
             statement.setDate(6, Date.valueOf(LocalDate.now()));
             statement.setLong(7, article.getAuthor().getId());
-            statement.setBoolean(8,false);
+            statement.setBoolean(8, false);
             statement.setString(9, "NOT_PUBLISHED");
             statement.executeUpdate();
             return article;
@@ -108,7 +120,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
                 Author author = AuthorRepositoryImp.read(authorId);
                 article = new Article(articleId, title, text, category, createDate,
                         published, lastUpdateDate, ArticleStatus.valueOf(status), author);
-
+                article.setBrief(TagRepositoryImp.getTags(article));
                 if (published) {
                     article.setPublishDate(publishDate);
                 }
@@ -129,8 +141,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
     }
 
-    private static List<Article> getArticles(String publishedArticlesSql) {
-        try (var statement = Datasource.getConnection().prepareStatement(publishedArticlesSql)) {
+    private static List<Article> getArticles(String Sql) {
+        try (var statement = Datasource.getConnection().prepareStatement(Sql)) {
             ResultSet resultSet = statement.executeQuery();
             List<Article> publishedArticles = new LinkedList<>();
             while (resultSet.next()) {
@@ -147,15 +159,11 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
     static public void updateStatusPublished(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
-            statement.setString(1, "article_status");
-            statement.setString(2, "PUBLISHED");
-            statement.setString(3, "published_date");
-            statement.setDate(4, Date.valueOf(LocalDate.now()));
-            statement.setString(5, "last_updated_date");
-            statement.setDate(6, Date.valueOf(LocalDate.now()));
-            statement.setString(7, "is_published");
-            statement.setBoolean(8, true);
-            statement.setLong(9, article.getId());
+            statement.setString(1, "PUBLISHED");
+            statement.setDate(2, Date.valueOf(LocalDate.now()));
+            statement.setDate(3, Date.valueOf(LocalDate.now()));
+            statement.setBoolean(4, true);
+            statement.setLong(5, article.getId());
             statement.executeUpdate();
         }
 
@@ -163,30 +171,22 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
     static public void updateStatusNotPublished(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
-            statement.setString(1, "article_status");
-            statement.setString(2, "NOT_PUBLISHED");
-            statement.setString(3, "published_date");
-            statement.setDate(4, null);
-            statement.setString(5, "last_updated_date");
-            statement.setDate(6, Date.valueOf(LocalDate.now()));
-            statement.setString(7, "is_published");
-            statement.setBoolean(8, false);
-            statement.setLong(9, article.getId());
+            statement.setString(1, "NOT_PUBLISHED");
+            statement.setDate(2, null);
+            statement.setDate(3, Date.valueOf(LocalDate.now()));
+            statement.setBoolean(4, false);
+            statement.setLong(5, article.getId());
             statement.executeUpdate();
         }
     }
 
     static public void updateStatusPending(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
-            statement.setString(1, "article_status");
-            statement.setString(2, "PENDING");
-            statement.setString(3, "published_date");
-            statement.setDate(4, null);
-            statement.setString(5, "last_updated_date");
-            statement.setDate(6, Date.valueOf(LocalDate.now()));
-            statement.setString(7, "is_published");
-            statement.setBoolean(8, false);
-            statement.setLong(9, article.getId());
+            statement.setString(1, "PENDING");
+            statement.setDate(2, null);
+            statement.setDate(3, Date.valueOf(LocalDate.now()));
+            statement.setBoolean(4, false);
+            statement.setLong(5, article.getId());
             statement.executeUpdate();
         }
     }
@@ -196,11 +196,10 @@ public class ArticleRepositoryImp implements ArticleRepository {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();
-            Article article =null;
+            Article article = null;
             if (resultSet.next()) {
-             article=read(resultSet.getInt(1));
-            }
-            else{
+                article = read(resultSet.getInt(1));
+            } else {
                 System.out.println("No Article found for title: " + title);
             }
 
@@ -215,7 +214,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
             ResultSet resultSet = statement.executeQuery();
             List<Article> articles = new LinkedList<>();
             while (resultSet.next()) {
-                Article article= read(resultSet.getLong(1));
+                Article article = read(resultSet.getLong(1));
                 articles.add(article);
             }
             return new ArrayList<>(articles);
@@ -224,7 +223,34 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
+    public static void update(Article article, String column , String newValue) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_SQL)){
+            statement.setString(1, column);
+            statement.setString(2, newValue);
+            statement.setDate(3, Date.valueOf(LocalDate.now()));
+            statement.setLong(4, article.getId());
+            statement.executeUpdate();
+        }
 
+    }
+
+    public static void updateCategory(Article article, Category category) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_SQL)){
+            statement.setString(1, "category_id");
+            statement.setLong(2, category.getId());
+            statement.setDate(3, Date.valueOf(LocalDate.now()));
+            statement.setLong(4, article.getId());
+            statement.executeUpdate();
+        }
+
+    }
+    public static void setLastUpdateDate() throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_LAST_DATE_SQL)){
+            statement.setDate(1, Date.valueOf(LocalDate.now()));
+            statement.executeUpdate();
+        }
+
+    }
 }
 
 
