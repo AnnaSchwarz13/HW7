@@ -21,7 +21,6 @@ import static service.DateService.todaysDateAsString;
 public class ArticleService {
     CategoryService categoryService = new CategoryService();
     TagService tagService = new TagService();
-    private String title;
     Scanner sc = new Scanner(System.in);
 
     public ArticleService()  {
@@ -30,7 +29,7 @@ public class ArticleService {
     public void addArticle() throws SQLException {
         Category articleCategory = categoryService.chooseCategory();
         System.out.println("Enter title: ");
-        this.title = sc.nextLine();
+        String title = sc.nextLine();
         System.out.println("Enter article text: ");
         String articleText = sc.nextLine();
         List<Tag> brief = tagService.setArticleTags();
@@ -50,12 +49,12 @@ public class ArticleService {
                 System.out.println(tempArticle.getTitle());
             }
 
-            this.title = this.sc.nextLine();
-            Article userChoice = ArticleRepositoryImp.findArticleByTile(this.title);
+            String title = this.sc.nextLine();
+            Article userChoice = ArticleRepositoryImp.findArticleByTile(title);
             if (userChoice != null) {
                 displayArticle(userChoice);
             }
-            else{
+            else if(userChoice == null){
                 System.out.println("No such article");
             }
         }
@@ -146,9 +145,9 @@ public class ArticleService {
 
     }
 
-    public void displayArticle(Article choosenArticle) throws SQLException {
+    public void displayArticle(Article choosenArticle) {
         System.out.println(choosenArticle.getTitle());
-        System.out.println("category : "+categoryService.chooseCategory().getTitle());
+        System.out.println("category : "+choosenArticle.getCategory().getTitle());
         System.out.println("Status : "+choosenArticle.getStatus());
         System.out.println("created date : "+choosenArticle.getCreateDate());
         System.out.println("last update date : "+choosenArticle.getLastUpdateDate());
@@ -156,7 +155,7 @@ public class ArticleService {
             System.out.println("published date : "+choosenArticle.getPublishDate());
         }
         System.out.println("\n"+choosenArticle.getContent());
-        if(!choosenArticle.getBrief().isEmpty()) {
+        if(choosenArticle.getBrief()!=null) {
             System.out.println("\n brief: " + choosenArticle.getBrief());
         }
         System.out.println(choosenArticle.getAuthor().getUsername()+" "+choosenArticle.getAuthor().getLastName());

@@ -56,7 +56,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
             where id = ?
             """;
     public static final String FIND_BY_TITLE_SQL = """
-            SELECT * FROM Categories
+            SELECT * FROM Articles
             WHERE title = ?
             """;
 
@@ -110,7 +110,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
                         published, lastUpdateDate, ArticleStatus.valueOf(status), author);
 
                 if (published) {
-                    article.setLastUpdateDate(lastUpdateDate);
+                    article.setPublishDate(publishDate);
                 }
 
             }
@@ -134,7 +134,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
             ResultSet resultSet = statement.executeQuery();
             List<Article> publishedArticles = new LinkedList<>();
             while (resultSet.next()) {
-                Article article =read(resultSet.getInt(1));
+                Article article = read(resultSet.getInt(1));
                 publishedArticles.add(article);
             }
 
@@ -192,8 +192,13 @@ public class ArticleRepositoryImp implements ArticleRepository {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();
+            Article article =null;
+            if (resultSet.next()) {
+             article=read(resultSet.getInt(1));
+            }
 
-            return read(resultSet.getInt(1));
+            return article;
+
         }
     }
 
