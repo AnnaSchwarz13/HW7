@@ -48,15 +48,5 @@ public class Article {
         return isPublished;
     }
 
-    @Override
-    public String toString() {
-        return  title +"\n"+
-                "category:" + category.getTitle() +"\n"+
-                "status : " + status +"\n"+
-                "createDate : " + createDate + "\n"+
-                "lastUpdateDate : " + lastUpdateDate  +
-                " \n" + content+"\n\n" +
-                "brief : " + brief.toString() ;
-    }
 }
 

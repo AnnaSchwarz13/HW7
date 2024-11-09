@@ -9,5 +9,5 @@ public interface ArticleRepository {
 
     void delete(int id) throws SQLException;
 
-    Article read(int id) throws SQLException;
+  //  Article read(int id) throws SQLException;
 }

@@ -25,7 +25,6 @@ public class ArticleRepositoryImp implements ArticleRepository {
     //CRUD create read update delete
     static AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
     static CategoryRepositoryImp categoryRepositoryImp = new CategoryRepositoryImp();
-    static ArticleRepositoryImp articleRepositoryImp = new ArticleRepositoryImp();
     private static final String INSERT_SQL = """
              INSERT INTO Articles(title, text,category_id, published_date  ,
                                     created_date , last_updated_date\s
@@ -56,6 +55,11 @@ public class ArticleRepositoryImp implements ArticleRepository {
             SET ? = ? , ?=? , ?=? , ?=?
             where id = ?
             """;
+    public static final String FIND_BY_TITLE_SQL = """
+            SELECT * FROM Categories
+            WHERE title = ?
+            """;
+
 
     @Override
     public Article create(Article article) throws SQLException {
@@ -82,8 +86,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    @Override
-    public Article read(int id) throws SQLException {
+
+    public static Article read(int id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -130,7 +134,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
             ResultSet resultSet = statement.executeQuery();
             List<Article> publishedArticles = new LinkedList<>();
             while (resultSet.next()) {
-                Article article =articleRepositoryImp.read(resultSet.getInt(1));
+                Article article =read(resultSet.getInt(1));
                 publishedArticles.add(article);
             }
 
@@ -182,6 +186,15 @@ public class ArticleRepositoryImp implements ArticleRepository {
         statement.setBoolean(8, false);
         statement.setLong(9, article.getId());
         statement.executeUpdate();
+    }
+
+    public static Article findArticleByTile(String title) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
+            statement.setString(1, title);
+            ResultSet resultSet = statement.executeQuery();
+
+            return read(resultSet.getInt(1));
+        }
     }
 
 

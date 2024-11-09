@@ -19,7 +19,6 @@ import static service.UserService.loggedInUser;
 
 public class AuthorMenu {
     Scanner scanner = new Scanner(System.in);
-    static List<Article> publishedArticles = ArticleRepositoryImp.allPublished();
 
     public AuthorMenu() throws SQLException {
         int userInput;
@@ -99,7 +98,7 @@ public class AuthorMenu {
             System.out.println("2.Select a filter");
             int filterOption = scanner.nextInt();
             if (filterOption == 1) {
-                articleService.showAnArticleList(publishedArticles);
+                articleService.showAnArticleList(ArticleRepositoryImp.allPublished());
             } else if (filterOption == 2) {
                 Filtering filtering = new Filtering();
                 System.out.println("\nplease enter one of the following filters: ");
@@ -115,42 +114,42 @@ public class AuthorMenu {
                 int filter2choose = scanner.nextInt();
                 if (filter1choose == 1) {
                     if (filter2choose == 1) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"created",365));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"created",365));
                     } else if (filter2choose == 2) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"created",180));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"created",180));
                     } else if (filter2choose == 3) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"created",30));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"created",30));
 
                     } else if (filter2choose == 4) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"created",7));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"created",7));
                     } else if (filter2choose == 5) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"created",1));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"created",1));
                     }
                 } else if (filter1choose == 2) {
                     if (filter2choose == 1) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"lastUpdate",365));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"lastUpdate",365));
                     } else if (filter2choose == 2) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"lastUpdate",180));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"lastUpdate",180));
                     } else if (filter2choose == 3) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"lastUpdate",30));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"lastUpdate",30));
 
                     } else if (filter2choose == 4) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"lastUpdate",7));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"lastUpdate",7));
                     } else if (filter2choose == 5) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"lastUpdate",1));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"lastUpdate",1));
                     }
                 } else if (filter1choose == 3) {
                     if (filter2choose == 1) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"published",365));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"published",365));
                     } else if (filter2choose == 2) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"published",180));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"published",180));
                     } else if (filter2choose == 3) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"published",30));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"published",30));
 
                     } else if (filter2choose == 4) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"published",7));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"published",7));
                     } else if (filter2choose == 5) {
-                        articleService.showAnArticleList(filtering.filter(publishedArticles,"published",1));
+                        articleService.showAnArticleList(filtering.filter(ArticleRepositoryImp.allPublished(),"published",1));
                     }
                 }
 
@@ -179,7 +178,7 @@ public class AuthorMenu {
                     System.out.println(tempArticle.getTitle());
                 }
                 String title = scanner.nextLine();
-                Article choosenArticle = articleService.findArticleByTitle(title, articlesList);
+                Article choosenArticle =  ArticleRepositoryImp.findArticleByTile(title);
                 System.out.println("What do you want to do?");
                 System.out.println("1.Publish or Unpublished the article");
                 System.out.println("2.Edit the details");

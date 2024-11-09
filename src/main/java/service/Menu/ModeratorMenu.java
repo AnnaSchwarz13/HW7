@@ -1,6 +1,7 @@
 package service.Menu;
 
 import entities.Article;
+import entities.enums.ArticleStatus;
 import entities.enums.Role;
 import repository.Imp.ArticleRepositoryImp;
 import service.ArticleService;
@@ -58,8 +59,9 @@ public class ModeratorMenu {
                 }
 
                 String title = scanner.nextLine() +scanner.nextLine();
-                if (articleService.findArticleByTitle(title, ArticleRepositoryImp.allPending()) != null) {
-                    Article chosenArticle = articleService.findArticleByTitle(title, ArticleRepositoryImp.allPending());
+                if ( ArticleRepositoryImp.findArticleByTile(title) != null
+                        &&  ArticleRepositoryImp.findArticleByTile(title).getStatus()== ArticleStatus.PENDING ) {
+                    Article chosenArticle =  ArticleRepositoryImp.findArticleByTile(title);
                     List<Article> articleList = chosenArticle.getAuthor().getThisUserArticlesList();
 
                     System.out.println("1. Accept and publish");

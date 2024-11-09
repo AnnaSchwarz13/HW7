@@ -2,7 +2,6 @@ package service;
 
 
 import entities.Article;
-import entities.Author;
 import entities.Category;
 import entities.Tag;
 import entities.enums.ArticleStatus;
@@ -14,7 +13,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import static service.DateService.todaysDateAsString;
@@ -25,12 +23,8 @@ public class ArticleService {
     TagService tagService = new TagService();
     private String title;
     Scanner sc = new Scanner(System.in);
-    Random rand = new Random();
-    Author loggedInAuthor = AuthorRepositoryImp.findByUserId(UserService.loggedInUser.getId());
-    List<Article> publishedArticles = ArticleRepositoryImp.allPublished();
-    List<Article> pendingArticles = ArticleRepositoryImp.allPending();
 
-    public ArticleService() throws SQLException {
+    public ArticleService()  {
     }
 
     public void addArticle() throws SQLException {
@@ -43,10 +37,10 @@ public class ArticleService {
         String date = todaysDateAsString();
         Article article = new Article();
 
-        (loggedInAuthor.getThisUserArticlesList()).add(article);
+        (AuthorRepositoryImp.findByUserId(UserService.loggedInUser.getId()).getThisUserArticlesList()).add(article);
     }
 
-    public void showAnArticleList(List<Article> articles) {
+    public void showAnArticleList(List<Article> articles) throws SQLException {
         if (articles.isEmpty()) {
             System.out.println("there is no article");
         } else {
@@ -57,30 +51,16 @@ public class ArticleService {
             }
 
             this.title = this.sc.nextLine();
-            Article userChoice = this.findArticleByTitle(this.title, articles);
+            Article userChoice = ArticleRepositoryImp.findArticleByTile(this.title);
             if (userChoice != null) {
-                System.out.println(userChoice);
-                System.out.print("Author: ");
-                System.out.println(userChoice.getAuthor().getFirstName() + "  " + userChoice.getAuthor().getLastName());
-                if (userChoice.isPublished()) {
-                    System.out.println("publishedDate: " + userChoice.getPublishDate());
-
-                }
+                displayArticle(userChoice);
+            }
+            else{
+                System.out.println("No such article");
             }
         }
 
     }
-
-    public Article findArticleByTitle(String title, List<Article> articles) {
-        for (Article tempArticle : articles) {
-            if (tempArticle.getTitle().equals(title)) {
-                return tempArticle;
-            }
-        }
-        System.out.println("That article does not exist");
-        return null;
-    }
-
 
     public void changeArticleStatus(Article choosenArticle) throws SQLException {
         Scanner scanner = new Scanner(System.in);
@@ -95,14 +75,14 @@ public class ArticleService {
                 ArticleRepositoryImp.updateStatusPending(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
-            Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), publishedArticles);
+            Article ExsistedAuthorArticle = ArticleRepositoryImp.findArticleByTile(choosenArticle.getTitle());
             System.out.println("Remove article from published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
                 ArticleRepositoryImp.updateStatusNotPublished(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PENDING) {
-            Article ExsistedAuthorArticle = findArticleByTitle(choosenArticle.getTitle(), pendingArticles);
+            Article ExsistedAuthorArticle =  ArticleRepositoryImp.findArticleByTile(choosenArticle.getTitle());
 
             System.out.println("Cancel request to get published articles");
             choose = scanner.nextInt();
@@ -164,6 +144,22 @@ public class ArticleService {
             }
         }
 
+    }
+
+    public void displayArticle(Article choosenArticle) throws SQLException {
+        System.out.println(choosenArticle.getTitle());
+        System.out.println("category : "+categoryService.chooseCategory().getTitle());
+        System.out.println("Status : "+choosenArticle.getStatus());
+        System.out.println("created date : "+choosenArticle.getCreateDate());
+        System.out.println("last update date : "+choosenArticle.getLastUpdateDate());
+        if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
+            System.out.println("published date : "+choosenArticle.getPublishDate());
+        }
+        System.out.println("\n"+choosenArticle.getContent());
+        if(!choosenArticle.getBrief().isEmpty()) {
+            System.out.println("\n brief: " + choosenArticle.getBrief());
+        }
+        System.out.println(choosenArticle.getAuthor().getUsername()+" "+choosenArticle.getAuthor().getLastName());
     }
 
 }
