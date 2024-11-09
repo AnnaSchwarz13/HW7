@@ -102,16 +102,19 @@ public class ArticleService {
         if (choose == 1) {
             System.out.println("Please enter the new title:");
             String newTitle = sc.nextLine() + sc.nextLine();
-            ArticleRepositoryImp.update(choosenArticle, "title", newTitle);
+            ArticleRepositoryImp.updateTitle(choosenArticle, newTitle);
+            System.out.println("successful!");
 
         } else if (choose == 2) {
             Category newCategory = categoryService.chooseCategory();
             ArticleRepositoryImp.updateCategory(choosenArticle, newCategory);
+            System.out.println("successful!");
 
         } else if (choose == 3) {
             System.out.println("Please enter the new content:");
             String newText = sc.nextLine() + sc.nextLine();
-            ArticleRepositoryImp.update(choosenArticle, "text", newText);
+            ArticleRepositoryImp.updateText(choosenArticle, newText);
+            System.out.println("successful!");
 
         } else if (choose == 4) {
             TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();

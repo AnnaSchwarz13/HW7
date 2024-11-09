@@ -58,18 +58,26 @@ public class ArticleRepositoryImp implements ArticleRepository {
             SELECT * FROM Articles
             WHERE author_id = ?
             """;
-    public static final String UPDATE_SQL= """
+    public static final String UPDATE_TITLE_SQL = """
             UPDATE Articles
-            SET ? = ? , last_updated_date = ?
+            SET title = ? , last_updated_date = ?
             WHERE id = ?
             """;
-    public static final String UPDATE_LAST_DATE_SQL= """
+    public static final String UPDATE_TEXT_SQL = """
+            UPDATE Articles
+            SET text = ? , last_updated_date = ?
+            WHERE id = ?
+            """;
+    public static final String UPDATE_CATEGORY_SQL = """
+            UPDATE Articles
+            SET category_id = ? , last_updated_date = ?
+            WHERE id = ?
+            """;
+    public static final String UPDATE_LAST_DATE_SQL = """
             UPDATE Articles
             SET last_updated_date = ?
             WHERE id = ?
             """;
-
-
 
 
     @Override
@@ -223,29 +231,36 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    public static void update(Article article, String column , String newValue) throws SQLException {
-        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_SQL)){
-            statement.setString(1, column);
-            statement.setString(2, newValue);
-            statement.setDate(3, Date.valueOf(LocalDate.now()));
-            statement.setLong(4, article.getId());
+    public static void updateTitle(Article article, String newValue) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_TITLE_SQL)) {
+            statement.setString(1, newValue);
+            statement.setDate(2, Date.valueOf(LocalDate.now()));
+            statement.setLong(3, article.getId());
             statement.executeUpdate();
         }
+    }
 
+    public static void updateText(Article article, String newValue) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_TEXT_SQL)) {
+            statement.setString(1, newValue);
+            statement.setDate(2, Date.valueOf(LocalDate.now()));
+            statement.setLong(3, article.getId());
+            statement.executeUpdate();
+        }
     }
 
     public static void updateCategory(Article article, Category category) throws SQLException {
-        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_SQL)){
-            statement.setString(1, "category_id");
-            statement.setLong(2, category.getId());
-            statement.setDate(3, Date.valueOf(LocalDate.now()));
-            statement.setLong(4, article.getId());
+        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_CATEGORY_SQL)) {
+            statement.setLong(1, category.getId());
+            statement.setDate(2, Date.valueOf(LocalDate.now()));
+            statement.setLong(3, article.getId());
             statement.executeUpdate();
         }
 
     }
+
     public static void setLastUpdateDate() throws SQLException {
-        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_LAST_DATE_SQL)){
+        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_LAST_DATE_SQL)) {
             statement.setDate(1, Date.valueOf(LocalDate.now()));
             statement.executeUpdate();
         }
