@@ -78,6 +78,12 @@ public class ArticleRepositoryImp implements ArticleRepository {
             SET last_updated_date = ?
             WHERE id = ?
             """;
+    public static final String GET_LAST_INDEX = """
+            SELECT id FROM Articles
+            where author_id =?
+            ORDER BY id DESC
+            LIMIT 1
+            """;
 
 
     @Override
@@ -93,6 +99,9 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.setBoolean(8, false);
             statement.setString(9, "NOT_PUBLISHED");
             statement.executeUpdate();
+            long id = getLastId(article.getAuthor());
+            article.setId(id);
+            System.out.println(id);
             return article;
         }
     }
@@ -259,12 +268,26 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
     }
 
-    public static void setLastUpdateDate() throws SQLException {
+    public static void setLastUpdateDate(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_LAST_DATE_SQL)) {
             statement.setDate(1, Date.valueOf(LocalDate.now()));
+            statement.setLong(2, article.getId());
+
             statement.executeUpdate();
         }
 
+    }
+    private static long getLastId(Author author) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(GET_LAST_INDEX)) {
+            statement.setLong(1, author.getId());
+            ResultSet resultSet = statement.executeQuery();
+
+            long id = 0;
+            if (resultSet.next()) {
+                id = resultSet.getLong(1);
+            }
+            return id;
+        }
     }
 }
 

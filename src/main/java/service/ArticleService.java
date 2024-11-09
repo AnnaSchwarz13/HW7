@@ -35,7 +35,8 @@ public class ArticleService {
         List<Tag> brief = tagService.setArticleTags();
         String date = todaysDateAsString();
         Article article = new Article(AuthorRepositoryImp.findByUserId(loggedInUser.getId()), title, articleCategory, articleText);
-        articleRepository.create(article);
+        article = articleRepository.create(article);
+        System.out.println(article.getId());
         TagRepositoryImp.setArticlesTag(brief, article);
     }
 
@@ -142,7 +143,7 @@ public class ArticleService {
                 if (choose2 == -1) {
                     tagRepositoryImp.delete(choosenArticle.getId());
                     TagRepositoryImp.setArticlesTag(newTags, choosenArticle);
-                    ArticleRepositoryImp.setLastUpdateDate();
+                    ArticleRepositoryImp.setLastUpdateDate(choosenArticle);
                     System.out.println("Tag list updated successfully");
                     break;
                 }
