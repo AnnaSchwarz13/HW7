@@ -48,8 +48,7 @@ public class UserRepositoryImp implements UserRepository {
         return user;
     }
 
-    @Override
-    public User read(long id) throws SQLException {
+    public static User read(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -97,15 +96,15 @@ public class UserRepositoryImp implements UserRepository {
         }
 
     }
-    static public long findByUsername(String username) throws SQLException {
+    static public User findByUsername(String username) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_ID_BY_USERNAME_SQL)){
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
-            long userId = 0;
+            User user=null;
             if (resultSet.next()) {
-                userId = resultSet.getLong(1);
+                user =read( resultSet.getLong(1));
             }
-            return userId;
+            return user;
         }
     }
 }

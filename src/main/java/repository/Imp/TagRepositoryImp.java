@@ -119,7 +119,7 @@ public class TagRepositoryImp implements TagRepository {
         }
     }
 
-    private static List<Tag> getTags(Article article) {
+    public static List<Tag> getTags(Article article) {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_ARTICLES_TAG)) {
             statement.setLong(1, article.getId());
             ResultSet resultSet = statement.executeQuery();
@@ -134,7 +134,7 @@ public class TagRepositoryImp implements TagRepository {
         }
     }
 
-    private static void setArticlesTag(List<Tag> tags, Article article) {
+    public static void setArticlesTag(List<Tag> tags, Article article) {
         try (var statement = Datasource.getConnection().prepareStatement(INSET_ARTICLES_TAGS)) {
             for (Tag tag : tags) {
                 statement.setLong(1, article.getId());

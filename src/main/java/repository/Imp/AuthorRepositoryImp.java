@@ -11,7 +11,6 @@ import java.sql.SQLException;
 
 public class AuthorRepositoryImp implements AuthorRepository {
 
-    static UserRepositoryImp userRepo = new UserRepositoryImp();
     private static final String INSERT_SQL = """
             INSERT INTO Authors(firstname, lastname, birthday , national_code, user_id)
                     VALUES (?, ?, ? ,? ,?)
@@ -30,6 +29,11 @@ public class AuthorRepositoryImp implements AuthorRepository {
             SELECT * FROM Authors
             WHERE user_id = ?
             """;
+    private static final String UPDATE_PASSWORD_SQL= """
+            UPDATE Users
+            SET password = ?
+            WHERE username = ?
+            """;
 
     @Override
     public Author create(Author author) throws SQLException {
@@ -38,7 +42,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
             statement.setString(2, author.getLastName());
             statement.setDate(3, (Date) author.getBirthDate());
             statement.setString(4, author.getNationalCode());
-            long userId = UserRepositoryImp.findByUsername(author.getUsername());
+            long userId = UserRepositoryImp.findByUsername(author.getUsername()).getId();
             statement.setLong(5, userId);
 
             statement.executeUpdate();
@@ -60,7 +64,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
                 Date bithdate = resultSet.getDate(4);
                 String nationalCode = resultSet.getString(5);
                 int userId = resultSet.getInt(6);
-                User user = userRepo.read(userId);
+                User user = UserRepositoryImp.read(userId);
                 author = new Author(authorFirstname, authorLastname, user.getUsername()
                         , user.getPassword(), nationalCode, bithdate);
             }
@@ -91,6 +95,14 @@ public class AuthorRepositoryImp implements AuthorRepository {
             return author;
         }
 
+    }
+
+    public static void setUpdatePassword(Author author , String password) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(UPDATE_PASSWORD_SQL)) {
+            statement.setString(1, password);
+            statement.setString(2, author.getUsername());
+            statement.executeUpdate();
+        }
     }
 
 }

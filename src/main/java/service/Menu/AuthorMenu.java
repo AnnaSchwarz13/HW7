@@ -13,9 +13,9 @@ import service.Filtering;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Scanner;
-import static service.UserService.loggedInUser;
+
+import static service.AuthenticationService.loggedInUser;
 
 public class AuthorMenu {
     Scanner scanner = new Scanner(System.in);
@@ -160,21 +160,20 @@ public class AuthorMenu {
 
     public static void articleSiteMenu(int option) throws SQLException {
         Author loggedInAuthor = AuthorRepositoryImp.findByUserId(loggedInUser.getId());
-        List<Article> articlesList = loggedInAuthor.getThisUserArticlesList();
         Scanner scanner = new Scanner(System.in);
         ArticleService articleService = new ArticleService();
         AuthorService authorService = new AuthorService();
         if (option == 1) {
             articleService.addArticle();
         } else if (option == 2) {
-            articleService.showAnArticleList(articlesList);
+            articleService.showAnArticleList(ArticleRepositoryImp.getArticles(loggedInAuthor));
         } else if (option == 3) {
-            if (articlesList.isEmpty()) {
+            if (ArticleRepositoryImp.getArticles(loggedInAuthor).isEmpty()) {
                 System.out.println("there is no article");
             } else {
                 System.out.println("Please enter the title of the article's list \n for see more details: ");
 
-                for (Article tempArticle: articlesList) {
+                for (Article tempArticle: ArticleRepositoryImp.getArticles(loggedInAuthor)) {
                     System.out.println(tempArticle.getTitle());
                 }
                 String title = scanner.nextLine();

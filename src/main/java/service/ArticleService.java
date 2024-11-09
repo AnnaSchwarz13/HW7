@@ -15,8 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+import static service.AuthenticationService.loggedInUser;
 import static service.DateService.todaysDateAsString;
-import static service.UserService.loggedInUser;
 
 
 public class ArticleService {

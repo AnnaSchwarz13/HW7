@@ -9,6 +9,8 @@ import repository.Imp.UserRepositoryImp;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import static service.AuthenticationService.loggedInUser;
+
 public class AuthorService extends UserService{
 AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
 UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
@@ -23,9 +25,10 @@ UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
     }
 
 
-    public void changePassword(String oldPassword, String newPassword) {
+    public void changePassword(String oldPassword, String newPassword) throws SQLException {
         if (AuthenticationService.getLoggedUser().getPassword().equals(oldPassword)) {
-            AuthenticationService.getLoggedUser().setPassword(newPassword);
+           AuthorRepositoryImp.setUpdatePassword(AuthorRepositoryImp.findByUserId(loggedInUser.getId()),newPassword);
+            System.out.println("Password changed successfully");
             return;
         }
         System.out.println("Wrong password");

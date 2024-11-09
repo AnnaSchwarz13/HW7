@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import static service.UserService.loggedInUser;
+import static service.AuthenticationService.loggedInUser;
 
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);

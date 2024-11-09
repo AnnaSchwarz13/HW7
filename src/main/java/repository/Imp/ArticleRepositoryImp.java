@@ -4,6 +4,7 @@ package repository.Imp;
 import entities.Article;
 import entities.Author;
 import entities.Category;
+import entities.Tag;
 import entities.enums.ArticleStatus;
 import repository.ArticleRepository;
 
@@ -54,6 +55,10 @@ public class ArticleRepositoryImp implements ArticleRepository {
     public static final String FIND_BY_TITLE_SQL = """
             SELECT * FROM Articles
             WHERE title = ?
+            """;
+    public static final String FIND_ALL_AUTHOR_ARTICLES_SQL= """
+            SELECT * FROM Articles
+            WHERE author_id = ?
             """;
 
 
@@ -199,6 +204,21 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
             return article;
 
+        }
+    }
+
+    public static List<Article> getArticles(Author author) {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_ALL_AUTHOR_ARTICLES_SQL)) {
+            statement.setLong(1, author.getId());
+            ResultSet resultSet = statement.executeQuery();
+            List<Article> articles = new LinkedList<>();
+            while (resultSet.next()) {
+                Article article= read(resultSet.getInt(1));
+                articles.add(article);
+            }
+            return new ArrayList<>(articles);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
