@@ -4,12 +4,10 @@ package repository.Imp;
 import entities.Article;
 import entities.Author;
 import entities.Category;
-import entities.Tag;
 import entities.enums.ArticleStatus;
 import repository.ArticleRepository;
 
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -26,7 +24,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
              INSERT INTO Articles(title, text,category_id, published_date  ,
                                     created_date , last_updated_date\s
                                   , author_id , is_published, article_status)
-             VALUES (?, ? ,? ,? ,? ,? , ?,?)
+             VALUES (?, ? ,? ,? ,? ,? , ?, ?,?)
             """;
 
     private static final String DELETE_BY_ID_SQL = """
@@ -136,7 +134,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
             ResultSet resultSet = statement.executeQuery();
             List<Article> publishedArticles = new LinkedList<>();
             while (resultSet.next()) {
-                Article article = read(resultSet.getInt(1));
+                Article article = read(resultSet.getLong(1));
                 publishedArticles.add(article);
             }
 
@@ -167,7 +165,14 @@ public class ArticleRepositoryImp implements ArticleRepository {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "article_status");
             statement.setString(2, "NOT_PUBLISHED");
-            ChangStatus(article, statement);
+            statement.setString(3, "published_date");
+            statement.setDate(4, null);
+            statement.setString(5, "last_updated_date");
+            statement.setDate(6, Date.valueOf(LocalDate.now()));
+            statement.setString(7, "is_published");
+            statement.setBoolean(8, false);
+            statement.setLong(9, article.getId());
+            statement.executeUpdate();
         }
     }
 
@@ -175,20 +180,17 @@ public class ArticleRepositoryImp implements ArticleRepository {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "article_status");
             statement.setString(2, "PENDING");
-            ChangStatus(article, statement);
+            statement.setString(3, "published_date");
+            statement.setDate(4, null);
+            statement.setString(5, "last_updated_date");
+            statement.setDate(6, Date.valueOf(LocalDate.now()));
+            statement.setString(7, "is_published");
+            statement.setBoolean(8, false);
+            statement.setLong(9, article.getId());
+            statement.executeUpdate();
         }
     }
 
-    private static void ChangStatus(Article article, PreparedStatement statement) throws SQLException {
-        statement.setString(3, "published_date");
-        statement.setDate(4, null);
-        statement.setString(5, "last_updated_date");
-        statement.setDate(6, Date.valueOf(LocalDate.now()));
-        statement.setString(7, "is_published");
-        statement.setBoolean(8, false);
-        statement.setLong(9, article.getId());
-        statement.executeUpdate();
-    }
 
     public static Article findArticleByTile(String title) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
@@ -213,7 +215,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
             ResultSet resultSet = statement.executeQuery();
             List<Article> articles = new LinkedList<>();
             while (resultSet.next()) {
-                Article article= read(resultSet.getInt(1));
+                Article article= read(resultSet.getLong(1));
                 articles.add(article);
             }
             return new ArrayList<>(articles);

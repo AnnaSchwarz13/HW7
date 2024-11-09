@@ -67,6 +67,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
                 User user = UserRepositoryImp.read(userId);
                 author = new Author(authorFirstname, authorLastname, user.getUsername()
                         , user.getPassword(), nationalCode, bithdate);
+                author.setId(authorId);
             }
 
             return author;
@@ -104,5 +105,6 @@ public class AuthorRepositoryImp implements AuthorRepository {
             statement.executeUpdate();
         }
     }
+
 
 }

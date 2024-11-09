@@ -8,7 +8,6 @@ import service.ArticleService;
 import service.UserService;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Scanner;
 
 import static service.AuthenticationService.loggedInUser;
@@ -26,9 +25,9 @@ public class ModeratorMenu {
             username = scanner.next();
             System.out.println("Enter password:");
             password = scanner.next();
-            userService.userLogin(username, password , Role.MODERATOR);
+            userService.userLogin(username, password, Role.MODERATOR);
         }
-        while (loggedInUser!=null) {
+        while (loggedInUser != null) {
             if (!ArticleRepositoryImp.allPending().isEmpty()) {
                 System.out.println("There is new articles to check for publish!!");
             }
@@ -54,15 +53,14 @@ public class ModeratorMenu {
                 }
                 System.out.println("Enter an article name to remove or get publish :");
 
-                for (Article tempArticle :ArticleRepositoryImp.allPending()) {
+                for (Article tempArticle : ArticleRepositoryImp.allPending()) {
                     System.out.println(tempArticle.getTitle());
                 }
 
-                String title = scanner.nextLine() +scanner.nextLine();
-                if ( ArticleRepositoryImp.findArticleByTile(title) != null
-                        &&  ArticleRepositoryImp.findArticleByTile(title).getStatus()== ArticleStatus.PENDING ) {
-                    Article chosenArticle =  ArticleRepositoryImp.findArticleByTile(title);
-                    List<Article> articleList = chosenArticle.getAuthor().getThisUserArticlesList();
+                String title = scanner.nextLine() + scanner.nextLine();
+                if (ArticleRepositoryImp.findArticleByTile(title) != null
+                        && ArticleRepositoryImp.findArticleByTile(title).getStatus() == ArticleStatus.PENDING) {
+                    Article chosenArticle = ArticleRepositoryImp.findArticleByTile(title);
 
                     System.out.println("1. Accept and publish");
                     System.out.println("2. Reject and remove");
@@ -70,7 +68,7 @@ public class ModeratorMenu {
                     if (option1 == 1) {
                         ArticleRepositoryImp.updateStatusPublished(chosenArticle);
                     } else if (option1 == 2) {
-                       ArticleRepositoryImp.updateStatusNotPublished(chosenArticle);
+                        ArticleRepositoryImp.updateStatusNotPublished(chosenArticle);
                     }
                 }
             } else {
