@@ -47,8 +47,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
     }
 
-    @Override
-    public Category read(int id) throws SQLException {
+    public Category read(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -67,7 +66,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setLong(1, id);
             var affectedRows = statement.executeUpdate();
@@ -75,16 +74,17 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
     }
 
-    public static int findCount() throws SQLException {
+    public static long findCount() throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_COUNT_SQL)) {
             ResultSet resultSet = statement.executeQuery();
-            int categoryIndex=0;
+            long categoryIndex = 0;
             if (resultSet.next()) {
-                categoryIndex = resultSet.getInt(1);
+                categoryIndex = resultSet.getLong(1);
             }
             return categoryIndex;
         }
     }
+
     static public List<Category> all() {
         try (var statement = Datasource.getConnection().prepareStatement(READ_ALL_SQL)) {
             ResultSet resultSet = statement.executeQuery();
@@ -111,11 +111,8 @@ public class CategoryRepositoryImp implements CategoryRepository {
 
             Category category = null;
             if (resultSet.next()) {
-                long categoryId = resultSet.getLong(1);
-                String categoryTitle = resultSet.getString(2);
-                String categoryDescription = resultSet.getString(3);
+                category = read(resultSet.getLong(1));
 
-                category = new Category(categoryId, categoryTitle, categoryDescription);
             }
 
             return category;

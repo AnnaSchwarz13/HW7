@@ -47,8 +47,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
         }
     }
 
-    @Override
-    public Author read(int id) throws SQLException {
+    public static Author read(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -71,7 +70,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setLong(1, id);
             var affectedRows = statement.executeUpdate();
@@ -86,15 +85,8 @@ public class AuthorRepositoryImp implements AuthorRepository {
             ResultSet resultSet = statement.executeQuery();
             Author author = null;
             if (resultSet.next()) {
-                long authorId = resultSet.getLong(1);
-                String authorFirstname = resultSet.getString(2);
-                String authorLastname = resultSet.getString(3);
-                Date bithdate = resultSet.getDate(4);
-                String nationalCode = resultSet.getString(5);
-                int userID = resultSet.getInt(6);
-                User user = userRepo.read(userID);
-                author = new Author(authorFirstname, authorLastname, user.getUsername()
-                        , user.getPassword(), nationalCode, bithdate);
+                author =read(resultSet.getLong(1));
+
             }
             return author;
         }

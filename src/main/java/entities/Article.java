@@ -40,13 +40,13 @@ public class Article {
 
     }
 
-    public void setPublished(boolean published) {
-        isPublished = published;
+    public Article(Author author, String title, Category category, String content) {
+        this.author = author;
+        this.title = title;
+        this.category = category;
+        this.content = content;
     }
-
-    public boolean isPublished() {
-        return isPublished;
-    }
-
 }
+
+
 

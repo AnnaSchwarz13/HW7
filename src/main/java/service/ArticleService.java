@@ -5,6 +5,7 @@ import entities.Article;
 import entities.Category;
 import entities.Tag;
 import entities.enums.ArticleStatus;
+import repository.ArticleRepository;
 import repository.Imp.ArticleRepositoryImp;
 import repository.Imp.AuthorRepositoryImp;
 import repository.Imp.TagRepositoryImp;
@@ -16,10 +17,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import static service.DateService.todaysDateAsString;
+import static service.UserService.loggedInUser;
 
 
 public class ArticleService {
     CategoryService categoryService = new CategoryService();
+    ArticleRepositoryImp articleRepository = new ArticleRepositoryImp();
     TagService tagService = new TagService();
     Scanner sc = new Scanner(System.in);
 
@@ -34,9 +37,9 @@ public class ArticleService {
         String articleText = sc.nextLine();
         List<Tag> brief = tagService.setArticleTags();
         String date = todaysDateAsString();
-        Article article = new Article();
+        Article article = new Article(AuthorRepositoryImp.findByUserId(loggedInUser.getId()),title,articleCategory,articleText);
+        articleRepository.create(article);
 
-        (AuthorRepositoryImp.findByUserId(UserService.loggedInUser.getId()).getThisUserArticlesList()).add(article);
     }
 
     public void showAnArticleList(List<Article> articles) throws SQLException {

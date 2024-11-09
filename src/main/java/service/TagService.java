@@ -3,18 +3,19 @@ package service;
 import entities.Tag;
 import repository.Imp.TagRepositoryImp;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class TagService {
     Scanner sc = new Scanner(System.in);
-    List<Tag> tagList = TagRepositoryImp.all();
+    TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
 
-    protected List<Tag> setArticleTags() {
+    protected List<Tag> setArticleTags() throws SQLException {
         List<Tag> tags = new ArrayList<>();
         System.out.println("Please enter the tags of the article: \n at the end enter -1");
-        for (Tag tag : tagList) {
+        for (Tag tag : TagRepositoryImp.all()) {
             System.out.println(tag.getTitle());
         }
         System.out.println("For add a tag enter 1");
@@ -26,36 +27,28 @@ public class TagService {
             if (tagName.equals("1")) {
                 System.out.println("Please enter your tag name");
                 String newTagName = this.sc.nextLine();
-                if (findTagByTitle(newTagName) != null) {
+                if (TagRepositoryImp.findTagByTile(newTagName) != null) {
                     System.out.println("Tag already exists");
                 } else {
                     Tag newTag = new Tag(newTagName);
-                    tagList.add(newTag);
+                    tagRepositoryImp.create(newTag);
                     System.out.println("New tags are there please choose a tag: \n at the end enter -1");
-                    for (Tag tag : tagList) {
+                    for (Tag tag : TagRepositoryImp.all()) {
                         System.out.println(tag.getTitle());
                     }
                     System.out.println("For add a tag enter 1");
                 }
 
             } else {
-                Tag newTag = findTagByTitle(tagName);
+                Tag newTag =TagRepositoryImp.findTagByTile(tagName);
                 if (newTag != null) {
-                    tagList.add(newTag);
+                    tags.add(newTag);
                 }
             }
         }
-        return tagList;
+        return tags;
     }
 
-    private Tag findTagByTitle(String title) {
-        for (Tag tag : tagList) {
-            if (tag.getTitle().equals(title)) {
-                return tag;
-            }
-        }
-        System.out.println("That tag does not exist");
-        return null;
-    }
+
 
 }

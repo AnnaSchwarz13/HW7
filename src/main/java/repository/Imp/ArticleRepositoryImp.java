@@ -18,18 +18,14 @@ import java.util.List;
 
 import repository.Datasource;
 
-import static java.lang.String.valueOf;
-
-
 public class ArticleRepositoryImp implements ArticleRepository {
     //CRUD create read update delete
-    static AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
     static CategoryRepositoryImp categoryRepositoryImp = new CategoryRepositoryImp();
     private static final String INSERT_SQL = """
              INSERT INTO Articles(title, text,category_id, published_date  ,
                                     created_date , last_updated_date\s
                                   , author_id , is_published, article_status)
-             VALUES (?, ?, ? ,? ,? ,? ,? , ?)
+             VALUES (?, ? ,? ,? ,? ,? , ?,?)
             """;
 
     private static final String DELETE_BY_ID_SQL = """
@@ -67,18 +63,19 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.setString(1, article.getTitle());
             statement.setString(2, article.getContent());
             statement.setLong(3, (article.getCategory()).getId());
-            statement.setDate(4, (Date) article.getPublishDate());
-            statement.setDate(5, (Date) article.getCreateDate());
-            statement.setDate(6, (Date) article.getLastUpdateDate());
+            statement.setDate(4, null);
+            statement.setDate(5, Date.valueOf(LocalDate.now()));
+            statement.setDate(6, Date.valueOf(LocalDate.now()));
             statement.setLong(7, article.getAuthor().getId());
-            statement.setString(8, valueOf(article.getStatus()));
+            statement.setBoolean(8,false);
+            statement.setString(9, "NOT_PUBLISHED");
             statement.executeUpdate();
             return article;
         }
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setLong(1, id);
             var affectedRows = statement.executeUpdate();
@@ -87,7 +84,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
     }
 
 
-    public static Article read(int id) throws SQLException {
+    public static Article read(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -105,7 +102,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
                 boolean published = resultSet.getBoolean(9);
                 String status = resultSet.getString(10);
                 Category category = categoryRepositoryImp.read(categoryId);
-                Author author = authorRepositoryImp.read(authorId);
+                Author author = AuthorRepositoryImp.read(authorId);
                 article = new Article(articleId, title, text, category, createDate,
                         published, lastUpdateDate, ArticleStatus.valueOf(status), author);
 

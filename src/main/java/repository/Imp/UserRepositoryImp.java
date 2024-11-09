@@ -49,7 +49,7 @@ public class UserRepositoryImp implements UserRepository {
     }
 
     @Override
-    public User read(int id) throws SQLException {
+    public User read(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -68,7 +68,7 @@ public class UserRepositoryImp implements UserRepository {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
             statement.setLong(1, id);
             var affectedRows = statement.executeUpdate();
