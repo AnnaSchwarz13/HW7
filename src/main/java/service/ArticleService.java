@@ -5,7 +5,6 @@ import entities.Article;
 import entities.Category;
 import entities.Tag;
 import entities.enums.ArticleStatus;
-import repository.ArticleRepository;
 import repository.Imp.ArticleRepositoryImp;
 import repository.Imp.AuthorRepositoryImp;
 import repository.Imp.TagRepositoryImp;
@@ -56,9 +55,6 @@ public class ArticleService {
             Article userChoice = ArticleRepositoryImp.findArticleByTile(title);
             if (userChoice != null) {
                 displayArticle(userChoice);
-            }
-            else if(userChoice == null){
-                System.out.println("No such article");
             }
         }
 

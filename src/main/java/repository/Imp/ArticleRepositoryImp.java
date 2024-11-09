@@ -193,6 +193,9 @@ public class ArticleRepositoryImp implements ArticleRepository {
             if (resultSet.next()) {
              article=read(resultSet.getInt(1));
             }
+            else{
+                System.out.println("No Article found for title: " + title);
+            }
 
             return article;
 
