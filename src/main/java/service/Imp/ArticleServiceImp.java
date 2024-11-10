@@ -11,7 +11,6 @@ import service.ArticleService;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
-import static service.Imp.DateServiceImp.todaysDateAsString;
 
 public class ArticleServiceImp implements ArticleService {
     ArticleRepositoryImp articleRepositoryImp = new ArticleRepositoryImp();
@@ -30,7 +29,6 @@ public class ArticleServiceImp implements ArticleService {
         System.out.println("Enter article text: ");
         String articleText = sc.nextLine();
         List<Tag> brief = tagServiceImp.setArticleTags();
-        String date = todaysDateAsString();
         Article article = new Article(authorRepositoryImp.findByUserId(authenticationServiceImp.getLoggedUser().getId()), title, articleCategory, articleText);
         article = articleRepositoryImp.create(article);
         System.out.println(article.getId());

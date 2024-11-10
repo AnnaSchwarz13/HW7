@@ -2,13 +2,15 @@ package service.Imp;
 
 import entities.Category;
 import repository.Imp.CategoryRepositoryImp;
+import service.CategoryService;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class CategoryServiceImp {
+public class CategoryServiceImp implements CategoryService {
     Scanner sc = new Scanner(System.in);
     CategoryRepositoryImp categoryRepositoryImp = new CategoryRepositoryImp();
+    @Override
     public Category chooseCategory() throws SQLException {
         while (true) {
             if (categoryRepositoryImp.findCount() == 0) {

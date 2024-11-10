@@ -1,7 +1,6 @@
 package service;
 
 import entities.Article;
-import service.Imp.DateServiceImp;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -10,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Filtering {
-    DateServiceImp dateServiceImp = new DateServiceImp();
     Date today = Date.valueOf(LocalDate.now());
     List<Article> filteredList = new LinkedList<>();
 
@@ -47,25 +45,52 @@ public class Filtering {
 
     private void checkDistance(int distance, Article article, Date date) {
         if (distance == 365) {
-            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "1year")) {
+            if (timeIntervalOfTwoDates(today, date, 365)) {
                 filteredList.add(article);
             }
         } else if (distance == 180) {
-            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "6month")) {
+            if (timeIntervalOfTwoDates(today, date, 180)) {
                 filteredList.add(article);
             }
         } else if (distance == 30) {
-            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "1month")) {
+            if (timeIntervalOfTwoDates(today, date, 30)) {
                 filteredList.add(article);
             }
         } else if (distance == 7) {
-            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "1week")) {
+            if (timeIntervalOfTwoDates(today, date, 7)) {
                 filteredList.add(article);
             }
         } else if (distance == 1) {
-            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "24hour")) {
+            if (timeIntervalOfTwoDates(today, date, 1)) {
                 filteredList.add(article);
             }
         }
+    }
+
+    public boolean timeIntervalOfTwoDates(Date today, Date date, int chosenDomain) {
+        switch (chosenDomain) {
+            case 365 -> {
+                return ((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) <= 12;//mean for last year
+            }
+            case 180 -> {
+                return ((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) <= 6;//mean for last 6 month
+            }
+            case 30 -> {
+                return ((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) <= 1;//mean for last month
+            }
+            case 7 -> {
+                if ((today.getYear() - date.getYear() <= 1)) {
+                    return (((today.getYear() - date.getYear()) * 12 + today.getMonth() - date.getMonth()) * 30
+                            - date.getDay() + today.getDay()) <= 7;//mean for last week
+                }
+            }
+            case 1 -> {
+                if ((today.getYear() - date.getYear() <= 1)) {
+                    return ((((-date.getYear() + today.getYear()) * 12) + today.getMonth() - date.getMonth()) * 30
+                            - date.getDay() + today.getDay()) <= 1;//mean for last 24hour
+                }
+            }
+        }
+        return false;
     }
 }

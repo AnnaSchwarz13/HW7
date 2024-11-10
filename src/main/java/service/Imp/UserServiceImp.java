@@ -3,13 +3,15 @@ package service.Imp;
 import entities.User;
 import entities.enums.Role;
 import repository.Imp.UserRepositoryImp;
+import service.UserService;
 
 import java.sql.SQLException;
 
-public class UserServiceImp {
+public class UserServiceImp implements UserService {
     UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
     AuthenticationServiceImp authenticationServiceImp = new AuthenticationServiceImp();
 
+    @Override
     public void userLogin(String username, String password, Role role) throws SQLException {
         for (User checkingUser : userRepositoryImp.all()) {
             if (checkingUser.getUsername().equals(username)) {
@@ -25,7 +27,7 @@ public class UserServiceImp {
         }
         System.out.println("Username or password is wrong!");
     }
-
+@Override
     public void userLogout() {
         authenticationServiceImp.logout();
     }

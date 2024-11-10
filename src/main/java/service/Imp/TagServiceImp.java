@@ -2,16 +2,17 @@ package service.Imp;
 
 import entities.Tag;
 import repository.Imp.TagRepositoryImp;
+import service.TagService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TagServiceImp {
+public class TagServiceImp implements TagService {
     Scanner sc = new Scanner(System.in);
     TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
-
+@Override
     public List<Tag> setArticleTags() throws SQLException {
         List<Tag> tags = new ArrayList<>();
         System.out.println("Please enter the tags of the article: \n at the end enter -1");
