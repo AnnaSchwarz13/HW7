@@ -10,11 +10,12 @@ import java.util.Date;
 @Setter
 public class Author extends User {
 
+    private long id;
     private final String firstName;
     private final String lastName;
     private final String nationalCode;
     private final Date birthDate;
-    private long id;
+
 
     public Author(String firstName, String lastName, String username, String password,
                   String nationalCode, Date birthday) {

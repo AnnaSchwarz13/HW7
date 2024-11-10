@@ -36,9 +36,6 @@ public class Article {
         this.author = author;
         this.id = id;
     }
-    public Article(){
-
-    }
 
     public Article(Author author, String title, Category category, String content) {
         this.author = author;

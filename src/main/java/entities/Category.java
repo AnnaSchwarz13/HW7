@@ -1,18 +1,13 @@
 package entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Random;
 @Getter
+@AllArgsConstructor
 public class Category {
     private final String title;
     private final String description;
     private final long id;
-    Random rand = new Random();
-    public Category( long id,String title, String description) {
-        this.title = title;
-        this.description = description;
-        this.id = id;
-    }
 
 }
