@@ -6,21 +6,21 @@ import entities.enums.Role;
 import repository.ArticleRepository;
 import repository.Imp.ArticleRepositoryImp;
 import service.Imp.ArticleServiceImp;
+import service.Imp.AuthenticationServiceImp;
 import service.Imp.UserServiceImp;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static service.Imp.AuthenticationServiceImp.loggedInUser;
-
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
     UserServiceImp userServiceImp = new UserServiceImp();
+    AuthenticationServiceImp authenticationServiceImp = new AuthenticationServiceImp();
     ArticleServiceImp articleServiceImp = new ArticleServiceImp();
     ArticleRepository articleRepositoryImp = new ArticleRepositoryImp();
 
     public ModeratorMenu() throws SQLException {
-        if (loggedInUser == null) {
+        if (authenticationServiceImp.getLoggedUser() == null) {
             String username;
             String password;
             System.out.println("Enter username:");
@@ -29,7 +29,7 @@ public class ModeratorMenu {
             password = scanner.next();
             userServiceImp.userLogin(username, password, Role.MODERATOR);
         }
-        while (loggedInUser != null) {
+        while (authenticationServiceImp.getLoggedUser() != null) {
             if (!articleRepositoryImp.allPending().isEmpty()) {
                 System.out.println("There is new articles to check for publish!!");
             }

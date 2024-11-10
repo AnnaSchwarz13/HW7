@@ -5,26 +5,25 @@ import entities.Author;
 import entities.enums.Role;
 import repository.Imp.ArticleRepositoryImp;
 import repository.Imp.AuthorRepositoryImp;
+import service.Filtering;
 import service.Imp.ArticleServiceImp;
 import service.Imp.AuthenticationServiceImp;
 import service.Imp.AuthorServiceImpImp;
-import service.Filtering;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import static service.Imp.AuthenticationServiceImp.loggedInUser;
-
 public class AuthorMenu {
     static ArticleRepositoryImp articleRepositoryImp = new ArticleRepositoryImp();
     static AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
+    static AuthenticationServiceImp authenticationServiceImp = new AuthenticationServiceImp();
     Scanner scanner = new Scanner(System.in);
 
     public AuthorMenu() throws SQLException {
         int userInput;
-        while (loggedInUser == null) {
+        while (authenticationServiceImp.getLoggedUser() == null) {
             System.out.println("\n\nDear user please choose a option from the menu : ");
             System.out.println("1.Signup");
             System.out.println("2.login");
@@ -37,10 +36,10 @@ public class AuthorMenu {
             userLoginMenu(userInput);
         }
 
-        if (loggedInUser != null) {
-            System.out.println("Good Day Dear " + (loggedInUser).getUsername() + "!");
+        if (authenticationServiceImp.getLoggedUser()!= null) {
+            System.out.println("Good Day Dear " + (authenticationServiceImp.getLoggedUser()).getUsername() + "!");
         }
-        while (loggedInUser != null) {
+        while (authenticationServiceImp.getLoggedUser() != null) {
 
 
             System.out.println("\nWhat do you want to do?");
@@ -69,7 +68,7 @@ public class AuthorMenu {
             while (true) {
                 System.out.println("Enter username:");
                 String username = scanner.next();
-                if (AuthenticationServiceImp.isUserNameNew(username, Role.AUTHOR)) {
+                if (authenticationServiceImp.isUserNameNew(username, Role.AUTHOR)) {
                     System.out.println("Enter your national code: ");
                     String nationalCode = scanner.next();
                     while (true) {
@@ -161,7 +160,7 @@ public class AuthorMenu {
     }
 
     public static void articleSiteMenu(int option) throws SQLException {
-        Author loggedInAuthor = authorRepositoryImp.findByUserId(loggedInUser.getId());
+        Author loggedInAuthor = authorRepositoryImp.findByUserId(authenticationServiceImp.getLoggedUser().getId());
         Scanner scanner = new Scanner(System.in);
         ArticleServiceImp articleServiceImp = new ArticleServiceImp();
         AuthorServiceImpImp authorServiceImp = new AuthorServiceImpImp();
@@ -206,7 +205,7 @@ public class AuthorMenu {
 
         } else if (option == 5) {
 
-            System.out.println("Goodbye Dear " + (loggedInUser).getUsername() + "!");
+            System.out.println("Goodbye Dear " + (authenticationServiceImp.getLoggedUser()).getUsername() + "!");
             authorServiceImp.userLogout();
 
         }

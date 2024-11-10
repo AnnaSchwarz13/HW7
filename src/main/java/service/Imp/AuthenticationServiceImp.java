@@ -6,32 +6,29 @@ import repository.Imp.UserRepositoryImp;
 
 public class AuthenticationServiceImp {
     static UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
-    public static User loggedInUser;
+    private static User loggedInUser;
 
-    private AuthenticationServiceImp() {
-    }
-
-    public static void setLoggedUser(User user) {
+    public void setLoggedUser(User user) {
         if (loggedInUser == null) {
             loggedInUser = user;
         }
     }
 
-    public static void logout() {
+    public void logout() {
         if (loggedInUser != null) {
             loggedInUser = null;
         }
     }
 
-    public static boolean checkRole(Role role, User user) {
+    public boolean checkRole(Role role, User user) {
         return user.getRole().equals(role);
     }
 
-    public static User getLoggedUser() {
+    public User getLoggedUser() {
         return loggedInUser;
     }
 
-    public static boolean isUserNameNew(String username, Role role) {
+    public boolean isUserNameNew(String username, Role role) {
         for (User checkingUser : userRepositoryImp.all()) {
             if (checkingUser.getUsername().equals(username)) {
                 if (checkingUser.getRole().equals(role)) {

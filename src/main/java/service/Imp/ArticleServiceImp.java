@@ -1,6 +1,4 @@
 package service.Imp;
-
-
 import entities.Article;
 import entities.Category;
 import entities.Tag;
@@ -8,26 +6,23 @@ import entities.enums.ArticleStatus;
 import repository.Imp.ArticleRepositoryImp;
 import repository.Imp.AuthorRepositoryImp;
 import repository.Imp.TagRepositoryImp;
+import service.ArticleService;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
-
-import static service.Imp.AuthenticationServiceImp.loggedInUser;
 import static service.Imp.DateServiceImp.todaysDateAsString;
 
-
-public class ArticleServiceImp {
-    CategoryServiceImp categoryServiceImp = new CategoryServiceImp();
-    ArticleRepositoryImp articleRepository = new ArticleRepositoryImp();
+public class ArticleServiceImp implements ArticleService {
+    ArticleRepositoryImp articleRepositoryImp = new ArticleRepositoryImp();
     AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
     TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
     TagServiceImp tagServiceImp = new TagServiceImp();
+    CategoryServiceImp categoryServiceImp = new CategoryServiceImp();
+    AuthenticationServiceImp authenticationServiceImp = new AuthenticationServiceImp();
     Scanner sc = new Scanner(System.in);
 
-    public ArticleServiceImp() {
-    }
-
+    @Override
     public void addArticle() throws SQLException {
         Category articleCategory = categoryServiceImp.chooseCategory();
         System.out.println("Enter title: ");
@@ -36,12 +31,12 @@ public class ArticleServiceImp {
         String articleText = sc.nextLine();
         List<Tag> brief = tagServiceImp.setArticleTags();
         String date = todaysDateAsString();
-        Article article = new Article(authorRepositoryImp.findByUserId(loggedInUser.getId()), title, articleCategory, articleText);
-        article = articleRepository.create(article);
+        Article article = new Article(authorRepositoryImp.findByUserId(authenticationServiceImp.getLoggedUser().getId()), title, articleCategory, articleText);
+        article = articleRepositoryImp.create(article);
         System.out.println(article.getId());
         tagRepositoryImp.setArticlesTag(brief, article);
     }
-
+@Override
     public void showAnArticleList(List<Article> articles) throws SQLException {
         if (articles.isEmpty()) {
             System.out.println("there is no article");
@@ -53,7 +48,7 @@ public class ArticleServiceImp {
             }
 
             String title = this.sc.nextLine();
-            Article userChoice = articleRepository.findArticleByTile(title);
+            Article userChoice = articleRepositoryImp.findArticleByTile(title);
             if (userChoice != null) {
                 displayArticle(userChoice);
             }
@@ -61,6 +56,7 @@ public class ArticleServiceImp {
 
     }
 
+    @Override
     public void changeArticleStatus(Article choosenArticle) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("The selected article status is " + choosenArticle.getStatus());
@@ -71,27 +67,27 @@ public class ArticleServiceImp {
             System.out.println("Send request to get published article");
             choose = scanner.nextInt();
             if (choose == 1) {
-                articleRepository.updateStatusPending(choosenArticle);
+                articleRepositoryImp.updateStatusPending(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
-            Article ExsistedAuthorArticle = articleRepository.findArticleByTile(choosenArticle.getTitle());
+            Article ExsistedAuthorArticle = articleRepositoryImp.findArticleByTile(choosenArticle.getTitle());
             System.out.println("Remove article from published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
-                articleRepository.updateStatusNotPublished(choosenArticle);
+                articleRepositoryImp.updateStatusNotPublished(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PENDING) {
-            Article ExsistedAuthorArticle = articleRepository.findArticleByTile(choosenArticle.getTitle());
+            Article ExsistedAuthorArticle = articleRepositoryImp.findArticleByTile(choosenArticle.getTitle());
 
             System.out.println("Cancel request to get published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
-                articleRepository.updateStatusNotPublished(choosenArticle);
+                articleRepositoryImp.updateStatusNotPublished(choosenArticle);
             }
         }
         System.out.println("The selected article status is " + ArticleRepositoryImp.read(choosenArticle.getId()).getStatus());
     }
-
+@Override
     public void changeDetailsOfArticle(Article choosenArticle) throws SQLException {
         System.out.println("Which do you want to edit?");
         System.out.println("""
@@ -105,18 +101,18 @@ public class ArticleServiceImp {
         if (choose == 1) {
             System.out.println("Please enter the new title:");
             String newTitle = sc.nextLine() + sc.nextLine();
-            articleRepository.updateTitle(choosenArticle, newTitle);
+            articleRepositoryImp.updateTitle(choosenArticle, newTitle);
             System.out.println("successful!");
 
         } else if (choose == 2) {
             Category newCategory = categoryServiceImp.chooseCategory();
-            articleRepository.updateCategory(choosenArticle, newCategory);
+            articleRepositoryImp.updateCategory(choosenArticle, newCategory);
             System.out.println("successful!");
 
         } else if (choose == 3) {
             System.out.println("Please enter the new content:");
             String newText = sc.nextLine() + sc.nextLine();
-            articleRepository.updateText(choosenArticle, newText);
+            articleRepositoryImp.updateText(choosenArticle, newText);
             System.out.println("successful!");
 
         } else if (choose == 4) {
@@ -144,7 +140,7 @@ public class ArticleServiceImp {
                 if (choose2 == -1) {
                     tagRepositoryImp.delete(choosenArticle.getId());
                     tagRepositoryImp.setArticlesTag(newTags, choosenArticle);
-                    articleRepository.setLastUpdateDate(choosenArticle);
+                    articleRepositoryImp.setLastUpdateDate(choosenArticle);
                     System.out.println("Tag list updated successfully");
                     break;
                 }
@@ -152,7 +148,7 @@ public class ArticleServiceImp {
         }
 
     }
-
+@Override
     public void displayArticle(Article choosenArticle) {
         System.out.println(choosenArticle.getTitle());
         System.out.println("category : " + choosenArticle.getCategory().getTitle());

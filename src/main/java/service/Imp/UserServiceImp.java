@@ -7,14 +7,15 @@ import repository.Imp.UserRepositoryImp;
 import java.sql.SQLException;
 
 public class UserServiceImp {
-UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
+    UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
+    AuthenticationServiceImp authenticationServiceImp = new AuthenticationServiceImp();
 
-    public void userLogin(String username, String password , Role role) throws SQLException {
-        for(User checkingUser : userRepositoryImp.all()){
+    public void userLogin(String username, String password, Role role) throws SQLException {
+        for (User checkingUser : userRepositoryImp.all()) {
             if (checkingUser.getUsername().equals(username)) {
                 if (checkingUser.getPassword().equals(password)) {
-                    if (AuthenticationServiceImp.checkRole(role, checkingUser)) {
-                        AuthenticationServiceImp.setLoggedUser(userRepositoryImp.findByUsername(username));
+                    if (authenticationServiceImp.checkRole(role, checkingUser)) {
+                        authenticationServiceImp.setLoggedUser(userRepositoryImp.findByUsername(username));
                         System.out.println("User logged in successfully...");
                         return;
                     }
@@ -26,7 +27,7 @@ UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
     }
 
     public void userLogout() {
-     AuthenticationServiceImp.logout();
+        authenticationServiceImp.logout();
     }
 }
 
