@@ -51,7 +51,7 @@ public class ArticleService {
             }
 
             String title = this.sc.nextLine();
-            Article userChoice = ArticleRepositoryImp.findArticleByTile(title);
+            Article userChoice = articleRepository.findArticleByTile(title);
             if (userChoice != null) {
                 displayArticle(userChoice);
             }
@@ -69,22 +69,22 @@ public class ArticleService {
             System.out.println("Send request to get published article");
             choose = scanner.nextInt();
             if (choose == 1) {
-                ArticleRepositoryImp.updateStatusPending(choosenArticle);
+                articleRepository.updateStatusPending(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PUBLISHED) {
-            Article ExsistedAuthorArticle = ArticleRepositoryImp.findArticleByTile(choosenArticle.getTitle());
+            Article ExsistedAuthorArticle = articleRepository.findArticleByTile(choosenArticle.getTitle());
             System.out.println("Remove article from published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
-                ArticleRepositoryImp.updateStatusNotPublished(choosenArticle);
+                articleRepository.updateStatusNotPublished(choosenArticle);
             }
         } else if (choosenArticle.getStatus() == ArticleStatus.PENDING) {
-            Article ExsistedAuthorArticle = ArticleRepositoryImp.findArticleByTile(choosenArticle.getTitle());
+            Article ExsistedAuthorArticle = articleRepository.findArticleByTile(choosenArticle.getTitle());
 
             System.out.println("Cancel request to get published articles");
             choose = scanner.nextInt();
             if (choose == 1) {
-                ArticleRepositoryImp.updateStatusNotPublished(choosenArticle);
+                articleRepository.updateStatusNotPublished(choosenArticle);
             }
         }
         System.out.println("The selected article status is " + ArticleRepositoryImp.read(choosenArticle.getId()).getStatus());
@@ -103,18 +103,18 @@ public class ArticleService {
         if (choose == 1) {
             System.out.println("Please enter the new title:");
             String newTitle = sc.nextLine() + sc.nextLine();
-            ArticleRepositoryImp.updateTitle(choosenArticle, newTitle);
+            articleRepository.updateTitle(choosenArticle, newTitle);
             System.out.println("successful!");
 
         } else if (choose == 2) {
             Category newCategory = categoryService.chooseCategory();
-            ArticleRepositoryImp.updateCategory(choosenArticle, newCategory);
+            articleRepository.updateCategory(choosenArticle, newCategory);
             System.out.println("successful!");
 
         } else if (choose == 3) {
             System.out.println("Please enter the new content:");
             String newText = sc.nextLine() + sc.nextLine();
-            ArticleRepositoryImp.updateText(choosenArticle, newText);
+            articleRepository.updateText(choosenArticle, newText);
             System.out.println("successful!");
 
         } else if (choose == 4) {
@@ -143,7 +143,7 @@ public class ArticleService {
                 if (choose2 == -1) {
                     tagRepositoryImp.delete(choosenArticle.getId());
                     TagRepositoryImp.setArticlesTag(newTags, choosenArticle);
-                    ArticleRepositoryImp.setLastUpdateDate(choosenArticle);
+                    articleRepository.setLastUpdateDate(choosenArticle);
                     System.out.println("Tag list updated successfully");
                     break;
                 }

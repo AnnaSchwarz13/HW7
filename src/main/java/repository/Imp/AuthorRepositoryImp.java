@@ -25,11 +25,11 @@ public class AuthorRepositoryImp implements AuthorRepository {
             SELECT * FROM Authors
             WHERE id = ?
             """;
-    private static final String FIND_AUTHOR_BY_USERID_SQL= """
+    private static final String FIND_AUTHOR_BY_USERID_SQL = """
             SELECT * FROM Authors
             WHERE user_id = ?
             """;
-    private static final String UPDATE_PASSWORD_SQL= """
+    private static final String UPDATE_PASSWORD_SQL = """
             UPDATE Users
             SET password = ?
             WHERE username = ?
@@ -74,6 +74,18 @@ public class AuthorRepositoryImp implements AuthorRepository {
         }
     }
 
+    public static Author findByUserId(long userId) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_AUTHOR_BY_USERID_SQL)) {
+            statement.setLong(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            Author author = null;
+            if (resultSet.next()) {
+                author = read(resultSet.getLong(1));
+            }
+            return author;
+        }
+    }
+
     @Override
     public void delete(long id) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(DELETE_BY_ID_SQL)) {
@@ -81,30 +93,15 @@ public class AuthorRepositoryImp implements AuthorRepository {
             var affectedRows = statement.executeUpdate();
             System.out.println("# of Contacts deleted: " + affectedRows);
         }
-
     }
 
-    public static Author findByUserId(long userId) throws SQLException {
-        try (var statement = Datasource.getConnection().prepareStatement(FIND_AUTHOR_BY_USERID_SQL)) {
-            statement.setLong(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            Author author = null;
-            if (resultSet.next()) {
-                author =read(resultSet.getLong(1));
-
-            }
-            return author;
-        }
-
-    }
-
-    public static void setUpdatePassword(Author author , String password) throws SQLException {
+    //update
+    @Override
+    public void setUpdatePassword(Author author, String password) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_PASSWORD_SQL)) {
             statement.setString(1, password);
             statement.setString(2, author.getUsername());
             statement.executeUpdate();
         }
     }
-
-
 }

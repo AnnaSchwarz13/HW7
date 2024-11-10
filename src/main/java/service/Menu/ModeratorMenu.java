@@ -3,6 +3,7 @@ package service.Menu;
 import entities.Article;
 import entities.enums.ArticleStatus;
 import entities.enums.Role;
+import repository.ArticleRepository;
 import repository.Imp.ArticleRepositoryImp;
 import service.ArticleService;
 import service.UserService;
@@ -16,6 +17,7 @@ public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
     UserService userService = new UserService();
     ArticleService articleService = new ArticleService();
+    ArticleRepository articleRepositoryImp = new ArticleRepositoryImp();
 
     public ModeratorMenu() throws SQLException {
         if (loggedInUser == null) {
@@ -28,7 +30,7 @@ public class ModeratorMenu {
             userService.userLogin(username, password, Role.MODERATOR);
         }
         while (loggedInUser != null) {
-            if (!ArticleRepositoryImp.allPending().isEmpty()) {
+            if (!articleRepositoryImp.allPending().isEmpty()) {
                 System.out.println("There is new articles to check for publish!!");
             }
             System.out.println("\n\nDear Moderator please choose a option from the menu : ");
@@ -42,9 +44,9 @@ public class ModeratorMenu {
 
     private void moderatorMenu(int option) throws SQLException {
         if (option == 1) {
-            if (!ArticleRepositoryImp.allPending().isEmpty()) {
+            if (!articleRepositoryImp.allPending().isEmpty()) {
                 while (true) {
-                    articleService.showAnArticleList(ArticleRepositoryImp.allPending());
+                    articleService.showAnArticleList(articleRepositoryImp.allPending());
                     System.out.println("If you dont wanna see more please enter -1 else 1");
                     int toEnd = scanner.nextInt();
                     if (toEnd == -1) {
@@ -53,22 +55,22 @@ public class ModeratorMenu {
                 }
                 System.out.println("Enter an article name to remove or get publish :");
 
-                for (Article tempArticle : ArticleRepositoryImp.allPending()) {
+                for (Article tempArticle : articleRepositoryImp.allPending()) {
                     System.out.println(tempArticle.getTitle());
                 }
 
                 String title = scanner.nextLine() + scanner.nextLine();
-                if (ArticleRepositoryImp.findArticleByTile(title) != null
-                        && ArticleRepositoryImp.findArticleByTile(title).getStatus() == ArticleStatus.PENDING) {
-                    Article chosenArticle = ArticleRepositoryImp.findArticleByTile(title);
+                if (articleRepositoryImp.findArticleByTile(title) != null
+                        && articleRepositoryImp.findArticleByTile(title).getStatus() == ArticleStatus.PENDING) {
+                    Article chosenArticle = articleRepositoryImp.findArticleByTile(title);
 
                     System.out.println("1. Accept and publish");
                     System.out.println("2. Reject and remove");
                     int option1 = scanner.nextInt();
                     if (option1 == 1) {
-                        ArticleRepositoryImp.updateStatusPublished(chosenArticle);
+                        articleRepositoryImp.updateStatusPublished(chosenArticle);
                     } else if (option1 == 2) {
-                        ArticleRepositoryImp.updateStatusNotPublished(chosenArticle);
+                        articleRepositoryImp.updateStatusNotPublished(chosenArticle);
                     }
                 }
             } else {

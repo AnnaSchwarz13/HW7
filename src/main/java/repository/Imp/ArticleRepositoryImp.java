@@ -146,7 +146,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    static public List<Article> allPublished() {
+    @Override
+    public List<Article> allPublished() {
         try (var statement = Datasource.getConnection().prepareStatement(PUBLISHED_ARTICLES_SQL)) {
             return getArticles(statement);
         } catch (SQLException e) {
@@ -154,7 +155,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    static public List<Article> allPending() {
+    @Override
+    public List<Article> allPending() {
         try (var statement = Datasource.getConnection().prepareStatement(PENDING_ARTICLES_SQL)) {
             return getArticles(statement);
         } catch (SQLException e) {
@@ -162,7 +164,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    public static List<Article> getArticlesOfAnAuthor(Author author) {
+    @Override
+    public List<Article> getArticlesOfAnAuthor(Author author) {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_ALL_AUTHOR_ARTICLES_SQL)) {
             statement.setLong(1, author.getId());
             return getArticles(statement);
@@ -182,8 +185,9 @@ public class ArticleRepositoryImp implements ArticleRepository {
     }
 
 
-//update status
-    static public void updateStatusPublished(Article article) throws SQLException {
+    //update status
+    @Override
+    public void updateStatusPublished(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "PUBLISHED");
             statement.setDate(2, Date.valueOf(LocalDate.now()));
@@ -194,7 +198,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    static public void updateStatusNotPublished(Article article) throws SQLException {
+    @Override
+    public void updateStatusNotPublished(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "NOT_PUBLISHED");
             statement.setDate(2, null);
@@ -205,7 +210,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    static public void updateStatusPending(Article article) throws SQLException {
+    @Override
+    public void updateStatusPending(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "PENDING");
             statement.setDate(2, null);
@@ -215,8 +221,10 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.executeUpdate();
         }
     }
-//update details
-    public static void updateTitle(Article article, String newValue) throws SQLException {
+
+    //update details
+    @Override
+    public void updateTitle(Article article, String newValue) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_TITLE_SQL)) {
             statement.setString(1, newValue);
             statement.setDate(2, Date.valueOf(LocalDate.now()));
@@ -225,7 +233,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    public static void updateText(Article article, String newValue) throws SQLException {
+    @Override
+    public void updateText(Article article, String newValue) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_TEXT_SQL)) {
             statement.setString(1, newValue);
             statement.setDate(2, Date.valueOf(LocalDate.now()));
@@ -234,7 +243,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-    public static void updateCategory(Article article, Category category) throws SQLException {
+    @Override
+    public void updateCategory(Article article, Category category) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_CATEGORY_SQL)) {
             statement.setLong(1, category.getId());
             statement.setDate(2, Date.valueOf(LocalDate.now()));
@@ -244,7 +254,8 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
     }
 
-    public static void setLastUpdateDate(Article article) throws SQLException {
+    @Override
+    public void setLastUpdateDate(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_LAST_DATE_SQL)) {
             statement.setDate(1, Date.valueOf(LocalDate.now()));
             statement.setLong(2, article.getId());
@@ -252,8 +263,10 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.executeUpdate();
         }
     }
+
     //----
-    public static Article findArticleByTile(String title) throws SQLException {
+    @Override
+    public Article findArticleByTile(String title) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();
