@@ -21,6 +21,7 @@ public class ArticleService {
     CategoryService categoryService = new CategoryService();
     ArticleRepositoryImp articleRepository = new ArticleRepositoryImp();
     AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
+    TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
     TagService tagService = new TagService();
     Scanner sc = new Scanner(System.in);
 
@@ -38,7 +39,7 @@ public class ArticleService {
         Article article = new Article(authorRepositoryImp.findByUserId(loggedInUser.getId()), title, articleCategory, articleText);
         article = articleRepository.create(article);
         System.out.println(article.getId());
-        TagRepositoryImp.setArticlesTag(brief, article);
+        tagRepositoryImp.setArticlesTag(brief, article);
     }
 
     public void showAnArticleList(List<Article> articles) throws SQLException {
@@ -119,7 +120,6 @@ public class ArticleService {
             System.out.println("successful!");
 
         } else if (choose == 4) {
-            TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
             List<Tag> newTags = choosenArticle.getBrief();
             while (true) {
                 System.out.println("Your articles tag are there");
@@ -135,7 +135,7 @@ public class ArticleService {
                 if (choose2 == 2) {
                     System.out.println("Please enter a tag name to remove");
                     String tagName = sc.nextLine() + sc.nextLine();
-                    if (TagRepositoryImp.findTagByTile(tagName) == null) {
+                    if (tagRepositoryImp.findTagByTile(tagName) == null) {
                         System.out.println("That tag does not exist");
                     } else {
                         newTags.removeIf(tag -> tag.getTitle().equals(tagName));
@@ -143,7 +143,7 @@ public class ArticleService {
                 }
                 if (choose2 == -1) {
                     tagRepositoryImp.delete(choosenArticle.getId());
-                    TagRepositoryImp.setArticlesTag(newTags, choosenArticle);
+                    tagRepositoryImp.setArticlesTag(newTags, choosenArticle);
                     articleRepository.setLastUpdateDate(choosenArticle);
                     System.out.println("Tag list updated successfully");
                     break;

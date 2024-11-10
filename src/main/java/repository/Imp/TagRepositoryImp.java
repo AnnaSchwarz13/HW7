@@ -62,7 +62,7 @@ public class TagRepositoryImp implements TagRepository {
             if (resultSet.next()) {
                 long tagId = resultSet.getLong(1);
                 String title = resultSet.getString(2);
-                tag = new Tag( title ,tagId);
+                tag = new Tag(title, tagId);
             }
 
             return tag;
@@ -78,7 +78,8 @@ public class TagRepositoryImp implements TagRepository {
         }
     }
 
-    public static int findCount() throws SQLException {
+    @Override
+    public int findCount() throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_COUNT_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             int tagsIndex = 0;
@@ -89,25 +90,25 @@ public class TagRepositoryImp implements TagRepository {
         }
     }
 
-    static public List<Tag> all() {
+    @Override
+    public List<Tag> all() {
         try (var statement = Datasource.getConnection().prepareStatement(READ_ALL_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             List<Tag> tags = new LinkedList<>();
             while (resultSet.next()) {
                 long tagId = resultSet.getLong(1);
                 String title = resultSet.getString(2);
-                Tag tag = new Tag( title,tagId);
+                Tag tag = new Tag(title, tagId);
                 tags.add(tag);
             }
-
             return new ArrayList<>(tags);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    public static Tag findTagByTile(String title) throws SQLException {
+    @Override
+    public Tag findTagByTile(String title) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();
@@ -119,7 +120,8 @@ public class TagRepositoryImp implements TagRepository {
         }
     }
 
-    public static List<Tag> getTags(Article article) {
+    @Override
+    public List<Tag> getTags(Article article) {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_ARTICLES_TAG)) {
             statement.setLong(1, article.getId());
             ResultSet resultSet = statement.executeQuery();
@@ -134,7 +136,8 @@ public class TagRepositoryImp implements TagRepository {
         }
     }
 
-    public static void setArticlesTag(List<Tag> tags, Article article) {
+    @Override
+    public void setArticlesTag(List<Tag> tags, Article article) {
         try (var statement = Datasource.getConnection().prepareStatement(INSET_ARTICLES_TAGS)) {
             for (Tag tag : tags) {
                 statement.setLong(1, article.getId());

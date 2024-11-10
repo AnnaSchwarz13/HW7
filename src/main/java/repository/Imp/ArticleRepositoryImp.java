@@ -21,6 +21,7 @@ import repository.Datasource;
 public class ArticleRepositoryImp implements ArticleRepository {
     //CRUD create read update delete
     static CategoryRepositoryImp categoryRepositoryImp = new CategoryRepositoryImp();
+    static TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
     //SQL
     private static final String INSERT_SQL = """
              INSERT INTO Articles(title, text,category_id, published_date  ,
@@ -108,7 +109,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
                 Author author = AuthorRepositoryImp.read(authorId);
                 article = new Article(articleId, title, text, category, createDate,
                         published, lastUpdateDate, ArticleStatus.valueOf(status), author);
-                article.setBrief(TagRepositoryImp.getTags(article));
+                article.setBrief(tagRepositoryImp.getTags(article));
                 if (published) {
                     article.setPublishDate(publishDate);
                 }
