@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AuthorRepositoryImp implements AuthorRepository {
+    UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
 
     private static final String INSERT_SQL = """
             INSERT INTO Authors(firstname, lastname, birthday , national_code, user_id)
@@ -42,7 +43,7 @@ public class AuthorRepositoryImp implements AuthorRepository {
             statement.setString(2, author.getLastName());
             statement.setDate(3, (Date) author.getBirthDate());
             statement.setString(4, author.getNationalCode());
-            long userId = UserRepositoryImp.findByUsername(author.getUsername()).getId();
+            long userId = userRepositoryImp.findByUsername(author.getUsername()).getId();
             statement.setLong(5, userId);
 
             statement.executeUpdate();

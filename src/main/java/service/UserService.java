@@ -7,14 +7,14 @@ import repository.Imp.UserRepositoryImp;
 import java.sql.SQLException;
 
 public class UserService {
-
+UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
 
     public void userLogin(String username, String password , Role role) throws SQLException {
-        for(User checkingUser : UserRepositoryImp.all()){
+        for(User checkingUser : userRepositoryImp.all()){
             if (checkingUser.getUsername().equals(username)) {
                 if (checkingUser.getPassword().equals(password)) {
                     if (AuthenticationService.checkRole(role, checkingUser)) {
-                        AuthenticationService.setLoggedUser(UserRepositoryImp.findByUsername(username));
+                        AuthenticationService.setLoggedUser(userRepositoryImp.findByUsername(username));
                         System.out.println("User logged in successfully...");
                         return;
                     }

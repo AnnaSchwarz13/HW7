@@ -76,8 +76,8 @@ public class UserRepositoryImp implements UserRepository {
 
     }
 
-
-  static public List<User> all() {
+@Override
+  public List<User> all() {
         try (var statement = Datasource.getConnection().prepareStatement(READ_ALL_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             List<User> users = new LinkedList<>();
@@ -96,7 +96,8 @@ public class UserRepositoryImp implements UserRepository {
         }
 
     }
-    static public User findByUsername(String username) throws SQLException {
+    @Override
+    public User findByUsername(String username) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_ID_BY_USERNAME_SQL)){
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();

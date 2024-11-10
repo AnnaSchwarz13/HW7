@@ -5,6 +5,7 @@ import entities.enums.Role;
 import repository.Imp.UserRepositoryImp;
 
 public class AuthenticationService {
+    static UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
     public static User loggedInUser;
 
     private AuthenticationService() {
@@ -31,7 +32,7 @@ public class AuthenticationService {
     }
 
     public static boolean isUserNameNew(String username, Role role) {
-        for (User checkingUser : UserRepositoryImp.all()) {
+        for (User checkingUser : userRepositoryImp.all()) {
             if (checkingUser.getUsername().equals(username)) {
                 if (checkingUser.getRole().equals(role)) {
                     return false;
