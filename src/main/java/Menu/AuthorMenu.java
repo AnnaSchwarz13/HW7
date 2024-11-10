@@ -8,7 +8,7 @@ import repository.Imp.AuthorRepositoryImp;
 import service.Filtering;
 import service.Imp.ArticleServiceImp;
 import service.Imp.AuthenticationServiceImp;
-import service.Imp.AuthorServiceImpImp;
+import service.Imp.AuthorServiceImp;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -57,7 +57,7 @@ public class AuthorMenu {
 
     public static void userLoginMenu(int option) throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        AuthorServiceImpImp authorServiceImp = new AuthorServiceImpImp();
+        AuthorServiceImp authorServiceImp = new AuthorServiceImp();
         ArticleServiceImp articleServiceImp = new ArticleServiceImp();
         if (option == 1) {
             System.out.println("Enter first name:");
@@ -163,7 +163,7 @@ public class AuthorMenu {
         Author loggedInAuthor = authorRepositoryImp.findByUserId(authenticationServiceImp.getLoggedUser().getId());
         Scanner scanner = new Scanner(System.in);
         ArticleServiceImp articleServiceImp = new ArticleServiceImp();
-        AuthorServiceImpImp authorServiceImp = new AuthorServiceImpImp();
+        AuthorServiceImp authorServiceImp = new AuthorServiceImp();
         if (option == 1) {
             articleServiceImp.addArticle();
         } else if (option == 2) {

@@ -5,16 +5,18 @@ import entities.User;
 import entities.enums.Role;
 import repository.Imp.AuthorRepositoryImp;
 import repository.Imp.UserRepositoryImp;
+import service.AuthorService;
 
 import java.sql.Date;
 import java.sql.SQLException;
 
-public class AuthorServiceImpImp extends UserServiceImp {
+public class AuthorServiceImp extends UserServiceImp implements AuthorService {
 
     AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
     UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
     AuthenticationServiceImp authenticationServiceImp = new AuthenticationServiceImp();
 
+    @Override
     public void userSignup(String firstName, String lastName, String username,
                            String password, String nationalCode, Date birthday) throws SQLException {
 
@@ -25,7 +27,7 @@ public class AuthorServiceImpImp extends UserServiceImp {
         System.out.println("Author signed up successfully");
     }
 
-
+@Override
     public void changePassword(String oldPassword, String newPassword) throws SQLException {
         if (authenticationServiceImp.getLoggedUser().getPassword().equals(oldPassword)) {
             authorRepositoryImp.setUpdatePassword(authorRepositoryImp.findByUserId(authenticationServiceImp.getLoggedUser().getId()), newPassword);
