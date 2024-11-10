@@ -12,7 +12,7 @@ public class TagService {
     Scanner sc = new Scanner(System.in);
     TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
 
-    protected List<Tag> setArticleTags() throws SQLException {
+    public List<Tag> setArticleTags() throws SQLException {
         List<Tag> tags = new ArrayList<>();
         System.out.println("Please enter the tags of the article: \n at the end enter -1");
         for (Tag tag : tagRepositoryImp.all()) {

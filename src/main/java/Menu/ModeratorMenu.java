@@ -1,11 +1,11 @@
-package service.Menu;
+package Menu;
 
 import entities.Article;
 import entities.enums.ArticleStatus;
 import entities.enums.Role;
 import repository.ArticleRepository;
 import repository.Imp.ArticleRepositoryImp;
-import service.ArticleService;
+import service.Imp.ArticleServiceImp;
 import service.UserService;
 
 import java.sql.SQLException;
@@ -16,7 +16,7 @@ import static service.AuthenticationService.loggedInUser;
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
     UserService userService = new UserService();
-    ArticleService articleService = new ArticleService();
+    ArticleServiceImp articleServiceImp = new ArticleServiceImp();
     ArticleRepository articleRepositoryImp = new ArticleRepositoryImp();
 
     public ModeratorMenu() throws SQLException {
@@ -46,7 +46,7 @@ public class ModeratorMenu {
         if (option == 1) {
             if (!articleRepositoryImp.allPending().isEmpty()) {
                 while (true) {
-                    articleService.showAnArticleList(articleRepositoryImp.allPending());
+                    articleServiceImp.showAnArticleList(articleRepositoryImp.allPending());
                     System.out.println("If you dont wanna see more please enter -1 else 1");
                     int toEnd = scanner.nextInt();
                     if (toEnd == -1) {

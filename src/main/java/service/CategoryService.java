@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class CategoryService {
     Scanner sc = new Scanner(System.in);
     CategoryRepositoryImp categoryRepositoryImp = new CategoryRepositoryImp();
-    protected Category chooseCategory() throws SQLException {
+    public Category chooseCategory() throws SQLException {
         while (true) {
             if (categoryRepositoryImp.findCount() == 0) {
                 System.out.println("there is no category");

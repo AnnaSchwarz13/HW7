@@ -1,6 +1,6 @@
 
-import service.Menu.AuthorMenu;
-import service.Menu.ModeratorMenu;
+import Menu.AuthorMenu;
+import Menu.ModeratorMenu;
 
 import java.sql.SQLException;
 import java.util.Scanner;
