@@ -1,6 +1,7 @@
 package service;
 
 import entities.Article;
+import service.Imp.DateServiceImp;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Filtering {
-    DateService dateService = new DateService();
+    DateServiceImp dateServiceImp = new DateServiceImp();
     Date today = Date.valueOf(LocalDate.now());
     List<Article> filteredList = new LinkedList<>();
 
@@ -46,23 +47,23 @@ public class Filtering {
 
     private void checkDistance(int distance, Article article, Date date) {
         if (distance == 365) {
-            if (dateService.timeIntervalOfTwoDates(today, date, "1year")) {
+            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "1year")) {
                 filteredList.add(article);
             }
         } else if (distance == 180) {
-            if (dateService.timeIntervalOfTwoDates(today, date, "6month")) {
+            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "6month")) {
                 filteredList.add(article);
             }
         } else if (distance == 30) {
-            if (dateService.timeIntervalOfTwoDates(today, date, "1month")) {
+            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "1month")) {
                 filteredList.add(article);
             }
         } else if (distance == 7) {
-            if (dateService.timeIntervalOfTwoDates(today, date, "1week")) {
+            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "1week")) {
                 filteredList.add(article);
             }
         } else if (distance == 1) {
-            if (dateService.timeIntervalOfTwoDates(today, date, "24hour")) {
+            if (dateServiceImp.timeIntervalOfTwoDates(today, date, "24hour")) {
                 filteredList.add(article);
             }
         }

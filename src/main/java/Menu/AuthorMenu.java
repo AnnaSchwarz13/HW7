@@ -6,8 +6,8 @@ import entities.enums.Role;
 import repository.Imp.ArticleRepositoryImp;
 import repository.Imp.AuthorRepositoryImp;
 import service.Imp.ArticleServiceImp;
-import service.AuthenticationService;
-import service.AuthorService;
+import service.Imp.AuthenticationServiceImp;
+import service.Imp.AuthorServiceImpImp;
 import service.Filtering;
 
 import java.sql.Date;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import static service.AuthenticationService.loggedInUser;
+import static service.Imp.AuthenticationServiceImp.loggedInUser;
 
 public class AuthorMenu {
     static ArticleRepositoryImp articleRepositoryImp = new ArticleRepositoryImp();
@@ -58,7 +58,7 @@ public class AuthorMenu {
 
     public static void userLoginMenu(int option) throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        AuthorService authorService = new AuthorService();
+        AuthorServiceImpImp authorServiceImp = new AuthorServiceImpImp();
         ArticleServiceImp articleServiceImp = new ArticleServiceImp();
         if (option == 1) {
             System.out.println("Enter first name:");
@@ -69,14 +69,14 @@ public class AuthorMenu {
             while (true) {
                 System.out.println("Enter username:");
                 String username = scanner.next();
-                if (AuthenticationService.isUserNameNew(username, Role.AUTHOR)) {
+                if (AuthenticationServiceImp.isUserNameNew(username, Role.AUTHOR)) {
                     System.out.println("Enter your national code: ");
                     String nationalCode = scanner.next();
                     while (true) {
                         System.out.println("Enter your birthday like example:\nexample: 1995-12-3 ");
                         Date date = Date.valueOf(scanner.next());
                         if (date.before(Date.valueOf(LocalDate.now()))) {
-                            authorService.userSignup(firstName, lastName, username, nationalCode, nationalCode, date);
+                            authorServiceImp.userSignup(firstName, lastName, username, nationalCode, nationalCode, date);
                             System.out.println("You have successfully singUp!");
                             break;
                         }
@@ -92,7 +92,7 @@ public class AuthorMenu {
             username = scanner.next();
             System.out.println("Enter password:");
             password = scanner.next();
-            authorService.userLogin(username, password, Role.AUTHOR);
+            authorServiceImp.userLogin(username, password, Role.AUTHOR);
 
         } else if (option == 3) {
             System.out.println("\nWhat do you want to do?");
@@ -164,7 +164,7 @@ public class AuthorMenu {
         Author loggedInAuthor = authorRepositoryImp.findByUserId(loggedInUser.getId());
         Scanner scanner = new Scanner(System.in);
         ArticleServiceImp articleServiceImp = new ArticleServiceImp();
-        AuthorService authorService = new AuthorService();
+        AuthorServiceImpImp authorServiceImp = new AuthorServiceImpImp();
         if (option == 1) {
             articleServiceImp.addArticle();
         } else if (option == 2) {
@@ -202,12 +202,12 @@ public class AuthorMenu {
             oldPassword = scanner.nextLine();
             System.out.println("Enter new password:");
             newPassword = scanner.nextLine();
-            authorService.changePassword(oldPassword, newPassword);
+            authorServiceImp.changePassword(oldPassword, newPassword);
 
         } else if (option == 5) {
 
             System.out.println("Goodbye Dear " + (loggedInUser).getUsername() + "!");
-            authorService.userLogout();
+            authorServiceImp.userLogout();
 
         }
 

@@ -1,4 +1,4 @@
-package service;
+package service.Imp;
 
 import entities.Author;
 import entities.User;
@@ -9,9 +9,9 @@ import repository.Imp.UserRepositoryImp;
 import java.sql.Date;
 import java.sql.SQLException;
 
-import static service.AuthenticationService.loggedInUser;
+import static service.Imp.AuthenticationServiceImp.loggedInUser;
 
-public class AuthorService extends UserService{
+public class AuthorServiceImpImp extends UserServiceImp {
 
 AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
 UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
@@ -28,7 +28,7 @@ UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
 
 
     public void changePassword(String oldPassword, String newPassword) throws SQLException {
-        if (AuthenticationService.getLoggedUser().getPassword().equals(oldPassword)) {
+        if (AuthenticationServiceImp.getLoggedUser().getPassword().equals(oldPassword)) {
            authorRepositoryImp.setUpdatePassword(authorRepositoryImp.findByUserId(loggedInUser.getId()),newPassword);
             System.out.println("Password changed successfully");
             return;

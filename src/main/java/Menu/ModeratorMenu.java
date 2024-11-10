@@ -6,16 +6,16 @@ import entities.enums.Role;
 import repository.ArticleRepository;
 import repository.Imp.ArticleRepositoryImp;
 import service.Imp.ArticleServiceImp;
-import service.UserService;
+import service.Imp.UserServiceImp;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static service.AuthenticationService.loggedInUser;
+import static service.Imp.AuthenticationServiceImp.loggedInUser;
 
 public class ModeratorMenu {
     Scanner scanner = new Scanner(System.in);
-    UserService userService = new UserService();
+    UserServiceImp userServiceImp = new UserServiceImp();
     ArticleServiceImp articleServiceImp = new ArticleServiceImp();
     ArticleRepository articleRepositoryImp = new ArticleRepositoryImp();
 
@@ -27,7 +27,7 @@ public class ModeratorMenu {
             username = scanner.next();
             System.out.println("Enter password:");
             password = scanner.next();
-            userService.userLogin(username, password, Role.MODERATOR);
+            userServiceImp.userLogin(username, password, Role.MODERATOR);
         }
         while (loggedInUser != null) {
             if (!articleRepositoryImp.allPending().isEmpty()) {
@@ -77,7 +77,7 @@ public class ModeratorMenu {
                 System.out.println("There is no new articles to check for publish");
             }
         } else if (option == 2) {
-            userService.userLogout();
+            userServiceImp.userLogout();
         }
     }
 }

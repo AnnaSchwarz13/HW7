@@ -8,35 +8,33 @@ import entities.enums.ArticleStatus;
 import repository.Imp.ArticleRepositoryImp;
 import repository.Imp.AuthorRepositoryImp;
 import repository.Imp.TagRepositoryImp;
-import service.CategoryService;
-import service.TagService;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import static service.AuthenticationService.loggedInUser;
-import static service.DateService.todaysDateAsString;
+import static service.Imp.AuthenticationServiceImp.loggedInUser;
+import static service.Imp.DateServiceImp.todaysDateAsString;
 
 
 public class ArticleServiceImp {
-    CategoryService categoryService = new CategoryService();
+    CategoryServiceImp categoryServiceImp = new CategoryServiceImp();
     ArticleRepositoryImp articleRepository = new ArticleRepositoryImp();
     AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
     TagRepositoryImp tagRepositoryImp = new TagRepositoryImp();
-    TagService tagService = new TagService();
+    TagServiceImp tagServiceImp = new TagServiceImp();
     Scanner sc = new Scanner(System.in);
 
     public ArticleServiceImp() {
     }
 
     public void addArticle() throws SQLException {
-        Category articleCategory = categoryService.chooseCategory();
+        Category articleCategory = categoryServiceImp.chooseCategory();
         System.out.println("Enter title: ");
         String title = sc.nextLine();
         System.out.println("Enter article text: ");
         String articleText = sc.nextLine();
-        List<Tag> brief = tagService.setArticleTags();
+        List<Tag> brief = tagServiceImp.setArticleTags();
         String date = todaysDateAsString();
         Article article = new Article(authorRepositoryImp.findByUserId(loggedInUser.getId()), title, articleCategory, articleText);
         article = articleRepository.create(article);
@@ -111,7 +109,7 @@ public class ArticleServiceImp {
             System.out.println("successful!");
 
         } else if (choose == 2) {
-            Category newCategory = categoryService.chooseCategory();
+            Category newCategory = categoryServiceImp.chooseCategory();
             articleRepository.updateCategory(choosenArticle, newCategory);
             System.out.println("successful!");
 
@@ -131,7 +129,7 @@ public class ArticleServiceImp {
                 System.out.println("for add more enter 1 \n remove one tag enter 2 \n and at the end -1");
                 int choose2 = sc.nextInt();
                 if (choose2 == 1) {
-                    List<Tag> newTagsToAdd = tagService.setArticleTags();
+                    List<Tag> newTagsToAdd = tagServiceImp.setArticleTags();
                     newTags.addAll(newTagsToAdd);
                 }
                 if (choose2 == 2) {
