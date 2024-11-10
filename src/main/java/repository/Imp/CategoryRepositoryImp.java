@@ -57,10 +57,8 @@ public class CategoryRepositoryImp implements CategoryRepository {
                 long categoryId = resultSet.getLong(1);
                 String categoryTitle = resultSet.getString(2);
                 String categoryDescription = resultSet.getString(3);
-
                 category = new Category(categoryDescription, categoryTitle, categoryId);
             }
-
             return category;
         }
     }
@@ -74,7 +72,8 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
     }
 
-    public static long findCount() throws SQLException {
+    @Override
+    public long findCount() throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_COUNT_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             long categoryIndex = 0;
@@ -85,7 +84,8 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
     }
 
-    static public List<Category> all() {
+    @Override
+    public List<Category> all() {
         try (var statement = Datasource.getConnection().prepareStatement(READ_ALL_SQL)) {
             ResultSet resultSet = statement.executeQuery();
             List<Category> categories = new LinkedList<>();
@@ -96,28 +96,22 @@ public class CategoryRepositoryImp implements CategoryRepository {
                 Category category = new Category(description, title, categoryId);
                 categories.add(category);
             }
-
             return new ArrayList<>(categories);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
+    @Override
     public Category findCategoryByTile(String title) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
             statement.setString(1, title);
             ResultSet resultSet = statement.executeQuery();
-
             Category category = null;
             if (resultSet.next()) {
                 category = read(resultSet.getLong(1));
-
             }
-
             return category;
         }
     }
-
-
 }

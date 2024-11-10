@@ -11,11 +11,11 @@ public class CategoryService {
     CategoryRepositoryImp categoryRepositoryImp = new CategoryRepositoryImp();
     protected Category chooseCategory() throws SQLException {
         while (true) {
-            if (CategoryRepositoryImp.findCount() == 0) {
+            if (categoryRepositoryImp.findCount() == 0) {
                 System.out.println("there is no category");
             } else {
                 System.out.println("Please Enter one of the following Categories:");
-                for (Category category:CategoryRepositoryImp.all()) {
+                for (Category category:categoryRepositoryImp.all()) {
                     System.out.println(category.getTitle());
                 }
             }

@@ -74,7 +74,8 @@ public class AuthorRepositoryImp implements AuthorRepository {
         }
     }
 
-    public static Author findByUserId(long userId) throws SQLException {
+    @Override
+    public Author findByUserId(long userId) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(FIND_AUTHOR_BY_USERID_SQL)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();

@@ -29,7 +29,7 @@ UserRepositoryImp userRepositoryImp = new UserRepositoryImp();
 
     public void changePassword(String oldPassword, String newPassword) throws SQLException {
         if (AuthenticationService.getLoggedUser().getPassword().equals(oldPassword)) {
-           authorRepositoryImp.setUpdatePassword(AuthorRepositoryImp.findByUserId(loggedInUser.getId()),newPassword);
+           authorRepositoryImp.setUpdatePassword(authorRepositoryImp.findByUserId(loggedInUser.getId()),newPassword);
             System.out.println("Password changed successfully");
             return;
         }

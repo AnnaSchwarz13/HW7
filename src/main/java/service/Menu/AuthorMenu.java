@@ -19,6 +19,7 @@ import static service.AuthenticationService.loggedInUser;
 
 public class AuthorMenu {
     static ArticleRepositoryImp articleRepositoryImp = new ArticleRepositoryImp();
+    static AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
     Scanner scanner = new Scanner(System.in);
 
     public AuthorMenu() throws SQLException {
@@ -160,7 +161,7 @@ public class AuthorMenu {
     }
 
     public static void articleSiteMenu(int option) throws SQLException {
-        Author loggedInAuthor = AuthorRepositoryImp.findByUserId(loggedInUser.getId());
+        Author loggedInAuthor = authorRepositoryImp.findByUserId(loggedInUser.getId());
         Scanner scanner = new Scanner(System.in);
         ArticleService articleService = new ArticleService();
         AuthorService authorService = new AuthorService();

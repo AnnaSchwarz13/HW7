@@ -20,6 +20,7 @@ import static service.DateService.todaysDateAsString;
 public class ArticleService {
     CategoryService categoryService = new CategoryService();
     ArticleRepositoryImp articleRepository = new ArticleRepositoryImp();
+    AuthorRepositoryImp authorRepositoryImp = new AuthorRepositoryImp();
     TagService tagService = new TagService();
     Scanner sc = new Scanner(System.in);
 
@@ -34,7 +35,7 @@ public class ArticleService {
         String articleText = sc.nextLine();
         List<Tag> brief = tagService.setArticleTags();
         String date = todaysDateAsString();
-        Article article = new Article(AuthorRepositoryImp.findByUserId(loggedInUser.getId()), title, articleCategory, articleText);
+        Article article = new Article(authorRepositoryImp.findByUserId(loggedInUser.getId()), title, articleCategory, articleText);
         article = articleRepository.create(article);
         System.out.println(article.getId());
         TagRepositoryImp.setArticlesTag(brief, article);
