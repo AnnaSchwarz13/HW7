@@ -58,7 +58,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
                 String categoryTitle = resultSet.getString(2);
                 String categoryDescription = resultSet.getString(3);
 
-                category = new Category(categoryId, categoryTitle, categoryDescription);
+                category = new Category(categoryDescription, categoryTitle, categoryId);
             }
 
             return category;
@@ -93,7 +93,7 @@ public class CategoryRepositoryImp implements CategoryRepository {
                 long categoryId = resultSet.getLong(1);
                 String title = resultSet.getString(2);
                 String description = resultSet.getString(3);
-                Category category = new Category(categoryId, title, description);
+                Category category = new Category(description, title, categoryId);
                 categories.add(category);
             }
 

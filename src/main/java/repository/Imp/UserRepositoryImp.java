@@ -59,7 +59,7 @@ public class UserRepositoryImp implements UserRepository {
                 String username = resultSet.getString(2);
                 String password = resultSet.getString(3);
                 String role = resultSet.getString(4);
-                user = new User(userId, username, password, Role.valueOf(role));
+                user = new User(username, password, Role.valueOf(role),userId);
             }
 
             return user;
@@ -86,7 +86,7 @@ public class UserRepositoryImp implements UserRepository {
                 String username = resultSet.getString(2);
                 String password = resultSet.getString(3);
                 String role = resultSet.getString(4);
-                User user = new User(userId, username, password, Role.valueOf(role));
+                User user = new User( username, password, Role.valueOf(role),userId);
                 users.add(user);
             }
 

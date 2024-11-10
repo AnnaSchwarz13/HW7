@@ -8,6 +8,10 @@ import lombok.Getter;
 public class Category {
     private final String title;
     private final String description;
-    private final long id;
+    private  long id;
 
+    public Category(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 }

@@ -30,7 +30,7 @@ public class CategoryService {
                 } else {
                     System.out.println("Please enter category description");
                     String categoryDescription = sc.nextLine() + sc.nextLine();
-                    Category category = new Category(0,categoryName, categoryDescription);
+                    Category category = new Category(categoryName, categoryDescription);
                     category = categoryRepositoryImp.create(category);
 
                     return category;

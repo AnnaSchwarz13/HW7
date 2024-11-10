@@ -62,7 +62,7 @@ public class TagRepositoryImp implements TagRepository {
             if (resultSet.next()) {
                 long tagId = resultSet.getLong(1);
                 String title = resultSet.getString(2);
-                tag = new Tag(tagId, title);
+                tag = new Tag( title ,tagId);
             }
 
             return tag;
@@ -96,7 +96,7 @@ public class TagRepositoryImp implements TagRepository {
             while (resultSet.next()) {
                 long tagId = resultSet.getLong(1);
                 String title = resultSet.getString(2);
-                Tag tag = new Tag(tagId, title);
+                Tag tag = new Tag( title,tagId);
                 tags.add(tag);
             }
 

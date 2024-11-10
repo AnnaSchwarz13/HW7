@@ -166,14 +166,14 @@ public class AuthorMenu {
         if (option == 1) {
             articleService.addArticle();
         } else if (option == 2) {
-            articleService.showAnArticleList(ArticleRepositoryImp.getArticles(loggedInAuthor));
+            articleService.showAnArticleList(ArticleRepositoryImp.getArticlesOfAnAuthor(loggedInAuthor));
         } else if (option == 3) {
-            if (ArticleRepositoryImp.getArticles(loggedInAuthor).isEmpty()) {
+            if (ArticleRepositoryImp.getArticlesOfAnAuthor(loggedInAuthor).isEmpty()) {
                 System.out.println("there is no article");
             } else {
                 System.out.println("Please enter the title of the article's list \n for see more details: ");
 
-                for (Article tempArticle : ArticleRepositoryImp.getArticles(loggedInAuthor)) {
+                for (Article tempArticle : ArticleRepositoryImp.getArticlesOfAnAuthor(loggedInAuthor)) {
                     System.out.println(tempArticle.getTitle());
                 }
                 String title = scanner.nextLine();

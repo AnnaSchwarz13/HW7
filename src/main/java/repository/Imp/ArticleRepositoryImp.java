@@ -8,6 +8,7 @@ import entities.enums.ArticleStatus;
 import repository.ArticleRepository;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import repository.Datasource;
 public class ArticleRepositoryImp implements ArticleRepository {
     //CRUD create read update delete
     static CategoryRepositoryImp categoryRepositoryImp = new CategoryRepositoryImp();
+    //SQL
     private static final String INSERT_SQL = """
              INSERT INTO Articles(title, text,category_id, published_date  ,
                                     created_date , last_updated_date\s
@@ -85,6 +87,35 @@ public class ArticleRepositoryImp implements ArticleRepository {
             LIMIT 1
             """;
 
+    public static Article read(long id) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            Article article = null;
+            if (resultSet.next()) {
+                long articleId = resultSet.getLong(1);
+                String title = resultSet.getString(2);
+                String text = resultSet.getString(3);
+                int categoryId = resultSet.getInt(4);
+                Date publishDate = resultSet.getDate(5);
+                Date createDate = resultSet.getDate(6);
+                Date lastUpdateDate = resultSet.getDate(7);
+                int authorId = resultSet.getInt(8);
+                boolean published = resultSet.getBoolean(9);
+                String status = resultSet.getString(10);
+                Category category = categoryRepositoryImp.read(categoryId);
+                Author author = AuthorRepositoryImp.read(authorId);
+                article = new Article(articleId, title, text, category, createDate,
+                        published, lastUpdateDate, ArticleStatus.valueOf(status), author);
+                article.setBrief(TagRepositoryImp.getTags(article));
+                if (published) {
+                    article.setPublishDate(publishDate);
+                }
+            }
+            return article;
+        }
+    }
 
     @Override
     public Article create(Article article) throws SQLException {
@@ -115,65 +146,43 @@ public class ArticleRepositoryImp implements ArticleRepository {
         }
     }
 
-
-    public static Article read(long id) throws SQLException {
-        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_ID_SQL)) {
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-
-            Article article = null;
-            if (resultSet.next()) {
-                long articleId = resultSet.getLong(1);
-                String title = resultSet.getString(2);
-                String text = resultSet.getString(3);
-                int categoryId = resultSet.getInt(4);
-                Date publishDate = resultSet.getDate(5);
-                Date createDate = resultSet.getDate(6);
-                Date lastUpdateDate = resultSet.getDate(7);
-                int authorId = resultSet.getInt(8);
-                boolean published = resultSet.getBoolean(9);
-                String status = resultSet.getString(10);
-                Category category = categoryRepositoryImp.read(categoryId);
-                Author author = AuthorRepositoryImp.read(authorId);
-                article = new Article(articleId, title, text, category, createDate,
-                        published, lastUpdateDate, ArticleStatus.valueOf(status), author);
-                article.setBrief(TagRepositoryImp.getTags(article));
-                if (published) {
-                    article.setPublishDate(publishDate);
-                }
-
-            }
-
-            return article;
-        }
-    }
-
     static public List<Article> allPublished() {
-        return getArticles(PUBLISHED_ARTICLES_SQL);
-
-    }
-
-    static public List<Article> allPending() {
-        return getArticles(PENDING_ARTICLES_SQL);
-
-    }
-
-    private static List<Article> getArticles(String Sql) {
-        try (var statement = Datasource.getConnection().prepareStatement(Sql)) {
-            ResultSet resultSet = statement.executeQuery();
-            List<Article> publishedArticles = new LinkedList<>();
-            while (resultSet.next()) {
-                Article article = read(resultSet.getLong(1));
-                publishedArticles.add(article);
-            }
-
-            return new ArrayList<>(publishedArticles);
+        try (var statement = Datasource.getConnection().prepareStatement(PUBLISHED_ARTICLES_SQL)) {
+            return getArticles(statement);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    static public List<Article> allPending() {
+        try (var statement = Datasource.getConnection().prepareStatement(PENDING_ARTICLES_SQL)) {
+            return getArticles(statement);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public static List<Article> getArticlesOfAnAuthor(Author author) {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_ALL_AUTHOR_ARTICLES_SQL)) {
+            statement.setLong(1, author.getId());
+            return getArticles(statement);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static List<Article> getArticles(PreparedStatement statement) throws SQLException {
+        ResultSet resultSet = statement.executeQuery();
+        List<Article> publishedArticles = new LinkedList<>();
+        while (resultSet.next()) {
+            Article article = read(resultSet.getLong(1));
+            publishedArticles.add(article);
+        }
+        return new ArrayList<>(publishedArticles);
+    }
+
+
+//update status
     static public void updateStatusPublished(Article article) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_Article_Status_SQL)) {
             statement.setString(1, "PUBLISHED");
@@ -183,7 +192,6 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.setLong(5, article.getId());
             statement.executeUpdate();
         }
-
     }
 
     static public void updateStatusNotPublished(Article article) throws SQLException {
@@ -207,39 +215,7 @@ public class ArticleRepositoryImp implements ArticleRepository {
             statement.executeUpdate();
         }
     }
-
-
-    public static Article findArticleByTile(String title) throws SQLException {
-        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
-            statement.setString(1, title);
-            ResultSet resultSet = statement.executeQuery();
-            Article article = null;
-            if (resultSet.next()) {
-                article = read(resultSet.getInt(1));
-            } else {
-                System.out.println("No Article found for title: " + title);
-            }
-
-            return article;
-
-        }
-    }
-
-    public static List<Article> getArticles(Author author) {
-        try (var statement = Datasource.getConnection().prepareStatement(FIND_ALL_AUTHOR_ARTICLES_SQL)) {
-            statement.setLong(1, author.getId());
-            ResultSet resultSet = statement.executeQuery();
-            List<Article> articles = new LinkedList<>();
-            while (resultSet.next()) {
-                Article article = read(resultSet.getLong(1));
-                articles.add(article);
-            }
-            return new ArrayList<>(articles);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
+//update details
     public static void updateTitle(Article article, String newValue) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(UPDATE_TITLE_SQL)) {
             statement.setString(1, newValue);
@@ -275,8 +251,23 @@ public class ArticleRepositoryImp implements ArticleRepository {
 
             statement.executeUpdate();
         }
-
     }
+    //----
+    public static Article findArticleByTile(String title) throws SQLException {
+        try (var statement = Datasource.getConnection().prepareStatement(FIND_BY_TITLE_SQL)) {
+            statement.setString(1, title);
+            ResultSet resultSet = statement.executeQuery();
+            Article article = null;
+            if (resultSet.next()) {
+                article = read(resultSet.getInt(1));
+            } else {
+                System.out.println("No Article found for title: " + title);
+            }
+
+            return article;
+        }
+    }
+
     private static long getLastId(Author author) throws SQLException {
         try (var statement = Datasource.getConnection().prepareStatement(GET_LAST_INDEX)) {
             statement.setLong(1, author.getId());
